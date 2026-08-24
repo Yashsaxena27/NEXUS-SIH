@@ -1,0 +1,353 @@
+{
+  "vendor": "cisco",
+  "samples": [
+    {
+      "filename": "cisco_compliant_01.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_compliant_02.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_telnet_violation.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": true,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_sshv1_violation.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 1,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "FAIL",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_snmp_default.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_no_aaa.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": false,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "FAIL",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_no_syslog.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_multi_violation_01.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": false,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "FAIL",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_multi_violation_02.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 1,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 0,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": true,
+        "management.login_banner": ""
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "FAIL",
+        "NET-SSH-003": "FAIL",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "FAIL",
+        "NET-BAN-001": "FAIL"
+      }
+    },
+    {
+      "filename": "cisco_noisy_01.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_format_variant.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "cisco_many_violations.cfg",
+      "expected_vendor_detection": "cisco",
+      "expected_platform": "IOS-XE",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 1,
+        "management.telnet.enabled": true,
+        "management.session_timeout": 0,
+        "authentication.aaa_enabled": false,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": false,
+        "services.http_server_enabled": true,
+        "management.login_banner": ""
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-SSH-002": "FAIL",
+        "NET-SSH-003": "FAIL",
+        "NET-AAA-001": "FAIL",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "FAIL",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "FAIL",
+        "NET-BAN-001": "FAIL"
+      }
+    }
+  ]
+}

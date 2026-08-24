@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIH 26155 — NEXUS Master Report</title>
+    <!-- Use relative path to styles directory when compiling PDF -->
+    <link rel="stylesheet" href="../styles/report.css">
+</head>
+<body>
+
+    <!-- Cover Page -->
+    <div class="cover-page">
+        <div class="logo-area">
+            <span class="shield">🛡️</span>
+        </div>
+        
+        <h1 class="main-title">AI-Driven Multi-Vendor<br>Network Security Compliance Auditor</h1>
+        <h2 class="sub-title">Master Technical Research &amp; Architecture Report</h2>
+        
+        <div class="meta-block">
+            <p><strong>SIH Problem Statement:</strong> 26155</p>
+            <p><strong>Organization:</strong> National Technical Research Organisation (NTRO)</p>
+            <p><strong>Theme:</strong> Blockchain &amp; Cybersecurity</p>
+            <p><strong>Project Codename:</strong> NEXUS</p>
+            <p><strong>Date:</strong> August 2026</p>
+        </div>
+        
+        <div class="bottom-bar">
+            Prepared exclusively for SIH 2026 Evaluation • Confidential
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc-page">
+        <h1>Table of Contents</h1>
+        <ul class="toc-list">
+            
+            <li class="toc-h1">
+                <a href="#exec-summary">Executive Summary</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#official-problem">1. Official Problem Statement (SIH26-26155)</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#problem-simple">1.1 In Simple Language</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#problem-technical">1.2 Technical Explanation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#what-ntro-wants">1.3 What NTRO Actually Wants</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#why-matters">2. Why This Problem Matters</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#real-world-impact">2.1 Real-World Impact</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#real-world-examples">2.2 Real-World Compliance Examples</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#current-situation">3. Current Industry Situation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#manual-process">3.1 Manual Audit Process</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#challenges-table">3.2 Why Manual Audits Fail</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#existing-solutions">4. Existing Solutions & Competitor Analysis</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#competitor-products">4.1 Existing Products</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#competitor-matrix">4.2 Feature Comparison Matrix</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#gaps">4.3 Gaps in Existing Solutions</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#compliance-standards">5. Compliance Standards Deep-Dive</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#cis-benchmarks">5.1 CIS Benchmarks</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#nist-800-53">5.2 NIST SP 800-53</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#nist-csf">5.3 NIST Cybersecurity Framework (CSF)</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#disa-stigs">5.4 DISA STIGs</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#iso-27001">5.5 ISO/IEC 27001</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#rfcs">5.6 Relevant RFCs</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#vendor-guides">5.7 Vendor Security Hardening Guides</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#compliance-mapping">5.8 Cross-Framework Compliance Mapping</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#vendor-configs">6. Vendor-Specific Network Configurations</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#cisco-config">6.1 Cisco IOS / IOS-XE</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#juniper-config">6.2 Juniper Junos</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#fortinet-config">6.3 Fortinet FortiOS</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#paloalto-config">6.4 Palo Alto PAN-OS</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#arista-config">6.5 Arista EOS</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#normalization-strategy">6.6 Configuration Normalization Strategy</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#proposed-solution">7. Proposed NEXUS Solution</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#core-idea">7.1 Core Idea — Vendor-Neutral Security Interpretation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#what-makes-different">7.2 What Makes NEXUS Different</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#core-features">7.3 Core Features</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#advanced-features">7.4 Advanced Features & Prioritization</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#architecture">8. System Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#arch-overview">8.1 Architecture Overview</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#mvp-arch">8.2 36-Hour MVP Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#strong-arch">8.3 Strong SIH Submission Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#production-arch">8.4 Production-Grade Future Architecture</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#parsing">9. Configuration Parsing Engine</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#parser-comparison">9.1 Parser Comparison</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ciscoconfparse">9.2 CiscoConfParse2 — Recommended Parser</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#parser-examples">9.3 Parser Code Examples</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#normalization">10. Configuration Normalization Engine</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#why-normalize">10.1 Why Normalization Is Critical</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#openconfig">10.2 OpenConfig / YANG Approach</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#custom-schema">10.3 Lightweight Custom Schema (Recommended)</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#norm-code">10.4 Normalization Logic (Python)</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#compliance-engine">11. Compliance Engine</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#rule-engine">11.1 Rule Engine Design</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#yaml-rules">11.2 YAML Rule Format</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#engine-implementation">11.3 Engine Implementation (Python)</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#example-rules">11.4 Example Rule Set</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#oscal">11.5 NIST OSCAL Integration</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#ai-ml-role">12. AI/ML Role — Where AI Helps and Where It Doesn't</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-suitable">12.1 AI Suitability Matrix</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-architecture">12.2 Recommended AI Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-explanation">12.3 AI Explanation Generation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-remediation">12.4 AI Remediation Generation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-qa">12.5 Natural Language Q&A</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#rag-system">13. RAG System</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#rag-sources">13.1 Knowledge Sources</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#rag-architecture">13.2 RAG Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#vector-db">13.3 Vector Database Comparison</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#hallucination">13.4 Hallucination Prevention</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#rag-prompt">13.5 RAG Prompt Template</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#remediation-engine">14. Remediation Engine</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#remediation-workflow">14.1 Remediation Workflow</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#remediation-safety">14.2 Safety Mechanisms</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#risk-scoring">15. Risk Scoring</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#scoring-model">15.1 Scoring Model</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#risk-formula">15.2 CVSS-Inspired Risk Score</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#risk-implementation">15.3 Implementation</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#adaptive-learning">16. Adaptive Learning — Signature Feature</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#adaptive-concept">16.1 The Adaptive Learning Concept</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#adaptive-ui">16.2 Training Center UI</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#knowledge-store">16.3 Configuration Knowledge Base</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#confidence-model">16.4 Confidence Model</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#config-drift">17. Configuration Drift Detection</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#drift-problem">17.1 The Drift Problem</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#drift-implementation">17.2 Implementation</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#security-arch">18. Security Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#threats">18.1 Threats Against Our System</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#secret-redaction">18.2 Secret Redaction</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#llm-privacy">18.3 LLM Privacy Architecture</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#ai-safety">18.4 AI Safety Guardrail Layer</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#dataset-strategy">19. Dataset Strategy</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#dataset-requirements">19.1 Dataset Requirements & Sources</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#dataset-layers">19.2 Dataset Layers</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#synthetic-generation">19.3 Synthetic Config Generation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#dataset-schema">19.4 Dataset Schema</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#ground-truth">20. Ground Truth & Evaluation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#why-ground-truth">20.1 Why Ground Truth Matters</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#eval-metrics">20.2 Evaluation Metrics</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#presenting-metrics">20.3 Presenting Metrics at SIH</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#tech-stack">21. Technology Stack</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#stack-comparison">21.1 Component Comparison</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#recommended-stack">21.2 Final Recommended Stack</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#ui-ux">22. UI/UX Concept</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#user-flow">22.1 Complete User Flow</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#dashboard-pages">22.2 Dashboard Pages</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#feasibility">23. Feasibility & Technical Challenges</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#challenges">23.1 Technical Challenges</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#failure-modes">23.2 Failure Modes & Risk Matrix</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#limitations">23.3 Limitations</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#innovation">24. Innovation & Novelty</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#differentiators">24.1 Key Differentiators</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#strongest-claims">24.2 Strongest Innovation Claims</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#sih-differentiation">24.3 SIH Differentiation</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#scalability">25. Scalability & Deployment</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#deployment-options">25.1 Deployment Options</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#air-gapped">25.2 Air-Gapped Deployment</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#what-not-to-build">26. What NOT to Build</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#cut-list">26.1 Features to Cut for 36 Hours</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#focus-core">26.2 Focus on Core</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#implementation-plan">27. 36-Hour Hackathon Implementation Plan</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#pre-hackathon">27.1 Pre-Hackathon Preparation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#phases">27.2 Implementation Phases</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#team-roles">27.3 Team Role Distribution</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#demo-strategy">28. Demo Strategy</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#demo-script">28.1 3–5 Minute Demo Script</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#wow-moments">28.2 Top 5 Wow Moments</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#presentation">29. SIH Presentation Strategy</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#five-slides">29.1 5-Slide Technical Presentation</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#pitch-strategy">29.2 How to Pitch 26155</a>
+            </li>
+            
+            <li class="toc-h2">
+                <a href="#judging-strategy">29.3 Judging Strategy</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#judge-qa">30. Judge Questions & Answers</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#testing-strategy">31. Testing Strategy</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#future-roadmap">32. Future Roadmap</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#final-verdict">33. Final Verdict & Scores</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#references">34. References</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#appendix-a">Appendix A: Configuration Examples</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#appendix-b">Appendix B: Compliance Rule YAML</a>
+            </li>
+            
+            <li class="toc-h1">
+                <a href="#appendix-c">Appendix C: Normalization Schema</a>
+            </li>
+            
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+<section class="section" id="exec-summary">
+<h1>Executive Summary</h1>
+
+<p>Problem Statement 26155 — <strong>"AI-Driven Multi-Vendor Network Security Compliance Auditor"</strong> — is a cybersecurity challenge from the <strong>National Technical Research Organisation (NTRO)</strong> under the Blockchain &amp; Cybersecurity theme of Smart India Hackathon (SIH) 2026. The core ask: build a system that automatically audits network device configurations (Cisco, Juniper, Fortinet, Palo Alto, etc.) against security standards (CIS, NIST, DISA STIG), explains violations with evidence, and generates vendor-specific remediation — all without manual rule-by-rule checking.</p>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">The Project in One Sentence</div>
+<p>Build an AI-assisted security engine that can understand network configurations from different vendors, convert them into a common security representation, check them against cybersecurity standards, explain violations, learn how to interpret previously unseen configuration syntax, and generate safe remediation guidance.</p>
+</div>
+
+<p>The important words are: <strong>Multi-vendor + AI interpretation + normalization + compliance + adaptive learning + explainability + remediation.</strong></p>
+
+<p>This is <strong>not</strong> simply a network scanner. It is <strong>not</strong> simply a vulnerability scanner. It is <strong>not</strong> simply a dashboard. It is <strong>not</strong> simply an LLM chatbot.</p>
+
+<p>The central technical problem is:</p>
+
+<blockquote>Different network vendors express essentially the same security settings in completely different configuration languages. How can one compliance engine understand all of them without requiring a separate hard-coded parser for every vendor and every OS version?</blockquote>
+
+<p>The SIH problem statement explicitly identifies this syntactic diversity and asks for an AI-augmented vendor-agnostic compliance engine with normalization, deviation analysis, and an interactive training/adaptation loop.</p>
+
+<p>This report provides everything your team needs to <strong>understand the problem deeply</strong>, <strong>design a technically defensible solution</strong>, and <strong>maximize your chances of winning SIH 2026</strong>.</p>
+
+<h2>Report Scope</h2>
+<p>This document consolidates research from multiple deep investigations into a single master reference covering:</p>
+<ul>
+<li>Complete problem analysis and stakeholder expectations</li>
+<li>All relevant compliance frameworks (CIS, NIST, DISA STIG, ISO 27001)</li>
+<li>Multi-vendor configuration syntax across Cisco, Juniper, Fortinet, Palo Alto, and Arista</li>
+<li>Proposed NEXUS solution architecture with conceptual diagrams</li>
+<li>AI/ML strategy — where AI helps and where deterministic rules are better</li>
+<li>RAG system design for explainable compliance</li>
+<li>Adaptive learning loop — the signature differentiator</li>
+<li>Dataset strategy and evaluation methodology</li>
+<li>36-hour hackathon execution plan with team roles</li>
+<li>50+ anticipated judge questions with prepared answers</li>
+<li>Complete reference list from authoritative sources</li>
+</ul>
+</section>
+
+<section class="section" id="official-problem">
+<h1>1. Official Problem Statement (SIH26-26155)</h1>
+
+<dl class="kv-grid">
+<dt>Title</dt><dd>AI-Driven Multi-Vendor Network Security Compliance Auditor</dd>
+<dt>Organization</dt><dd>National Technical Research Organisation (NTRO)</dd>
+<dt>Theme</dt><dd>Blockchain &amp; Cybersecurity</dd>
+<dt>Edition</dt><dd>Software</dd>
+<dt>Problem ID</dt><dd>SIH26-26155</dd>
+</dl>
+
+<h2>Problem Description (from Official Source)</h2>
+<blockquote>
+Organizations managing multi-vendor network infrastructure (Cisco, Juniper, Fortinet, Palo Alto, etc.) face significant challenges in ensuring security compliance across devices. Manual configuration audits are time-consuming, error-prone, and cannot scale. There is a need for an AI-driven system that can automatically parse network configurations from different vendors, normalize them into a common security model, check against compliance standards (CIS Benchmarks, NIST, DISA STIGs), explain violations with evidence, and generate vendor-specific remediation steps.
+</blockquote>
+
+<h2>Existing Situation (as Stated)</h2>
+<ul>
+<li>Network security teams manually review configurations using spreadsheets and checklists</li>
+<li>Each vendor has different CLI syntax and security controls</li>
+<li>Compliance audits take days/weeks and are point-in-time only</li>
+<li>Configuration drift between audits creates security gaps</li>
+<li>Limited automation for multi-vendor environments</li>
+</ul>
+
+<h2>Expected Deliverables</h2>
+<table>
+<thead><tr><th>Deliverable</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Source Code</td><td>GitHub/Drive Link</td></tr>
+<tr><td>README</td><td>Setup Instructions</td></tr>
+<tr><td>Architecture Document</td><td>Max 2 Pages</td></tr>
+<tr><td>Demo Video</td><td>Max 2 Minutes</td></tr>
+<tr><td>Technical Presentation</td><td>Max 5 Slides</td></tr>
+</tbody>
+</table>
+
+<h2>Target Users</h2>
+<ul>
+<li>Network security teams in government organizations</li>
+<li>IT auditors and compliance officers</li>
+<li>SOC analysts managing network infrastructure</li>
+<li>Managed Security Service Providers (MSSPs)</li>
+</ul>
+
+<h2>Constraints</h2>
+<ul>
+<li>Must support multiple vendors (Cisco, Juniper, Fortinet, Palo Alto minimum)</li>
+<li>Must map to recognized standards (CIS, NIST, DISA STIG)</li>
+<li>Must provide explainable AI (not black-box decisions)</li>
+<li>Must generate vendor-specific remediation</li>
+<li>Should work offline/air-gapped (government deployment scenario)</li>
+</ul>
+
+<h2>Evaluation Criteria (Inferred from SIH Patterns)</h2>
+<table>
+<thead><tr><th>Criterion</th><th>Estimated Weight</th><th>How to Maximize</th></tr></thead>
+<tbody>
+<tr><td>Technical depth and architecture</td><td>20%</td><td>Parsing, normalization, compliance engine, RAG</td></tr>
+<tr><td>Innovation (AI + deterministic compliance)</td><td>20%</td><td>Adaptive learning loop + vendor-neutral schema</td></tr>
+<tr><td>Feasibility of 36-hour prototype</td><td>15%</td><td>Working demo with 4 vendors, 20 rules</td></tr>
+<tr><td>Demo quality and wow factor</td><td>10%</td><td>Auto-detect vendor, AI citation, topology</td></tr>
+<tr><td>Real-world applicability</td><td>15%</td><td>Government networks, NTRO use case</td></tr>
+<tr><td>Security of the solution itself</td><td>10%</td><td>Secret redaction, sandboxed parsing</td></tr>
+<tr><td>Multi-vendor normalization capability</td><td>10%</td><td>4 vendors → 1 common schema</td></tr>
+</tbody>
+</table>
+
+<h2 id="problem-simple">1.1 In Simple Language</h2>
+
+<div class="callout callout-simple">
+<div class="callout-title">Simple Explanation</div>
+<p>Your college team needs to build a "smart auditor" that:</p>
+<ol>
+<li>Takes network device configurations (like router/firewall settings)</li>
+<li>Automatically checks if they follow security best practices</li>
+<li>Tells you WHAT is wrong, WHY it's wrong, and HOW to fix it</li>
+<li>Works for Cisco, Juniper, Fortinet, and Palo Alto devices</li>
+<li>Explains everything in plain English (not just "FAIL")</li>
+</ol>
+</div>
+
+<p>Think of it like a spell-checker for network security. Just as a spell-checker reads your document and highlights errors with explanations and fix suggestions, NEXUS reads network device configurations and highlights security problems with explanations and fix commands.</p>
+
+<p>The key challenge: <strong>different network vendors use completely different "languages"</strong> (command syntax) to express the same security settings. Imagine if every word processor used a different language for the same document — you'd need a universal translator before you could check spelling.</p>
+
+<h2 id="problem-technical">1.2 Technical Explanation</h2>
+
+<div class="callout callout-technical">
+<div class="callout-title">Technical Explanation</div>
+<p>Build a multi-vendor configuration compliance engine that:</p>
+<ol>
+<li>Parses vendor-specific CLI configurations into structured data</li>
+<li>Normalizes configurations into a vendor-agnostic security model</li>
+<li>Applies deterministic compliance rules mapped to CIS/NIST/STIG controls</li>
+<li>Uses RAG (Retrieval-Augmented Generation) to explain violations with citations</li>
+<li>Generates vendor-specific remediation commands</li>
+<li>Produces risk scores and audit reports</li>
+<li>Provides an adaptive learning loop where administrators can teach the system to interpret previously unseen configuration syntax</li>
+</ol>
+</div>
+
+<h2 id="what-ntro-wants">1.3 What NTRO Actually Wants</h2>
+<p>Government and defense networks typically require solutions that work in classified, disconnected environments. They need:</p>
+
+<table>
+<thead><tr><th>They WANT</th><th>They DO NOT Want</th></tr></thead>
+<tbody>
+<tr><td>Automated compliance instead of manual checklists</td><td>A generic vulnerability scanner</td></tr>
+<tr><td>Evidence-based audits for regulatory requirements</td><td>A chatbot that gives cybersecurity advice</td></tr>
+<tr><td>Continuous monitoring instead of point-in-time checks</td><td>A tool that only works for one vendor</td></tr>
+<tr><td>Explainable AI that auditors can trust</td><td>A black-box AI that can't explain its decisions</td></tr>
+<tr><td>Air-gapped deployment capability (no cloud dependencies)</td><td>A cloud-only SaaS solution</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="why-matters">
+<h1>2. Why This Problem Matters</h1>
+
+<h2 id="real-world-impact">2.1 Real-World Impact</h2>
+
+<p>Modern organizations use equipment from many vendors across their networks:</p>
+
+<h3>Firewalls / SASE</h3>
+<p>Palo Alto, Fortinet, Cisco, Check Point, Juniper, Sophos, SonicWall, WatchGuard, Barracuda, Zscaler, cloud-native firewalls, and many others.</p>
+
+<h3>Routers / Switches</h3>
+<p>Cisco, Aruba, Juniper, Arista, Extreme, Huawei, MikroTik, Ubiquiti, NVIDIA, etc.</p>
+
+<p>The problem statement explicitly says the list is illustrative and the intended architecture should ideally support configurations regardless of vendor or market segment.</p>
+
+<h3>The Core Challenge Visualized</h3>
+<p>Suppose an organization's security policy says: <em>"Administrative access must use secure protocols."</em></p>
+<p>A Cisco configuration, Juniper configuration, and Fortinet configuration will express the relevant settings in completely different syntax. Conceptually:</p>
+
+<pre><code>SECURITY REQUIREMENT: "Secure administrative access"
+            ↓
+       Common concept
+            ↓
+ ┌──────────┼───────────┐
+ ↓          ↓           ↓
+Cisco     Juniper     Fortinet
+syntax    syntax      syntax</code></pre>
+
+<p>A traditional compliance engine generally needs vendor-specific knowledge — separate parsers, rules, and mappings for each vendor. As vendors and firmware versions increase, maintaining this becomes expensive and fragile.</p>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">Business Value</div>
+<p>The system can reduce: <strong>manual audit effort</strong> (instead of checking configurations individually), <strong>vendor-specific dependency</strong> (common security model), <strong>compliance drift</strong> (continuous scanning), <strong>audit preparation</strong> (automatic evidence/report generation), and <strong>human error</strong> (structured deterministic checks).</p>
+</div>
+
+<h3>Security Value</h3>
+<p>Misconfiguration can create serious exposure. MITRE's Network Devices ATT&amp;CK matrix covers techniques targeting routers, switches, and load balancers. MITRE specifically documents how configuration repositories can expose sensitive network information. Configuration security isn't an artificial hackathon problem — it is a real security concern.</p>
+
+<h2 id="real-world-examples">2.2 Real-World Compliance Examples</h2>
+
+<h3>Example 1: Telnet vs SSH</h3>
+<table>
+<thead><tr><th>Attribute</th><th>Details</th></tr></thead>
+<tbody>
+<tr><td>CIS Control</td><td>Disable insecure management protocols</td></tr>
+<tr><td>Manual Check</td><td>Search config for "telnet"</td></tr>
+<tr><td>Problem</td><td>Telnet transmits credentials in plaintext</td></tr>
+<tr><td>Risk</td><td>Attacker on network can capture admin passwords</td></tr>
+</tbody>
+</table>
+
+<h3>Example 2: SNMP Community Strings</h3>
+<table>
+<thead><tr><th>Attribute</th><th>Details</th></tr></thead>
+<tbody>
+<tr><td>CIS Control</td><td>Change default SNMP community strings</td></tr>
+<tr><td>Manual Check</td><td>Look for <code>snmp-server community public</code></td></tr>
+<tr><td>Problem</td><td>"public" is well-known and allows network reconnaissance</td></tr>
+<tr><td>Risk</td><td>Attacker can map entire network topology</td></tr>
+</tbody>
+</table>
+
+<h3>Example 3: Session Timeout</h3>
+<table>
+<thead><tr><th>Attribute</th><th>Details</th></tr></thead>
+<tbody>
+<tr><td>DISA STIG</td><td>Management sessions must timeout after 10 minutes</td></tr>
+<tr><td>Manual Check</td><td>Find <code>exec-timeout</code> or <code>idle-timeout</code> settings</td></tr>
+<tr><td>Problem</td><td>Unattended sessions allow unauthorized access</td></tr>
+<tr><td>Risk</td><td>Walk-up attack on console or SSH session</td></tr>
+</tbody>
+</table>
+
+<h3>Example 4: Logging Configuration</h3>
+<table>
+<thead><tr><th>Attribute</th><th>Details</th></tr></thead>
+<tbody>
+<tr><td>NIST 800-53</td><td>Audit logs must be sent to centralized server</td></tr>
+<tr><td>Manual Check</td><td>Verify <code>logging host</code> or syslog configuration</td></tr>
+<tr><td>Problem</td><td>Local logs can be deleted by attacker</td></tr>
+<tr><td>Risk</td><td>No forensic evidence after breach</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="current-situation">
+<h1>3. Current Industry Situation</h1>
+
+<h2 id="manual-process">3.1 Manual Audit Process (Current State)</h2>
+
+<h3>Step 1: Configuration Collection</h3>
+<ul>
+<li>Engineers SSH into each device</li>
+<li>Run <code>show running-config</code> (Cisco) or <code>show configuration</code> (Juniper)</li>
+<li>Save configs to files or copy-paste into spreadsheets</li>
+</ul>
+
+<h3>Step 2: Security Review</h3>
+<ul>
+<li>Open CIS Benchmark PDF (100+ pages)</li>
+<li>Manually check each control against config</li>
+<li>Example: "Is Telnet disabled?" → Search config for <code>transport input telnet</code></li>
+<li>Mark Pass/Fail in Excel</li>
+</ul>
+
+<h3>Step 3: Documentation</h3>
+<ul>
+<li>Screenshot configurations as evidence</li>
+<li>Write explanations for each finding</li>
+<li>Create PowerPoint reports for management</li>
+</ul>
+
+<h3>Step 4: Remediation</h3>
+<ul>
+<li>Manually write fix commands</li>
+<li>Test in lab before production</li>
+<li>Schedule maintenance window</li>
+<li>Apply changes device-by-device</li>
+</ul>
+
+<h2 id="challenges-table">3.2 Why Manual Audits Fail</h2>
+
+<table>
+<thead><tr><th>Challenge</th><th>Impact</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td><strong>Time-consuming</strong></td><td>A single firewall audit takes 4–8 hours manually</td><td>Industry reports</td></tr>
+<tr><td><strong>Error-prone</strong></td><td>Human reviewers miss 15–30% of violations</td><td>Government audit studies</td></tr>
+<tr><td><strong>Point-in-time</strong></td><td>Compliance degrades immediately after audit</td><td>Security best practices</td></tr>
+<tr><td><strong>Vendor-specific</strong></td><td>Each vendor requires different expertise</td><td>Multi-vendor environments</td></tr>
+<tr><td><strong>No evidence trail</strong></td><td>Hard to prove compliance to auditors</td><td>Regulatory requirements</td></tr>
+<tr><td><strong>Configuration drift</strong></td><td>Changes between audits create security gaps</td><td>Continuous monitoring gap</td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-warning">
+<div class="callout-title">The Drift Problem</div>
+<p><strong>Day 1:</strong> Audit shows 100% compliance. <strong>Day 2:</strong> Engineer enables Telnet for troubleshooting. <strong>Day 30:</strong> Next audit — Telnet still enabled (violation!). Between audits, the organization is unknowingly non-compliant and exposed.</p>
+</div>
+</section>
+
+<section class="section" id="existing-solutions">
+<h1>4. Existing Solutions &amp; Competitor Analysis</h1>
+
+<h2 id="competitor-products">4.1 Existing Products</h2>
+
+<table>
+<thead><tr><th>Product</th><th>What It Does</th><th>Strengths</th><th>Weaknesses</th><th>Gap NEXUS Fills</th></tr></thead>
+<tbody>
+<tr><td><strong>Tenable</strong></td><td>Vulnerability management</td><td>Broad coverage, cloud</td><td>Not config-focused, no multi-vendor normalization</td><td>We focus on configuration compliance</td></tr>
+<tr><td><strong>Qualys</strong></td><td>Vulnerability + compliance</td><td>Integrated platform</td><td>Cloud-only, expensive</td><td>We work offline, free for SIH</td></tr>
+<tr><td><strong>Cisco Defense Orchestrator</strong></td><td>Cisco config management</td><td>Deep Cisco integration</td><td>Cisco-only</td><td>We support multi-vendor</td></tr>
+<tr><td><strong>SolarWinds NCM</strong></td><td>Network config management</td><td>Config backup, compliance</td><td>Limited AI, no RAG</td><td>We have AI explanations</td></tr>
+<tr><td><strong>ManageEngine NCM</strong></td><td>Config management</td><td>Affordable</td><td>Basic compliance checks</td><td>We have AI + RAG</td></tr>
+<tr><td><strong>Tufin</strong></td><td>Firewall management</td><td>Multi-vendor firewall</td><td>Firewall-only</td><td>We cover routers, switches, firewalls</td></tr>
+<tr><td><strong>AlgoSec</strong></td><td>Firewall analytics</td><td>Policy analysis</td><td>Complex, expensive</td><td>We are simpler, AI-powered</td></tr>
+<tr><td><strong>FireMon</strong></td><td>Firewall management</td><td>Policy optimization</td><td>Firewall-only</td><td>We are broader</td></tr>
+<tr><td><strong>RedSeal</strong></td><td>Network security + STIG</td><td>STIG compliance, risk scoring</td><td>Expensive, enterprise</td><td>We are free, AI-powered</td></tr>
+<tr><td><strong>Tripwire</strong></td><td>Config compliance</td><td>File integrity, compliance</td><td>Legacy, no AI</td><td>We have modern AI</td></tr>
+<tr><td><strong>OpenSCAP</strong></td><td>SCAP compliance</td><td>Free, open-source</td><td>Linux-focused, not network</td><td>We focus on network devices</td></tr>
+<tr><td><strong>Chef InSpec</strong></td><td>Compliance as code</td><td>DevOps integration</td><td>Requires coding</td><td>We are no-code rules</td></tr>
+<tr><td><strong>Batfish</strong></td><td>Network config analysis</td><td>Powerful, open-source</td><td>Complex, no AI</td><td>We add AI + RAG</td></tr>
+</tbody>
+</table>
+
+<h2 id="competitor-matrix">4.2 Feature Comparison Matrix</h2>
+
+<table class="feature-matrix">
+<thead><tr><th>Feature</th><th>Tenable</th><th>Qualys</th><th>RedSeal</th><th>Batfish</th><th>NEXUS (Ours)</th></tr></thead>
+<tbody>
+<tr><td>Multi-vendor config</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+<tr><td>CIS Benchmark</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+<tr><td>NIST 800-53</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="partial">⚠️</td><td class="yes">✅</td></tr>
+<tr><td>DISA STIG</td><td class="partial">⚠️</td><td class="partial">⚠️</td><td class="yes">✅</td><td class="partial">⚠️</td><td class="yes">✅</td></tr>
+<tr><td>AI explanation</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td></tr>
+<tr><td>RAG citations</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td></tr>
+<tr><td>Vendor-specific remediation</td><td class="partial">⚠️</td><td class="partial">⚠️</td><td class="yes">✅</td><td class="no">❌</td><td class="yes">✅</td></tr>
+<tr><td>Network topology</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="partial">⚠️</td><td class="yes">✅</td></tr>
+<tr><td>"Ask your network" chatbot</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td></tr>
+<tr><td>Adaptive learning</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td></tr>
+<tr><td>Offline/air-gapped</td><td class="partial">⚠️</td><td class="no">❌</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+<tr><td>Free/open-source</td><td class="no">❌</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+</tbody>
+</table>
+
+<h2 id="gaps">4.3 Gaps in Existing Solutions</h2>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">Our Differentiation</div>
+<ul>
+<li><strong>AI + RAG</strong> — Explainable, cited compliance explanations (most traditional tools lack this specific integration)</li>
+<li><strong>Multi-vendor normalization</strong> — Unified rules across vendors via common schema</li>
+<li><strong>Adaptive learning</strong> — System learns new vendor syntax from human feedback</li>
+<li><strong>Chatbot interface</strong> — Natural language compliance queries</li>
+<li><strong>Free for SIH</strong> — No cost barrier for evaluation</li>
+</ul>
+</div>
+</section>
+
+<section class="section" id="compliance-standards">
+<h1>5. Compliance Standards Deep-Dive</h1>
+
+<h2 id="cis-benchmarks">5.1 CIS Benchmarks</h2>
+
+<h3>What It Is</h3>
+<p>Center for Internet Security (CIS) Benchmarks are vendor-specific security configuration guides with Level 1 (basic) and Level 2 (hardened) controls. CIS provides concrete secure configuration recommendations and has network-device benchmarks covering vendors including Cisco, Fortinet, Juniper, and Palo Alto Networks.</p>
+
+<h3>Why It Matters</h3>
+<ul>
+<li>Industry-accepted baseline for network hardening</li>
+<li>Automated checks available for most controls</li>
+<li>Mapped to NIST, ISO, and regulatory requirements</li>
+<li>Ideal for prototype because you can translate concrete recommendations into machine-checkable controls</li>
+</ul>
+
+<h3>Relevant Controls (Network Devices)</h3>
+<table>
+<thead><tr><th>Control ID</th><th>Description</th><th>Automated Check</th><th>Example Violation</th></tr></thead>
+<tbody>
+<tr><td>1.1</td><td>Disable Telnet</td><td><span class="badge badge-pass">YES</span></td><td><code>transport input telnet</code></td></tr>
+<tr><td>1.2</td><td>Enable SSH v2</td><td><span class="badge badge-pass">YES</span></td><td><code>ip ssh version 1</code></td></tr>
+<tr><td>1.3</td><td>Set session timeout</td><td><span class="badge badge-pass">YES</span></td><td>No <code>exec-timeout</code> configured</td></tr>
+<tr><td>1.4</td><td>Configure login banner</td><td><span class="badge badge-pass">YES</span></td><td>Missing <code>banner login</code></td></tr>
+<tr><td>2.1</td><td>Change SNMP community</td><td><span class="badge badge-pass">YES</span></td><td><code>snmp-server community public</code></td></tr>
+<tr><td>3.1</td><td>Enable logging to syslog</td><td><span class="badge badge-pass">YES</span></td><td>No <code>logging host</code></td></tr>
+<tr><td>3.2</td><td>Set NTP servers</td><td><span class="badge badge-pass">YES</span></td><td>No <code>ntp server</code></td></tr>
+<tr><td>4.1</td><td>Disable unused services</td><td><span class="badge badge-pass">YES</span></td><td><code>ip http server</code> enabled</td></tr>
+<tr><td>5.1</td><td>Configure AAA</td><td><span class="badge badge-medium">PARTIAL</span></td><td>No <code>aaa authentication</code></td></tr>
+</tbody>
+</table>
+
+<h3>Machine-Checkable Translation Example</h3>
+<pre><code>control_id: CIS-1.1
+title: Disable Telnet for Remote Management
+check:
+  cisco: "NOT transport input telnet"
+  juniper: "NOT set system services telnet"
+  fortinet: "NOT config system global -> set admin-sport 23"
+severity: CRITICAL
+remediation: "Disable Telnet and enable SSH only"</code></pre>
+
+<h2 id="nist-800-53">5.2 NIST SP 800-53</h2>
+
+<h3>What It Is</h3>
+<p>NIST Special Publication 800-53 provides security and privacy controls for federal information systems (1,000+ controls across 20 families). Required for US federal systems and adopted by many Indian government agencies.</p>
+
+<h3>Why It Matters</h3>
+<ul>
+<li>Focuses on outcomes rather than specific configurations</li>
+<li>Mapped to risk management framework (RMF)</li>
+<li>NIST provides machine-readable SP 800-53 controls and related assessment resources</li>
+</ul>
+
+<div class="callout callout-info">
+<div class="callout-title">Key Insight</div>
+<p>NIST 800-53 contains many procedural controls (training, policies) that cannot be automated. Only ~50 technical controls can be checked via configuration analysis. Focus on those for the prototype.</p>
+</div>
+
+<h3>Relevant Controls (Network Infrastructure)</h3>
+<table>
+<thead><tr><th>Control</th><th>Family</th><th>Description</th><th>Automated Check</th></tr></thead>
+<tbody>
+<tr><td>AC-2</td><td>Access Control</td><td>Account Management</td><td><span class="badge badge-medium">PARTIAL</span> (AAA config)</td></tr>
+<tr><td>AC-17</td><td>Access Control</td><td>Remote Access</td><td><span class="badge badge-pass">YES</span> (SSH/Telnet)</td></tr>
+<tr><td>AU-2</td><td>Audit</td><td>Auditable Events</td><td><span class="badge badge-pass">YES</span> (logging config)</td></tr>
+<tr><td>AU-4</td><td>Audit</td><td>Audit Storage Capacity</td><td><span class="badge badge-medium">PARTIAL</span> (buffer size)</td></tr>
+<tr><td>CM-6</td><td>Configuration Mgmt</td><td>Configuration Settings</td><td><span class="badge badge-pass">YES</span> (hardening)</td></tr>
+<tr><td>IA-2</td><td>Identification</td><td>User Authentication</td><td><span class="badge badge-pass">YES</span> (AAA)</td></tr>
+<tr><td>SC-8</td><td>System Comm.</td><td>Transmission Confidentiality</td><td><span class="badge badge-pass">YES</span> (SSH/TLS)</td></tr>
+<tr><td>SI-4</td><td>System Info.</td><td>Information Monitoring</td><td><span class="badge badge-pass">YES</span> (syslog/SNMP)</td></tr>
+</tbody>
+</table>
+
+<h3>NIST's Secret Weapon: OSCAL</h3>
+<p>NIST's <strong>Open Security Controls Assessment Language (OSCAL)</strong> provides machine-readable representations of security controls, implementations, and assessments in formats such as XML, JSON, and YAML. NIST currently provides SP 800-53 control catalogs in machine-readable formats.</p>
+<p>This means we can design our compliance engine around a structured control model rather than storing everything as random text — giving the architecture much more credibility.</p>
+
+<h2 id="nist-csf">5.3 NIST Cybersecurity Framework (CSF)</h2>
+
+<h3>What It Is</h3>
+<p>A risk-based framework with 5 functions: <strong>Identify, Protect, Detect, Respond, Recover</strong>.</p>
+
+<h3>Relevance to This Problem</h3>
+<table>
+<thead><tr><th>Function</th><th>Relevance</th><th>Configuration Check</th></tr></thead>
+<tbody>
+<tr><td><strong>Protect (PR)</strong></td><td>Configuration hardening</td><td>CIS Benchmarks</td></tr>
+<tr><td><strong>Detect (DE)</strong></td><td>Logging and monitoring</td><td>Syslog, SNMP</td></tr>
+<tr><td><strong>Identify (ID)</strong></td><td>Asset inventory</td><td>Device configs</td></tr>
+</tbody>
+</table>
+
+<h2 id="disa-stigs">5.4 DISA STIGs</h2>
+
+<h3>What It Is</h3>
+<p>Defense Information Systems Agency Security Technical Implementation Guides — mandatory security configurations for US DoD systems. The most detailed and prescriptive security standard.</p>
+
+<h3>Severity Classification</h3>
+<table>
+<thead><tr><th>Category</th><th>Severity</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><span class="badge badge-critical">CAT I</span></td><td>Critical</td><td>Directly exploitable vulnerabilities</td></tr>
+<tr><td><span class="badge badge-high">CAT II</span></td><td>High</td><td>Security configuration weaknesses</td></tr>
+<tr><td><span class="badge badge-medium">CAT III</span></td><td>Medium</td><td>Best practice deviations</td></tr>
+</tbody>
+</table>
+
+<h3>Relevant STIGs</h3>
+<table>
+<thead><tr><th>STIG</th><th>Device Type</th><th>Controls</th></tr></thead>
+<tbody>
+<tr><td>Network Infrastructure Router L3 Switch</td><td>Cisco/Juniper Routers</td><td>100+ checks</td></tr>
+<tr><td>Network L2 Switch</td><td>Switches</td><td>80+ checks</td></tr>
+<tr><td>Firewall Security Requirements Guide</td><td>Firewalls</td><td>35+ checks</td></tr>
+<tr><td>WLAN Access Points</td><td>Wireless</td><td>50+ checks</td></tr>
+</tbody>
+</table>
+
+<h3>Example STIG Check</h3>
+<pre><code>Finding ID: NET0020 (CAT II)
+Title: Administrative Access Authentication
+Check: Review network device configuration to determine
+       if administrative access requires authentication.
+Violation: No password or AAA configured for console/VTY lines
+Risk: Unauthorized device access</code></pre>
+
+<h2 id="iso-27001">5.5 ISO/IEC 27001</h2>
+
+<h3>What It Is</h3>
+<p>International standard for Information Security Management Systems (ISMS). Globally recognized certification with Annex A containing 114 security controls.</p>
+
+<h3>Relevant Annex A Controls</h3>
+<table>
+<thead><tr><th>Control</th><th>Description</th><th>Network Config Relevance</th></tr></thead>
+<tbody>
+<tr><td>A.9.1.2</td><td>Access to Networks</td><td>Network access control (ACLs, 802.1X)</td></tr>
+<tr><td>A.9.4.1</td><td>Information Access Restriction</td><td>AAA, privilege levels</td></tr>
+<tr><td>A.12.4.1</td><td>Event Logging</td><td>Syslog configuration</td></tr>
+<tr><td>A.13.1.1</td><td>Network Controls</td><td>Firewall rules, segmentation</td></tr>
+<tr><td>A.13.1.3</td><td>Segregation in Networks</td><td>VLANs, VRFs</td></tr>
+</tbody>
+</table>
+
+<h2 id="rfcs">5.6 Relevant RFCs</h2>
+
+<table>
+<thead><tr><th>RFC</th><th>Topic</th><th>Relevance</th></tr></thead>
+<tbody>
+<tr><td>RFC 4251–4256</td><td>SSH Protocol</td><td>Secure remote access</td></tr>
+<tr><td>RFC 3411–3418</td><td>SNMP v3</td><td>Secure network management</td></tr>
+<tr><td>RFC 5905</td><td>NTP v4</td><td>Time synchronization</td></tr>
+<tr><td>RFC 5424</td><td>Syslog Protocol</td><td>Centralized logging</td></tr>
+<tr><td>RFC 2475</td><td>DiffServ</td><td>QoS configuration</td></tr>
+</tbody>
+</table>
+
+<h2 id="vendor-guides">5.7 Vendor Security Hardening Guides</h2>
+
+<table>
+<thead><tr><th>Vendor</th><th>Document</th><th>Key Topics</th></tr></thead>
+<tbody>
+<tr><td>Cisco</td><td>IOS Security Configuration Guide</td><td>AAA, SSH, ACLs, logging</td></tr>
+<tr><td>Juniper</td><td>Security Configuration Guide</td><td>Services, authentication, logging</td></tr>
+<tr><td>Fortinet</td><td>FortiOS Hardening Guide</td><td>Admin access, policies, logging</td></tr>
+<tr><td>Palo Alto</td><td>PAN-OS Hardening Guide</td><td>Management, policies, reporting</td></tr>
+</tbody>
+</table>
+
+<h2 id="compliance-mapping">5.8 Cross-Framework Compliance Mapping</h2>
+
+<table>
+<thead><tr><th>Standard</th><th>Control</th><th>Network Configuration</th><th>Automated</th><th>Severity</th><th>Remediation</th></tr></thead>
+<tbody>
+<tr><td>CIS 1.1</td><td>Disable Telnet</td><td><code>transport input telnet</code></td><td>Regex</td><td><span class="badge badge-critical">CRITICAL</span></td><td><code>transport input ssh</code></td></tr>
+<tr><td>CIS 1.2</td><td>SSH v2 Only</td><td><code>ip ssh version 1</code></td><td>Config parse</td><td><span class="badge badge-high">HIGH</span></td><td><code>ip ssh version 2</code></td></tr>
+<tr><td>CIS 2.1</td><td>SNMP Community</td><td><code>snmp-server community public</code></td><td>String match</td><td><span class="badge badge-critical">CRITICAL</span></td><td>Change to random string</td></tr>
+<tr><td>NIST AC-17</td><td>Remote Access</td><td>Telnet/SSH config</td><td>Protocol check</td><td><span class="badge badge-high">HIGH</span></td><td>Disable Telnet</td></tr>
+<tr><td>NIST AU-2</td><td>Audit Events</td><td><code>logging host</code></td><td>Syslog check</td><td><span class="badge badge-medium">MEDIUM</span></td><td>Configure syslog server</td></tr>
+<tr><td>DISA NET0020</td><td>Admin Auth</td><td>login on lines</td><td>AAA check</td><td><span class="badge badge-critical">CRITICAL</span></td><td>Enable AAA</td></tr>
+<tr><td>DISA NET0050</td><td>Session Timeout</td><td><code>exec-timeout</code></td><td>Timeout check</td><td><span class="badge badge-medium">MEDIUM</span></td><td>Set 10 min timeout</td></tr>
+<tr><td>ISO A.12.4.1</td><td>Event Logging</td><td>Syslog/SNMP</td><td>Logging check</td><td><span class="badge badge-medium">MEDIUM</span></td><td>Enable centralized logging</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="vendor-configs">
+<h1>6. Vendor-Specific Network Configurations</h1>
+
+<h2 id="cisco-config">6.1 Cisco IOS / IOS-XE</h2>
+
+<p><strong>Configuration Format:</strong> Hierarchical CLI (parent-child structure)</p>
+
+<h3>Security-Relevant Commands</h3>
+<pre><code><span class="comment">! Management Access</span>
+<span class="keyword">line vty</span> 0 4
+ <span class="keyword">transport input</span> ssh
+ <span class="keyword">transport output</span> ssh
+ <span class="keyword">login authentication</span> ADMIN
+ <span class="keyword">exec-timeout</span> <span class="number">10</span> <span class="number">0</span>
+!
+<span class="keyword">ip ssh version</span> <span class="number">2</span>
+<span class="keyword">ip ssh server algorithm kex</span> dh-group14-sha256
+!
+<span class="comment">! AAA Configuration</span>
+<span class="keyword">aaa new-model</span>
+<span class="keyword">aaa authentication login</span> ADMIN group tacacs+ local
+<span class="keyword">aaa authorization exec</span> ADMIN group tacacs+ local
+!
+<span class="comment">! SNMP</span>
+<span class="keyword">snmp-server community</span> MyC0mmun1ty RO <span class="number">10</span>
+<span class="keyword">snmp-server host</span> <span class="number">10.1.1.100</span> version 2c MyC0mmun1ty
+!
+<span class="comment">! Logging</span>
+<span class="keyword">logging host</span> <span class="number">10.1.1.100</span>
+<span class="keyword">logging trap</span> informational
+!
+<span class="comment">! NTP</span>
+<span class="keyword">ntp server</span> <span class="number">10.1.1.50</span>
+<span class="keyword">ntp authenticate</span>
+!
+<span class="comment">! Services</span>
+<span class="keyword">no ip http server</span>
+<span class="keyword">no ip telnet source-interface</span></code></pre>
+
+<h2 id="juniper-config">6.2 Juniper Junos</h2>
+
+<p><strong>Configuration Format:</strong> Hierarchical set commands or structured config</p>
+
+<h3>Security-Relevant Commands</h3>
+<pre><code><span class="keyword">system</span> {
+    <span class="keyword">services</span> {
+        <span class="keyword">ssh</span> {
+            <span class="keyword">protocol-version</span> v2;
+        }
+        <span class="comment"># telnet disabled by default</span>
+    }
+    <span class="keyword">login</span> {
+        <span class="keyword">class</span> admin-class {
+            <span class="keyword">idle-timeout</span> <span class="number">10</span>;
+        }
+        <span class="keyword">user</span> admin {
+            <span class="keyword">authentication</span> {
+                <span class="keyword">encrypted-password</span> <span class="string">"$9$..."</span>;
+            }
+        }
+    }
+    <span class="keyword">syslog</span> {
+        <span class="keyword">host</span> <span class="number">10.1.1.100</span> {
+            any informational;
+        }
+    }
+    <span class="keyword">ntp</span> {
+        <span class="keyword">server</span> <span class="number">10.1.1.50</span>;
+    }
+}
+<span class="keyword">snmp</span> {
+    <span class="keyword">community</span> MyC0mmun1ty {
+        <span class="keyword">authorization</span> read-only;
+        <span class="keyword">clients</span> {
+            <span class="number">10.1.1.0/24</span>;
+        }
+    }
+}</code></pre>
+
+<h2 id="fortinet-config">6.3 Fortinet FortiOS</h2>
+
+<p><strong>Configuration Format:</strong> Nested config blocks</p>
+
+<h3>Security-Relevant Commands</h3>
+<pre><code><span class="keyword">config system global</span>
+    <span class="keyword">set</span> admin-sport <span class="number">443</span>
+    <span class="keyword">set</span> admin-https-ssl-versions tlsv1-2
+    <span class="keyword">set</span> admin-login-max <span class="number">5</span>
+    <span class="keyword">set</span> admin-lockout-timer <span class="number">30</span>
+<span class="keyword">end</span>
+
+<span class="keyword">config system admin</span>
+    <span class="keyword">edit</span> <span class="string">"admin"</span>
+        <span class="keyword">set</span> accprofile <span class="string">"prof_admin"</span>
+        <span class="keyword">set</span> two-factor fortitoken
+        <span class="keyword">set</span> idle-timeout <span class="number">600</span>
+    <span class="keyword">next</span>
+<span class="keyword">end</span>
+
+<span class="keyword">config log syslog setting</span>
+    <span class="keyword">set</span> status enable
+    <span class="keyword">set</span> server <span class="number">10.1.1.100</span>
+    <span class="keyword">set</span> port <span class="number">514</span>
+<span class="keyword">end</span>
+
+<span class="keyword">config system ntp</span>
+    <span class="keyword">edit</span> <span class="number">1</span>
+        <span class="keyword">set</span> server <span class="number">10.1.1.50</span>
+    <span class="keyword">next</span>
+<span class="keyword">end</span></code></pre>
+
+<h2 id="paloalto-config">6.4 Palo Alto PAN-OS</h2>
+
+<p><strong>Configuration Format:</strong> XML or hierarchical CLI</p>
+
+<h3>Security-Relevant Commands</h3>
+<pre><code><span class="keyword">set deviceconfig system</span> login-banner <span class="string">"Authorized Access Only"</span>
+<span class="keyword">set deviceconfig system service</span> ssh on
+<span class="keyword">set deviceconfig system service</span> telnet off
+<span class="keyword">set deviceconfig system service</span> https on
+<span class="keyword">set deviceconfig system</span> idle-timeout <span class="number">10</span>
+<span class="keyword">set deviceconfig system</span> authentication-profile <span class="string">"AD-Auth"</span>
+<span class="keyword">set deviceconfig server-profile syslog</span> <span class="string">"Syslog-Server"</span>
+<span class="keyword">set deviceconfig server-profile ntp</span> <span class="string">"NTP-Server"</span>
+<span class="keyword">set deviceconfig setting config</span> rematch yes</code></pre>
+
+<h2 id="arista-config">6.5 Arista EOS</h2>
+
+<p><strong>Configuration Format:</strong> Cisco-like CLI</p>
+
+<h3>Security-Relevant Commands</h3>
+<pre><code><span class="keyword">service ssh</span>
+<span class="keyword">no service telnet</span>
+!
+<span class="keyword">aaa authentication login</span> default group tacacs+ local
+<span class="keyword">aaa authorization exec</span> default group tacacs+ local
+!
+<span class="keyword">snmp-server community</span> MyC0mmun1ty ro
+<span class="keyword">snmp-server host</span> <span class="number">10.1.1.100</span> version 2c MyC0mmun1ty
+!
+<span class="keyword">logging host</span> <span class="number">10.1.1.100</span>
+!
+<span class="keyword">ntp server</span> <span class="number">10.1.1.50</span></code></pre>
+
+<h2 id="normalization-strategy">6.6 Configuration Normalization Strategy</h2>
+
+<p><strong>Goal:</strong> Map vendor-specific syntax to a common security model.</p>
+
+<table>
+<thead><tr><th>Security Concept</th><th>Cisco</th><th>Juniper</th><th>Fortinet</th><th>Palo Alto</th><th>Normalized</th></tr></thead>
+<tbody>
+<tr><td>SSH Enabled</td><td><code>transport input ssh</code></td><td><code>set system services ssh</code></td><td><code>set admin-sport 443</code></td><td><code>service ssh on</code></td><td><code>mgmt.ssh.enabled = true</code></td></tr>
+<tr><td>Telnet Disabled</td><td><code>no transport input telnet</code></td><td>(default disabled)</td><td>(not present)</td><td><code>service telnet off</code></td><td><code>mgmt.telnet.enabled = false</code></td></tr>
+<tr><td>SSH Version 2</td><td><code>ip ssh version 2</code></td><td><code>protocol-version v2</code></td><td><code>admin-https-ssl-versions tlsv1-2</code></td><td>(implicit)</td><td><code>mgmt.ssh.version = 2</code></td></tr>
+<tr><td>Session Timeout</td><td><code>exec-timeout 10 0</code></td><td><code>idle-timeout 10</code></td><td><code>idle-timeout 600</code></td><td><code>idle-timeout 10</code></td><td><code>mgmt.session.timeout = 600</code></td></tr>
+<tr><td>SNMP Community</td><td><code>snmp-server community X</code></td><td><code>snmp community X</code></td><td><code>config system snmp community</code></td><td>(not applicable)</td><td><code>mgmt.snmp.community = "X"</code></td></tr>
+<tr><td>Syslog Server</td><td><code>logging host X</code></td><td><code>set system syslog host X</code></td><td><code>config log syslog setting</code></td><td><code>server-profile syslog</code></td><td><code>logging.syslog.server = "X"</code></td></tr>
+<tr><td>NTP Server</td><td><code>ntp server X</code></td><td><code>set system ntp server X</code></td><td><code>config system ntp</code></td><td><code>server-profile ntp</code></td><td><code>time.ntp.server = "X"</code></td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-technical">
+<div class="callout-title">Recommendation</div>
+<p>Create a lightweight JSON schema for normalization (not full OpenConfig/YANG — too complex for 36-hour prototype). Use a custom schema covering only security-relevant controls that's fast to build and easy to extend later.</p>
+</div>
+
+<h3>Example Normalized Configuration (JSON)</h3>
+<pre><code>{
+  <span class="string">"device"</span>: {
+    <span class="string">"vendor"</span>: <span class="string">"cisco"</span>,
+    <span class="string">"model"</span>: <span class="string">"ISR4451"</span>,
+    <span class="string">"os"</span>: <span class="string">"IOS-XE"</span>,
+    <span class="string">"version"</span>: <span class="string">"17.3.4"</span>
+  },
+  <span class="string">"management"</span>: {
+    <span class="string">"ssh"</span>: {
+      <span class="string">"enabled"</span>: <span class="keyword">true</span>,
+      <span class="string">"version"</span>: <span class="number">2</span>,
+      <span class="string">"algorithms"</span>: [<span class="string">"aes256-ctr"</span>, <span class="string">"hmac-sha2-256"</span>]
+    },
+    <span class="string">"telnet"</span>: { <span class="string">"enabled"</span>: <span class="keyword">false</span> },
+    <span class="string">"session_timeout"</span>: <span class="number">600</span>,
+    <span class="string">"login_banner"</span>: <span class="string">"Authorized Access Only"</span>
+  },
+  <span class="string">"authentication"</span>: {
+    <span class="string">"aaa_enabled"</span>: <span class="keyword">true</span>,
+    <span class="string">"method"</span>: <span class="string">"tacacs+"</span>,
+    <span class="string">"local_fallback"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"logging"</span>: {
+    <span class="string">"syslog"</span>: {
+      <span class="string">"enabled"</span>: <span class="keyword">true</span>,
+      <span class="string">"server"</span>: <span class="string">"10.1.1.100"</span>,
+      <span class="string">"level"</span>: <span class="string">"informational"</span>
+    }
+  },
+  <span class="string">"time"</span>: {
+    <span class="string">"ntp"</span>: {
+      <span class="string">"enabled"</span>: <span class="keyword">true</span>,
+      <span class="string">"servers"</span>: [<span class="string">"10.1.1.50"</span>]
+    }
+  }
+}</code></pre>
+</section>
+
+<section class="section" id="proposed-solution">
+<h1>7. Proposed NEXUS Solution</h1>
+
+<h2 id="core-idea">7.1 Core Idea — Vendor-Neutral Security Interpretation Layer</h2>
+
+<p>Instead of building separate parsers and rules for each vendor, NEXUS creates a <strong>vendor-neutral security interpretation layer</strong>:</p>
+
+<div class="arch-box">Cisco ────────┐
+Juniper ──────┤
+Fortinet ─────┤       AI Configuration        Vendor-Neutral        Compliance
+Palo Alto ────┤  ──▶  Interpreter          ──▶  Security Schema  ──▶  Engine
+Arista ───────┤                                                        ↓
+Unknown ──────┘                                                   CIS / NIST / STIG
+                                                                       ↓
+                                                                  Findings + Risk
+                                                                       ↓
+                                                                Explanation + Fix</div>
+
+<div class="callout callout-simple">
+<div class="callout-title">Simple Explanation</div>
+<p>Think of it like Google Translate for network security. Every vendor speaks a different "language," but our system translates them all into one common language first, then checks security rules against that common language.</p>
+</div>
+
+<div class="callout callout-technical">
+<div class="callout-title">Technical Explanation</div>
+<p>NEXUS implements a vendor-agnostic configuration normalization pipeline that transforms heterogeneous CLI syntax into a canonical JSON security model, enabling framework-independent compliance evaluation through deterministic rule matching with AI-augmented explanation via RAG-grounded LLM inference.</p>
+</div>
+
+<h2 id="what-makes-different">7.2 What Makes NEXUS Different</h2>
+
+<h3>Traditional Tool</h3>
+<pre><code>Known vendor → Known command → Hard-coded rule → Pass/Fail</code></pre>
+
+<h3>NEXUS</h3>
+<pre><code>Configuration
+      ↓
+Identify vendor
+      ↓
+Parse / interpret
+      ↓
+Extract security meaning
+      ↓
+Map to common schema
+      ↓
+Evaluate controls
+      ↓
+Explain finding
+      ↓
+Generate remediation</code></pre>
+
+<p>And most importantly — the <strong>adaptive learning loop</strong>:</p>
+<pre><code>UNKNOWN COMMAND
+       ↓
+AI interpretation
+       ↓
+Human confirmation
+       ↓
+Knowledge update
+       ↓
+Future configurations → Previously understood automatically</code></pre>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">Strongest Differentiator</div>
+<p>The adaptive learning loop is the feature that should be the centerpiece of the SIH demo. Traditional tools say "Unsupported ❌" for unknown vendors. NEXUS says: "I think this means X — can you confirm?" After confirmation, it remembers forever.</p>
+</div>
+
+<h2 id="core-features">7.3 Core Features</h2>
+
+<table>
+<thead><tr><th>#</th><th>Feature</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Multi-Vendor Parsing</strong></td><td>Parse Cisco, Juniper, Fortinet, Palo Alto configs into structured data</td></tr>
+<tr><td>2</td><td><strong>Vendor-Neutral Normalization</strong></td><td>Map all vendors to common JSON security schema</td></tr>
+<tr><td>3</td><td><strong>Deterministic Compliance Engine</strong></td><td>YAML rules evaluated against normalized config — 100% auditable</td></tr>
+<tr><td>4</td><td><strong>RAG-Grounded Explanations</strong></td><td>AI explains WHY with citations to CIS/NIST/STIG — not hallucinated</td></tr>
+<tr><td>5</td><td><strong>Vendor-Specific Remediation</strong></td><td>Generate fix commands in the correct vendor CLI syntax</td></tr>
+<tr><td>6</td><td><strong>Risk Scoring</strong></td><td>Device and network-level compliance scores weighted by severity</td></tr>
+<tr><td>7</td><td><strong>Evidence-Based Audit Reports</strong></td><td>PDF reports with config snippets, citations, and remediation</td></tr>
+<tr><td>8</td><td><strong>Adaptive Learning</strong></td><td>Learn new vendor syntax from administrator feedback</td></tr>
+</tbody>
+</table>
+
+<h2 id="advanced-features">7.4 Advanced Features &amp; Prioritization</h2>
+
+<table>
+<thead><tr><th>Feature</th><th>WOW</th><th>Technical</th><th>Difficulty</th><th>SIH Value</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Multi-vendor normalization</td><td>8</td><td>10</td><td>7</td><td>10</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>AI configuration explanation</td><td>9</td><td>7</td><td>5</td><td>9</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>AI remediation generation</td><td>8</td><td>8</td><td>6</td><td>8</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>Compliance RAG</td><td>7</td><td>9</td><td>6</td><td>8</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>Natural-language auditing</td><td>9</td><td>7</td><td>6</td><td>9</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>Risk scoring</td><td>6</td><td>7</td><td>3</td><td>7</td><td><span class="badge badge-critical">MUST</span></td></tr>
+<tr><td>Network topology</td><td>8</td><td>6</td><td>6</td><td>7</td><td><span class="badge badge-high">SHOULD</span></td></tr>
+<tr><td>"Ask your network" chatbot</td><td>10</td><td>6</td><td>7</td><td>8</td><td><span class="badge badge-high">SHOULD</span></td></tr>
+<tr><td>Configuration drift detection</td><td>6</td><td>8</td><td>7</td><td>6</td><td><span class="badge badge-medium">NICE</span></td></tr>
+<tr><td>What-if analysis</td><td>7</td><td>8</td><td>9</td><td>6</td><td><span class="badge badge-low">CUT</span></td></tr>
+<tr><td>SIEM integration</td><td>5</td><td>8</td><td>8</td><td>5</td><td><span class="badge badge-low">CUT</span></td></tr>
+<tr><td>CI/CD compliance checks</td><td>6</td><td>8</td><td>8</td><td>6</td><td><span class="badge badge-low">CUT</span></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="architecture">
+<h1>8. System Architecture</h1>
+
+<p>The NEXUS architecture is designed to cleanly separate vendor-specific ingestion from vendor-agnostic compliance evaluation. This decoupling is what makes multi-vendor support scalable.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_architecture.png" alt="NEXUS Conceptual Architecture" />
+<div class="figure-caption">Figure 1: NEXUS 7-Layer Conceptual Architecture</div>
+</div>
+
+<h2 id="arch-overview">8.1 Architecture Overview</h2>
+<p>The system comprises seven logical layers:</p>
+<ol>
+<li><strong>Data Ingestion &amp; UI Layer:</strong> Next.js frontend, accepts config files or API uploads.</li>
+<li><strong>Vendor Auto-Detection:</strong> NLP/Heuristics to identify device OS without user input.</li>
+<li><strong>Parsing Layer:</strong> Converts raw CLI text into vendor-specific structured data (AST/JSON).</li>
+<li><strong>Normalization Layer:</strong> Translates vendor-specific JSON into the Common Security Schema.</li>
+<li><strong>Compliance Engine (Deterministic):</strong> Evaluates the normalized schema against YAML rule sets.</li>
+<li><strong>AI/RAG Layer:</strong> Generates natural language explanations, retrieves citations from standards, and formats remediation.</li>
+<li><strong>Reporting &amp; Export:</strong> Generates PDF reports and risk dashboards.</li>
+</ol>
+
+<h2 id="mvp-arch">8.2 36-Hour MVP Architecture</h2>
+<p>For the SIH hackathon, we must aggressively scope the architecture to what can be built in 36 hours:</p>
+<ul>
+<li><strong>Frontend:</strong> Next.js (React) for a professional, enterprise-grade interface.</li>
+<li><strong>Backend:</strong> FastAPI (Python 3.10+).</li>
+<li><strong>Database:</strong> SQLite or TinyDB (avoiding complex PostgreSQL setups).</li>
+<li><strong>Vector Store:</strong> ChromaDB or FAISS (in-memory, no external services).</li>
+<li><strong>LLM:</strong> Local Ollama (Llama 3 8B) or API fallback (Gemini/OpenAI) if permitted.</li>
+</ul>
+
+<h2 id="strong-arch">8.3 Strong SIH Submission Architecture</h2>
+<p>To win, the architecture must demonstrate enterprise readiness even if the MVP is simplified:</p>
+<ul>
+<li><strong>Event-Driven:</strong> RabbitMQ or Redis queues for async config processing.</li>
+<li><strong>Storage:</strong> PostgreSQL for state, MinIO/S3 for raw configs.</li>
+<li><strong>Vector DB:</strong> Qdrant or Milvus for scalable RAG.</li>
+</ul>
+
+<h2 id="production-arch">8.4 Production-Grade Future Architecture</h2>
+<p>For real-world NTRO deployment:</p>
+<ul>
+<li>Air-gapped deployment capability (no public cloud APIs).</li>
+<li>Kubernetes cluster orchestration.</li>
+<li>Local open-source LLMs (e.g., Mistral/Llama 3 via vLLM) on dedicated GPU nodes.</li>
+<li>Integration with SIEM (Splunk/QRadar) via Syslog/Webhooks.</li>
+</ul>
+</section>
+
+<section class="section" id="parsing">
+<h1>9. Configuration Parsing Engine</h1>
+
+<p>Before any intelligence can be applied, raw text must become structured data.</p>
+
+<h2 id="parser-comparison">9.1 Parser Comparison</h2>
+<table>
+<thead><tr><th>Tool</th><th>Approach</th><th>Pros</th><th>Cons</th></tr></thead>
+<tbody>
+<tr><td><strong>Regex</strong></td><td>Text matching</td><td>Fast, zero dependencies</td><td>Brittle, fails on nested blocks</td></tr>
+<tr><td><strong>Batfish</strong></td><td>Java AST</td><td>Incredibly powerful</td><td>Huge dependency, hard to extend</td></tr>
+<tr><td><strong>TextFSM / NTC</strong></td><td>Templates</td><td>Industry standard</td><td>Need templates for everything</td></tr>
+<tr><td><strong>Netmiko</strong></td><td>Scraping</td><td>Great for SSH extraction</td><td>Doesn't parse meaning, just gets text</td></tr>
+<tr><td><strong>CiscoConfParse2</strong></td><td>Python Object Tree</td><td>Understands parent/child config relationships natively</td><td>Mostly Cisco/Arista focused (though adaptable)</td></tr>
+</tbody>
+</table>
+
+<h2 id="ciscoconfparse">9.2 CiscoConfParse2 — Recommended Parser</h2>
+<p>For the hackathon, building custom AST parsers is too slow. <strong>CiscoConfParse2</strong> is the ideal choice. Despite the name, it can parse any bracketed or indented configuration format (Cisco, Juniper, Palo Alto, F5).</p>
+
+<div class="callout callout-technical">
+<div class="callout-title">Why CiscoConfParse2?</div>
+<p>It natively understands that <code>ip ssh version 2</code> is a global command, but <code>transport input ssh</code> belongs to the parent <code>line vty 0 4</code>. This context is critical for security checks.</p>
+</div>
+
+<h2 id="parser-examples">9.3 Parser Code Examples</h2>
+<pre><code>from ciscoconfparse2 import CiscoConfParse
+
+# Load Cisco config
+parse = CiscoConfParse("router_config.txt")
+
+# Find all VTY lines
+vty_lines = parse.find_objects(r"^line vty")
+
+for line in vty_lines:
+    # Check if transport input ssh is configured under this specific line
+    has_ssh = line.re_search_children(r"transport input ssh")
+    if not has_ssh:
+        print(f"Violation on {line.text}: SSH not explicitly required")
+</code></pre>
+</section>
+
+<section class="section" id="normalization">
+<h1>10. Configuration Normalization Engine</h1>
+
+<div class="figure">
+<img src="../diagrams/diagram_multivendor_flow.png" alt="Multi-Vendor Flow" />
+<div class="figure-caption">Figure 2: Multi-Vendor Configuration Ingestion Flow</div>
+</div>
+
+<h2 id="why-normalize">10.1 Why Normalization Is Critical</h2>
+<p>Without normalization, you must write a "Disable Telnet" rule four times (Cisco, Juniper, Fortinet, Palo Alto). With normalization, you write it <strong>once</strong>.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_normalization.png" alt="Vendor Normalization" />
+<div class="figure-caption">Figure 3: Vendor Normalization Concept</div>
+</div>
+
+<h2 id="openconfig">10.2 OpenConfig / YANG Approach</h2>
+<p>OpenConfig provides vendor-neutral YANG data models for network devices. While robust, mapping legacy CLI to OpenConfig is a massive engineering effort—too large for a 36-hour hackathon.</p>
+
+<h2 id="custom-schema">10.3 Lightweight Custom Schema (Recommended)</h2>
+<p>We propose a lightweight, security-focused JSON schema that captures <em>only</em> what matters for compliance:</p>
+<ul>
+<li><code>mgmt.ssh.enabled</code> (boolean)</li>
+<li><code>mgmt.telnet.enabled</code> (boolean)</li>
+<li><code>mgmt.session_timeout_seconds</code> (integer)</li>
+<li><code>auth.aaa_enabled</code> (boolean)</li>
+<li><code>logging.syslog_servers</code> (list of strings)</li>
+</ul>
+
+<h2 id="norm-code">10.4 Normalization Logic (Python)</h2>
+<pre><code>class CiscoNormalizer:
+    def normalize(self, parsed_config):
+        normalized = BaseSecuritySchema()
+        
+        # Check SSH
+        ssh_cmd = parsed_config.find_objects(r"^ip ssh version")
+        if ssh_cmd and "2" in ssh_cmd[0].text:
+            normalized.mgmt.ssh.version = 2
+            
+        # Check Telnet (Is there a 'transport input' without ssh?)
+        # ... logic ...
+        
+        return normalized
+</code></pre>
+</section>
+
+<section class="section" id="compliance-engine">
+<h1>11. Compliance Engine</h1>
+
+<p>The compliance engine evaluates the normalized JSON schema against deterministic rules. <strong>It does not use AI to make Pass/Fail decisions.</strong></p>
+
+<div class="figure">
+<img src="../diagrams/diagram_compliance_flow.png" alt="Compliance Evaluation Flow" />
+<div class="figure-caption">Figure 4: Compliance Evaluation Flow</div>
+</div>
+
+<h2 id="rule-engine">11.1 Rule Engine Design</h2>
+<p>We use a YAML-based rule definition. This keeps code and policy separate, allowing security engineers to write rules without knowing Python.</p>
+
+<h2 id="yaml-rules">11.2 YAML Rule Format</h2>
+<pre><code>rule_id: CIS-1.1
+title: "Ensure Telnet is Disabled"
+description: "Telnet transmits data in plaintext. SSH must be used."
+severity: CRITICAL
+framework_mappings:
+  cis_cisco: "1.1"
+  nist_800_53: ["AC-17", "CM-7"]
+  disa_stig: "NET0020"
+condition:
+  # Evaluated against normalized schema using JSONPath or PySensors
+  path: "mgmt.telnet.enabled"
+  operator: "equals"
+  value: false
+remediation_templates:
+  cisco: "no transport input telnet\ntransport input ssh"
+  juniper: "delete system services telnet"
+</code></pre>
+
+<h2 id="engine-implementation">11.3 Engine Implementation (Python)</h2>
+<pre><code>import yaml
+import jsonpath_ng
+
+def evaluate_rule(rule_yaml, normalized_json):
+    path_expr = jsonpath_ng.parse(rule_yaml['condition']['path'])
+    match = path_expr.find(normalized_json)
+    
+    if not match:
+        return "UNKNOWN" # Data point missing
+        
+    actual_value = match[0].value
+    expected = rule_yaml['condition']['value']
+    operator = rule_yaml['condition']['operator']
+    
+    if operator == "equals":
+        passed = (actual_value == expected)
+    elif operator == "greater_than":
+        passed = (actual_value > expected)
+        
+    return "PASS" if passed else "FAIL"
+</code></pre>
+
+<h2 id="oscal">11.5 NIST OSCAL Integration</h2>
+<p>To demonstrate enterprise maturity, the engine can map its YAML rules to NIST OSCAL (Open Security Controls Assessment Language) component definitions. This allows exporting audit results in a standardized XML/JSON format that government GRC tools (like Archer or eMASS) can ingest directly.</p>
+</section>
+
+<section class="section" id="ai-ml-role">
+<h1>12. AI/ML Role — Where AI Helps and Where It Doesn't</h1>
+
+<p>The biggest trap in this hackathon is attempting to use an LLM to read a config file and ask "Is this secure?" LLMs hallucinate, miss subtle configuration inheritance, and cannot provide deterministic audit trails.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_ai_deterministic.png" alt="AI vs Deterministic" />
+<div class="figure-caption">Figure 5: Separation of Deterministic Rules and AI Inference</div>
+</div>
+
+<h2 id="ai-suitable">12.1 AI Suitability Matrix</h2>
+<table>
+<thead><tr><th>Task</th><th>Use AI/LLM?</th><th>Why?</th></tr></thead>
+<tbody>
+<tr><td><strong>Pass/Fail Decision</strong></td><td><span class="badge badge-fail">NO</span></td><td>Must be 100% deterministic and auditable. AI hallucinates.</td></tr>
+<tr><td><strong>Rule Evaluation</strong></td><td><span class="badge badge-fail">NO</span></td><td>Math/logic operations are better in Python.</td></tr>
+<tr><td><strong>Syntax Parsing</strong></td><td><span class="badge badge-fail">NO</span></td><td>Regex/AST parsers are infinitely faster and more accurate.</td></tr>
+<tr><td><strong>Unknown Syntax Inference</strong></td><td><span class="badge badge-pass">YES</span></td><td>LLMs excel at inferring the meaning of new/custom commands.</td></tr>
+<tr><td><strong>Violation Explanation</strong></td><td><span class="badge badge-pass">YES</span></td><td>Translates "Rule 4.1 Failed" into human-readable impact.</td></tr>
+<tr><td><strong>Remediation Generation</strong></td><td><span class="badge badge-pass">YES</span></td><td>Can tailor fix commands to the specific context of the device.</td></tr>
+<tr><td><strong>Q&A / Chatbot</strong></td><td><span class="badge badge-pass">YES</span></td><td>"Why does this router have a high risk score?"</td></tr>
+</tbody>
+</table>
+
+<h2 id="ai-explanation">12.3 AI Explanation Generation</h2>
+<p>When a rule fails, the LLM is invoked to explain the risk. It is provided with:</p>
+<ol>
+<li>The failing rule title.</li>
+<li>The exact snippet of the configuration that failed.</li>
+<li>RAG context from CIS/NIST standards detailing the risk.</li>
+</ol>
+<p><strong>Prompt Template:</strong> <em>"You are a network security auditor. The following configuration snippet failed the {rule_title} check. Using the provided NIST context, explain the business risk of this misconfiguration in 2 paragraphs."</em></p>
+</section>
+
+<section class="section" id="rag-system">
+<h1>13. RAG System (Retrieval-Augmented Generation)</h1>
+
+<p>To prevent the AI from hallucinating security advice, we use RAG to ground its explanations in authoritative documentation.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_rag_architecture.png" alt="RAG Architecture" />
+<div class="figure-caption">Figure 6: RAG Architecture for Compliance Citations</div>
+</div>
+
+<h2 id="rag-sources">13.1 Knowledge Sources</h2>
+<p>The vector database is populated pre-hackathon with chunked, embedded text from:</p>
+<ul>
+<li>CIS Benchmarks (PDFs converted to text)</li>
+<li>NIST SP 800-53 rev 5 (JSON/XML)</li>
+<li>DISA STIG descriptions</li>
+<li>Vendor hardening guides</li>
+</ul>
+
+<h2 id="vector-db">13.3 Vector Database Comparison</h2>
+<p>For a 36-hour build, <strong>ChromaDB</strong> or <strong>FAISS</strong> running locally is recommended over managed services like Pinecone, ensuring the system can run offline (a critical government requirement).</p>
+
+<h2 id="hallucination">13.4 Hallucination Prevention</h2>
+<p>We enforce strict grounding prompts:</p>
+<pre><code>Answer the user's question about the security violation using ONLY the provided context blocks below. 
+If the context does not contain the answer, reply "I cannot answer this based on the provided compliance standards."
+Do NOT invent commands or cite frameworks not present in the context.
+
+Context:
+{retrieved_documents}</code></pre>
+</section>
+
+<section class="section" id="remediation-engine">
+<h1>14. Remediation Engine</h1>
+
+<p>Detecting a problem is only half the battle. NEXUS must provide the exact CLI commands to fix it.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_remediation.png" alt="Remediation Workflow" />
+<div class="figure-caption">Figure 7: Secure Remediation Workflow</div>
+</div>
+
+<h2 id="remediation-workflow">14.1 Remediation Workflow</h2>
+<ol>
+<li><strong>Base Template:</strong> The YAML rule provides a static remediation template (e.g., <code>transport input ssh</code>).</li>
+<li><strong>Context Injection:</strong> Python injects device-specific context (e.g., applying it to <code>line vty 0 4</code> vs <code>line vty 0 15</code> depending on what the device actually has).</li>
+<li><strong>Diff Generation:</strong> The UI displays a clear before/after diff of the proposed changes.</li>
+</ol>
+
+<h2 id="remediation-safety">14.2 Safety Mechanisms</h2>
+<div class="callout callout-warning">
+<div class="callout-title">Read-Only Operations</div>
+<p>For the SIH prototype, the system should <strong>NOT</strong> attempt to SSH back into the device to apply changes automatically. Network engineers do not trust autonomous AI making changes. The system should generate a downloadable <code>.txt</code> or Ansible playbook containing the fix commands for human review.</p>
+</div>
+</section>
+
+<section class="section" id="risk-scoring">
+<h1>15. Risk Scoring</h1>
+
+<p>Not all compliance violations are equal. Missing a login banner is a finding; leaving Telnet exposed to the internet is an emergency.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_risk_scoring.png" alt="Risk Scoring Flow" />
+<div class="figure-caption">Figure 8: CVSS-Inspired Risk Scoring Model</div>
+</div>
+
+<h2 id="scoring-model">15.1 Scoring Model</h2>
+<p>We implement a risk scoring algorithm inspired by CVSS, tailored for configuration compliance:</p>
+
+<div class="kv-grid">
+<dt>Base Score</dt><dd>Derived from the Rule Severity (Critical=10, High=7, Medium=4, Low=1)</dd>
+<dt>Asset Criticality</dt><dd>Multiplier based on device role (Core Router = 1.0, Edge Firewall = 1.0, Access Switch = 0.5)</dd>
+<dt>Exposure Factor</dt><dd>Is the vulnerable interface public-facing? (Yes = 1.0, Internal = 0.6, OOB Mgmt = 0.3)</dd>
+</div>
+
+<h2 id="risk-formula">15.2 Risk Score Formula</h2>
+<pre><code>Device_Risk_Score = Σ (Violation_Severity × Asset_Criticality × Exposure_Factor)
+Normalized_Score = MIN(100, (Device_Risk_Score / Max_Possible_Score) * 100)
+Compliance_Percentage = 100 - Normalized_Score</code></pre>
+
+<div class="two-col">
+<div class="score-display score-critical">
+<div class="score-number">42%</div>
+<div>Compliance Score (FAIL)</div>
+</div>
+<div class="score-display score-good">
+<div class="score-number">98%</div>
+<div>Compliance Score (PASS)</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="adaptive-learning">
+<h1>16. Adaptive Learning — Signature Feature</h1>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">The "Aha!" Moment for Judges</div>
+<p>This is the feature that wins the hackathon. It solves the biggest problem with hard-coded parsers: what happens when a vendor releases a new OS version with slightly different syntax?</p>
+</div>
+
+<div class="figure">
+<img src="../diagrams/diagram_adaptive_learning.png" alt="Adaptive Learning" />
+<div class="figure-caption">Figure 9: Human-in-the-Loop Semantic Adaptation</div>
+</div>
+
+<h2 id="adaptive-concept">16.1 The Adaptive Learning Concept</h2>
+<p>When the normalizer encounters a command it doesn't recognize (e.g., a new vendor <code>configure sys access ssh</code>):</p>
+<ol>
+<li>It flags it as <strong>"Unknown Semantics"</strong>.</li>
+<li>It uses the LLM to hypothesize the meaning: <em>"This looks like SSH enablement."</em></li>
+<li>It presents this hypothesis to the human administrator in a "Semantic Mapping" UI.</li>
+<li>The human clicks <strong>"Confirm"</strong> or <strong>"Edit"</strong>.</li>
+<li>The system writes a new mapping rule to its local knowledge base.</li>
+<li><strong>Next time, it parses it deterministically without LLM overhead.</strong></li>
+</ol>
+
+<p>This creates a system that gets smarter and broader the more it is used, seamlessly expanding to new vendors without code updates.</p>
+</section>
+
+<section class="section" id="config-drift">
+<h1>17. Configuration Drift Detection</h1>
+
+<h2 id="drift-problem">17.1 The Drift Problem</h2>
+<p>Compliance is continuous, not point-in-time. A network is secure on Friday and vulnerable on Monday due to a weekend troubleshooting change.</p>
+
+<h2 id="drift-implementation">17.2 Implementation</h2>
+<p>NEXUS maintains a baseline of the last known "compliant" state. When a new config is uploaded (or fetched via API):</p>
+<ol>
+<li>Calculate SHA-256 hash of the normalized JSON (ignoring transient data like uptime).</li>
+<li>If hash differs from baseline, run a logical diff.</li>
+<li>Highlight exactly which security control drifted.</li>
+<li>Trigger a "Drift Alert" in the UI.</li>
+</ol>
+</section>
+
+<section class="section" id="security-arch">
+<h1>18. Security Architecture</h1>
+
+<p>A security tool must itself be secure. Judges will scrutinize how you handle sensitive configuration data.</p>
+
+<h2 id="secret-redaction">18.2 Secret Redaction</h2>
+<p>Network configs contain highly sensitive data: enable passwords, SNMP strings, pre-shared keys (PSKs), and BGP passwords.</p>
+<p><strong>Implementation:</strong> Before a configuration ever hits the LLM (or even the database), a regex-based sanitization pass must run to redact secrets.</p>
+<pre><code># Sanitization Example
+snmp-server community MySecretString RW
+# Becomes:
+snmp-server community [REDACTED_SNMP_RW] RW</code></pre>
+
+<h2 id="llm-privacy">18.3 LLM Privacy Architecture</h2>
+<p>For government/defense scenarios (NTRO), uploading network topology and configurations to OpenAI is a severe data breach. The architecture document must clearly state:</p>
+<ul>
+<li><strong>Option A:</strong> Local LLM execution (Llama 3, Mistral) via Ollama/vLLM. Data never leaves the air-gapped network.</li>
+<li><strong>Option B:</strong> If cloud LLMs are used for the hackathon demo, state explicitly that it is a placeholder for a local/VPC-hosted model in production.</li>
+</ul>
+</section>
+
+<section class="section" id="dataset-strategy">
+<h1>19. Dataset Strategy</h1>
+
+<p>A machine learning tool is only as good as its data. Because real-world enterprise network configurations are highly classified and not publicly available, generating a robust synthetic dataset is critical.</p>
+
+<div class="figure">
+<img src="../diagrams/diagram_dataset_flow.png" alt="Dataset Generation Flow" />
+<div class="figure-caption">Figure 10: Synthetic Dataset Generation & Evaluation Pipeline</div>
+</div>
+
+<h2 id="dataset-layers">19.2 Dataset Layers</h2>
+<p>We propose a 4-layer dataset strategy for training and evaluation:</p>
+<ol>
+<li><strong>Layer 1: Clean Baselines (Gold Standard).</strong> Perfectly compliant configurations derived directly from CIS Benchmarks.</li>
+<li><strong>Layer 2: Real-World Messy.</strong> Configurations scraped from public GitHub repositories, sanitized, and anonymized.</li>
+<li><strong>Layer 3: Synthetically Perturbed.</strong> Gold standard configs mutated via script (e.g., flipping <code>ssh</code> to <code>telnet</code>, modifying timeouts) to create labeled violations.</li>
+<li><strong>Layer 4: Vendor Edge Cases.</strong> Configurations utilizing rare, legacy, or highly specific vendor OS features to test the normalizer's resilience.</li>
+</ol>
+</section>
+
+<section class="section" id="ground-truth">
+<h1>20. Ground Truth &amp; Evaluation</h1>
+
+<h2 id="eval-metrics">20.2 Evaluation Metrics</h2>
+<p>To prove to judges that NEXUS is enterprise-ready, we evaluate it strictly using standard ML metrics against the labeled synthetic dataset:</p>
+<ul>
+<li><strong>True Positives (TP):</strong> System correctly identifies a non-compliant setting.</li>
+<li><strong>False Positives (FP):</strong> System flags a compliant setting as non-compliant (causes alert fatigue).</li>
+<li><strong>True Negatives (TN):</strong> System correctly ignores a compliant setting.</li>
+<li><strong>False Negatives (FN):</strong> System misses a non-compliant setting (causes security breach).</li>
+</ul>
+
+<div class="callout callout-key-insight">
+<div class="callout-title">Optimization Goal</div>
+<p>In cybersecurity, False Negatives are catastrophic. The system must be tuned for extremely high <strong>Recall</strong>, even at the slight expense of Precision.</p>
+</div>
+</section>
+
+<section class="section" id="tech-stack">
+<h1>21. Technology Stack</h1>
+
+<h2 id="recommended-stack">21.2 Final Recommended Stack</h2>
+<table>
+<thead><tr><th>Component</th><th>Technology</th><th>Why?</th></tr></thead>
+<tbody>
+<tr><td><strong>Frontend</strong></td><td>Next.js (React) + Tailwind</td><td>Professional, fast, enterprise look</td></tr>
+<tr><td><strong>Backend API</strong></td><td>FastAPI (Python)</td><td>High performance, async, ML-friendly</td></tr>
+<tr><td><strong>Parser</strong></td><td>CiscoConfParse2</td><td>Handles nested blocks perfectly</td></tr>
+<tr><td><strong>Rule Engine</strong></td><td>Custom YAML + JSONPath</td><td>Decouples code from policy</td></tr>
+<tr><td><strong>Vector DB (RAG)</strong></td><td>ChromaDB</td><td>In-memory, local, no cloud dependency</td></tr>
+<tr><td><strong>LLM Integration</strong></td><td>LangChain + Ollama/Gemini</td><td>Flexible abstraction over models</td></tr>
+<tr><td><strong>Database</strong></td><td>SQLite (Hackathon) / Postgres</td><td>Simple setup for 36 hours</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="ui-ux">
+<h1>22. UI/UX Concept</h1>
+
+<div class="figure">
+<img src="../diagrams/diagram_end_to_end.png" alt="End-to-End Workflow" />
+<div class="figure-caption">Figure 11: End-to-End User Experience Workflow</div>
+</div>
+
+<h2 id="dashboard-pages">22.2 Dashboard Pages</h2>
+<ol>
+<li><strong>Command Center (Overview):</strong> Total devices, overall risk score, top failing controls.</li>
+<li><strong>Device Detail View:</strong> Side-by-side view (Raw Config | Normalized JSON | Rule Results).</li>
+<li><strong>Violation Inspector:</strong> AI explanation box, citation links, and Diff viewer for remediation.</li>
+<li><strong>Semantic Mapping Center (Adaptive Learning):</strong> Queue of unknown commands waiting for human semantic mapping.</li>
+</ol>
+</section>
+
+<section class="section" id="feasibility">
+<h1>23. Feasibility &amp; Technical Challenges</h1>
+
+<h2 id="failure-modes">23.2 Failure Modes &amp; Risk Matrix</h2>
+<table>
+<thead><tr><th>Risk</th><th>Impact</th><th>Mitigation Strategy</th></tr></thead>
+<tbody>
+<tr><td>LLM Hallucinates Rule Result</td><td><span class="badge badge-critical">HIGH</span></td><td>Never use LLM for evaluation. Use deterministic YAML engine.</td></tr>
+<tr><td>Parsing Fails on New Vendor</td><td><span class="badge badge-high">HIGH</span></td><td>Graceful fallback to "Unknown Command" and route to Adaptive Learning.</td></tr>
+<tr><td>API Rate Limits</td><td><span class="badge badge-medium">MEDIUM</span></td><td>Cache explanations. Mock LLM responses if internet fails at SIH.</td></tr>
+<tr><td>Time Runs Out (36 hours)</td><td><span class="badge badge-high">HIGH</span></td><td>Hardcode complex logic for the demo; focus on UI and core pipeline.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="section" id="innovation">
+<h1>24. Innovation &amp; Novelty</h1>
+
+<h2 id="differentiators">24.1 Key Differentiators</h2>
+<p>If judges ask, "How is this different from a Python regex script?", the answers are:</p>
+<ol>
+<li><strong>Semantic Normalization:</strong> We evaluate intent, not syntax.</li>
+<li><strong>Explainability:</strong> We don't just say "Failed." We cite the NIST paragraph proving why.</li>
+<li><strong>Adaptability:</strong> Regex is static. Our system learns new commands interactively.</li>
+</ol>
+</section>
+
+<section class="section" id="scalability">
+<h1>25. Scalability &amp; Deployment</h1>
+
+<h2 id="air-gapped">25.2 Air-Gapped Deployment</h2>
+<p>NTRO requires solutions that work in classified, disconnected environments. NEXUS is designed to be fully containerized (Docker) with a local LLM (Ollama) and local Vector DB, requiring exactly <strong>zero bytes</strong> of outbound internet traffic.</p>
+</section>
+
+<section class="section" id="what-not-to-build">
+<h1>26. What NOT to Build</h1>
+
+<div class="callout callout-warning">
+<div class="callout-title">Hackathon Scope Cuts</div>
+<p>Do NOT try to build SSH connection logic to pull configs live from routers. Network mocking is extremely error-prone during a demo. Accept file uploads (<code>.txt</code>, <code>.cfg</code>) via the UI instead. Tell the judges this abstracts transport (SSH/API/TFTP) from the core parsing logic.</p>
+</div>
+</section>
+
+<section class="section" id="implementation-plan">
+<h1>27. 36-Hour Hackathon Implementation Plan</h1>
+
+<h2 id="team-roles">27.3 Team Role Distribution (6 Members)</h2>
+<ul>
+<li><strong>Member 1 (UI/UX):</strong> Next.js dashboard, visualizations, diff viewer.</li>
+<li><strong>Member 2 (Backend APIs):</strong> FastAPI, file upload, routing, database models.</li>
+<li><strong>Member 3 (Core Engine):</strong> CiscoConfParse2 logic, Normalization layer.</li>
+<li><strong>Member 4 (Security/Rules):</strong> YAML rule creation, CIS benchmark mapping.</li>
+<li><strong>Member 5 (AI/RAG):</strong> LangChain, Vector DB, Prompt engineering.</li>
+<li><strong>Member 6 (Pitch/Demo):</strong> Video creation, slide deck, demo flow optimization.</li>
+</ul>
+</section>
+
+<section class="section" id="demo-strategy">
+<h1>28. Demo Strategy</h1>
+
+<h2 id="wow-moments">28.2 Top 5 Wow Moments</h2>
+<ol>
+<li><strong>The Upload:</strong> Drag in a Cisco file and a Fortinet file. The UI instantly identifies the OS without being told.</li>
+<li><strong>The Common Language:</strong> Show the raw CLI, then click "Normalize". The screen transitions to clean, identical JSON for both vendors.</li>
+<li><strong>The Citation:</strong> Click a failure. The AI explains it and provides a clickable link/citation to the actual NIST documentation.</li>
+<li><strong>The Fix:</strong> Click "Generate Remediation". The system provides the exact, copy-pasteable CLI command.</li>
+<li><strong>The Learning Loop:</strong> Upload an "Unknown" vendor config. The system asks for help. The user confirms the meaning. Re-run the audit, and it passes automatically.</li>
+</ol>
+</section>
+
+<section class="section" id="presentation">
+<h1>29. SIH Presentation Strategy</h1>
+<p>Keep slides minimal. Focus on the architecture diagram, the core problem (manual audits don't scale), and the adaptive learning differentiator. Spend 70% of the time showing the working software.</p>
+</section>
+
+<section class="section" id="judge-qa">
+<h1>30. Judge Questions &amp; Answers</h1>
+
+<div class="qa-item">
+<div class="qa-question">Q: Why not just use Regex?</div>
+<div class="qa-answer">Regex fails on hierarchical configurations. If I regex for "transport input ssh", I don't know if that's applied to the console, the VTY line, or a completely isolated test block. Our AST parser understands context.</div>
+</div>
+
+<div class="qa-item">
+<div class="qa-question">Q: How do you prevent the AI from giving bad security advice?</div>
+<div class="qa-answer">We don't use AI for decisions. The YAML rules dictate pass/fail. The AI is strictly constrained via RAG to only explain the violation using official CIS/NIST text.</div>
+</div>
+
+<div class="qa-item">
+<div class="qa-question">Q: What happens when Cisco changes its syntax in the next update?</div>
+<div class="qa-answer">That's what our Adaptive Learning Loop solves. The system flags the unknown syntax, the AI suggests a mapping, the admin confirms it once, and the system remembers it permanently without a code update.</div>
+</div>
+
+<div class="qa-item">
+<div class="qa-question">Q: How do you handle multi-vendor schemas without OpenConfig?</div>
+<div class="qa-answer">OpenConfig is excellent but highly complex to map for legacy commands in a 36-hour hackathon. We designed a lightweight, security-specific JSON schema that captures only the compliance-relevant settings (e.g., mgmt.ssh.enabled) rather than the entire device state.</div>
+</div>
+
+<div class="qa-item">
+<div class="qa-question">Q: Can this operate in a classified, air-gapped environment like NTRO?</div>
+<div class="qa-answer">Yes. We designed the architecture to run fully offline. We use a local LLM (like Llama 3 via Ollama) and a local Vector DB (ChromaDB), ensuring zero bytes of outbound internet traffic.</div>
+</div>
+
+<div class="qa-item">
+<div class="qa-question">Q: Are the remediation commands applied automatically?</div>
+<div class="qa-answer">No. Network engineers do not trust autonomous AI with write access. NEXUS generates a downloadable Ansible playbook or CLI snippet for human review and approval.</div>
+</div>
+</section>
+
+<section class="section" id="future-roadmap">
+<h1>32. Future Roadmap</h1>
+<ul>
+<li>Automated GitOps integration (scan configs in GitHub PRs before deployment).</li>
+<li>Support for Cloud-Native configurations (AWS Security Groups, Azure NSGs).</li>
+<li>Integration with ServiceNow for automated ticketing of violations.</li>
+</ul>
+</section>
+
+<section class="section" id="final-verdict">
+<h1>33. Final Verdict</h1>
+<p>NEXUS represents a highly feasible, highly innovative solution to SIH 26155. By combining deterministic parsing with AI-driven explainability and adaptive learning, it bridges the gap between traditional rigid tools and untrustworthy pure-LLM approaches.</p>
+</section>
+
+<section class="section" id="references">
+<h1>34. References</h1>
+<ul class="reference-list">
+<li>National Institute of Standards and Technology (NIST). (2020). Security and Privacy Controls for Information Systems and Organizations. SP 800-53 Rev. 5.</li>
+<li>Center for Internet Security (CIS). (2023). CIS Cisco IOS 15 Benchmark v4.1.0.</li>
+<li>Defense Information Systems Agency (DISA). (2023). Network Infrastructure Policy STIG.</li>
+<li>Cisco Systems. (2022). Cisco IOS Security Configuration Guide.</li>
+<li>Palo Alto Networks. (2023). PAN-OS Administrator's Guide: Security Best Practices.</li>
+<li>Pennington, D. (2023). CiscoConfParse2 Documentation. GitHub.</li>
+<li>Gao, Y., et al. (2023). Retrieval-Augmented Generation for Large Language Models: A Survey. arXiv preprint arXiv:2312.10997.</li>
+</ul>
+</section>
+
+<section class="section page-break" id="appendix-a">
+<h1>Appendix A: Configuration Examples</h1>
+<p><em>Refer to Section 6 for detailed configuration snippets across all supported vendors.</em></p>
+</section>
+
+<section class="section page-break" id="appendix-b">
+<h1>Appendix B: Compliance Rule YAML</h1>
+<p><em>Refer to Section 11.2 for the complete YAML schema definition.</em></p>
+</section>
+
+    </div>
+
+</body>
+</html>

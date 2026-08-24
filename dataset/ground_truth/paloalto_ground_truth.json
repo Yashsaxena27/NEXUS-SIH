@@ -1,0 +1,159 @@
+{
+  "vendor": "paloalto",
+  "samples": [
+    {
+      "filename": "paloalto_compliant_01.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_platform": "PAN-OS",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "management.login_banner": "WARNING: Authorized Access Only. All activity is monitored and logged.",
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-BAN-001": "PASS",
+        "NET-HTTP-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_compliant_02.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "management.session_timeout": 300,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_telnet_enabled.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": true,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_no_banner.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-BAN-001": "FAIL",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_no_syslog.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "logging.syslog.enabled": false,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_no_ntp.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": false
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-NTP-001": "FAIL",
+        "NET-LOG-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_multi_violation.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": true,
+        "time.ntp.enabled": false
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-BAN-001": "FAIL",
+        "NET-NTP-001": "FAIL"
+      }
+    },
+    {
+      "filename": "paloalto_many_violations.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": true,
+        "logging.syslog.enabled": false,
+        "time.ntp.enabled": false
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-BAN-001": "FAIL",
+        "NET-NTP-001": "FAIL",
+        "NET-LOG-001": "FAIL"
+      }
+    },
+    {
+      "filename": "paloalto_noisy.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-BAN-001": "PASS",
+        "NET-HTTP-001": "PASS"
+      }
+    },
+    {
+      "filename": "paloalto_format_variant.conf",
+      "expected_vendor_detection": "paloalto",
+      "expected_normalized": {
+        "management.telnet.enabled": false,
+        "logging.syslog.enabled": true,
+        "time.ntp.enabled": true
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    }
+  ]
+}

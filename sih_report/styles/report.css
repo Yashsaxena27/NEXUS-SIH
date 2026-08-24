@@ -1,0 +1,504 @@
+/* ============================================================
+   SIH 26155 — NEXUS Master Report — Professional CSS
+   ============================================================ */
+
+/* --- Page Layout --- */
+@page {
+    size: A4;
+    margin: 2.2cm 2cm 2.5cm 2cm;
+}
+
+/* --- Base Typography --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.6;
+    color: #1a1a2e;
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* --- Cover Page --- */
+.cover-page {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 6cm;
+}
+
+.cover-page .logo-area {
+    margin-bottom: 2cm;
+}
+
+.cover-page .logo-area .shield {
+    font-size: 72pt;
+    display: block;
+    margin-bottom: 0.5cm;
+}
+
+.cover-page h1.main-title {
+    font-size: 28pt;
+    color: #0f3460;
+    font-weight: 800;
+    margin-bottom: 0.3cm;
+    letter-spacing: -0.5pt;
+    line-height: 1.2;
+}
+
+.cover-page h2.sub-title {
+    font-size: 16pt;
+    color: #16213e;
+    font-weight: 400;
+    margin-bottom: 1.5cm;
+    line-height: 1.4;
+}
+
+.cover-page .meta-block {
+    font-size: 11pt;
+    color: #444;
+    line-height: 2;
+    margin-top: 2cm;
+}
+
+.cover-page .meta-block strong {
+    color: #0f3460;
+}
+
+.cover-page .bottom-bar {
+    position: fixed;
+    bottom: 3cm;
+    left: 2cm;
+    right: 2cm;
+    border-top: 3px solid #e94560;
+    padding-top: 0.4cm;
+    font-size: 9pt;
+    color: #666;
+    text-align: center;
+}
+
+/* --- Table of Contents --- */
+.toc-page {
+    page-break-after: always;
+}
+
+.toc-page h1 {
+    font-size: 22pt;
+    color: #0f3460;
+    border-bottom: 3px solid #e94560;
+    padding-bottom: 0.3cm;
+    margin-bottom: 0.8cm;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-list li {
+    padding: 4pt 0;
+    border-bottom: 1px dotted #ccc;
+    font-size: 10.5pt;
+}
+
+.toc-list li a {
+    color: #1a1a2e;
+    text-decoration: none;
+}
+
+.toc-list li a:hover {
+    color: #e94560;
+}
+
+/* (Removed target-counter pseudo element because Playwright/Chromium does not support CSS PDF counters) */
+
+.toc-list li.toc-h1 {
+    font-weight: 700;
+    font-size: 11pt;
+    padding-top: 8pt;
+    color: #0f3460;
+}
+
+.toc-list li.toc-h2 {
+    padding-left: 1.5em;
+    font-weight: 400;
+    font-size: 10pt;
+}
+
+.toc-list li.toc-h3 {
+    padding-left: 3em;
+    font-weight: 400;
+    font-size: 9.5pt;
+    color: #555;
+}
+
+/* --- Headings --- */
+h1 {
+    font-size: 20pt;
+    color: #0f3460;
+    border-bottom: 2px solid #e94560;
+    padding-bottom: 0.2cm;
+    margin-top: 1.2cm;
+    margin-bottom: 0.6cm;
+    page-break-after: avoid;
+    /* Added page break before H1 to ensure clean sections without huge empty spaces on previous pages */
+    page-break-before: always;
+}
+
+.toc-page h1, .cover-page h1 {
+    page-break-before: auto;
+}
+
+h2 {
+    font-size: 15pt;
+    color: #16213e;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.15cm;
+    margin-top: 0.9cm;
+    margin-bottom: 0.4cm;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+
+h3 {
+    font-size: 12pt;
+    color: #1a1a2e;
+    margin-top: 0.7cm;
+    margin-bottom: 0.3cm;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+
+h4 {
+    font-size: 11pt;
+    color: #333;
+    margin-top: 0.5cm;
+    margin-bottom: 0.2cm;
+    font-weight: 600;
+    page-break-after: avoid;
+}
+
+/* --- Section Containers --- */
+.section {
+    page-break-before: auto;
+    page-break-inside: auto;
+}
+
+/* --- Paragraphs --- */
+p {
+    margin-top: 0.2cm;
+    margin-bottom: 0.3cm;
+    text-align: justify;
+    orphans: 3;
+    widows: 3;
+}
+
+/* --- Tables --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5cm 0;
+    font-size: 9.5pt;
+    page-break-inside: auto;
+    table-layout: fixed; /* Prevents overflow */
+}
+
+thead {
+    display: table-header-group;
+}
+
+tr {
+    page-break-inside: avoid;
+}
+
+th {
+    background-color: #0f3460;
+    color: white;
+    padding: 8pt 10pt;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    word-wrap: break-word;
+}
+
+td {
+    padding: 6pt 10pt;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+tr:nth-child(even) td {
+    background-color: #f8f9fa;
+}
+
+/* --- Code Blocks --- */
+pre {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+    padding: 12pt 14pt;
+    border-radius: 6pt;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    white-space: pre-wrap; /* Crucial for preventing overflow/clipping */
+    margin: 0.4cm 0;
+    border-left: 4px solid #e94560;
+    page-break-inside: avoid;
+    max-width: 100%;
+}
+
+code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 9pt;
+    background-color: #eef;
+    padding: 1pt 4pt;
+    border-radius: 3pt;
+    color: #c7254e;
+    overflow-wrap: break-word;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+/* --- Callout Boxes --- */
+.callout {
+    border-radius: 6pt;
+    padding: 12pt 16pt;
+    margin: 0.5cm 0;
+    page-break-inside: avoid;
+}
+
+.callout-title {
+    font-weight: 700;
+    font-size: 10pt;
+    margin-bottom: 6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}
+
+.callout-simple {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+}
+
+.callout-simple .callout-title {
+    color: #2e7d32;
+}
+
+.callout-technical {
+    background-color: #e3f2fd;
+    border-left: 5px solid #1976d2;
+}
+
+.callout-technical .callout-title {
+    color: #1565c0;
+}
+
+.callout-warning {
+    background-color: #fff3e0;
+    border-left: 5px solid #f57c00;
+}
+
+.callout-warning .callout-title {
+    color: #e65100;
+}
+
+.callout-critical {
+    background-color: #fce4ec;
+    border-left: 5px solid #e94560;
+}
+
+.callout-critical .callout-title {
+    color: #c62828;
+}
+
+.callout-info {
+    background-color: #f3e5f5;
+    border-left: 5px solid #7b1fa2;
+}
+
+.callout-info .callout-title {
+    color: #6a1b9a;
+}
+
+.callout-key-insight {
+    background-color: #fffde7;
+    border-left: 5px solid #f9a825;
+}
+
+.callout-key-insight .callout-title {
+    color: #f57f17;
+}
+
+/* --- Figures / Diagrams --- */
+.figure {
+    text-align: center;
+    margin: 0.6cm 0;
+    page-break-inside: avoid;
+}
+
+.figure img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4pt;
+}
+
+.figure-caption {
+    font-size: 9pt;
+    color: #666;
+    font-style: italic;
+    margin-top: 6pt;
+}
+
+/* --- Lists --- */
+ul, ol {
+    margin: 0.2cm 0;
+    padding-left: 1.5em;
+}
+
+li {
+    margin-bottom: 3pt;
+}
+
+/* --- Blockquotes --- */
+blockquote {
+    border-left: 4px solid #0f3460;
+    margin: 0.4cm 0;
+    padding: 8pt 16pt;
+    background-color: #f8f9fa;
+    font-style: italic;
+    color: #333;
+}
+
+/* --- Horizontal Rules --- */
+hr {
+    border: none;
+    border-top: 2px solid #e94560;
+    margin: 0.6cm 0;
+}
+
+/* --- Badge / Tag Styles --- */
+.badge {
+    display: inline-block;
+    padding: 2pt 8pt;
+    border-radius: 10pt;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+}
+
+.badge-critical { background: #e94560; color: white; }
+.badge-high { background: #f57c00; color: white; }
+.badge-medium { background: #fdd835; color: #333; }
+.badge-low { background: #66bb6a; color: white; }
+.badge-pass { background: #4caf50; color: white; }
+.badge-fail { background: #e94560; color: white; }
+
+/* --- Key-Value Display --- */
+.kv-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4pt 12pt;
+    margin: 0.3cm 0;
+    font-size: 10pt;
+}
+
+.kv-grid dt {
+    font-weight: 700;
+    color: #0f3460;
+}
+
+.kv-grid dd {
+    margin: 0;
+}
+
+/* --- ASCII Architecture Boxes --- */
+.arch-box {
+    background-color: #f5f5f5;
+    border: 2px solid #0f3460;
+    border-radius: 6pt;
+    padding: 10pt 14pt;
+    margin: 0.4cm 0;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    page-break-inside: avoid;
+}
+
+/* --- Score Gauges --- */
+.score-display {
+    text-align: center;
+    padding: 12pt;
+    border-radius: 8pt;
+    margin: 0.3cm 0;
+}
+.two-col {
+    display: flex;
+    gap: 1cm;
+    margin: 0.4cm 0;
+}
+.two-col > div { flex: 1; }
+.score-display .score-number { font-size: 36pt; font-weight: 800; }
+.score-critical { background: #fce4ec; }
+.score-critical .score-number { color: #e94560; }
+.score-good { background: #e8f5e9; }
+.score-good .score-number { color: #4caf50; }
+
+/* --- Reference List --- */
+.reference-list {
+    counter-reset: ref-counter;
+    list-style: none;
+    padding: 0;
+}
+.reference-list li {
+    counter-increment: ref-counter;
+    padding: 4pt 0 4pt 2em;
+    font-size: 9pt;
+    text-indent: -2em;
+    word-break: break-all;
+}
+.reference-list li::before {
+    content: "[" counter(ref-counter) "] ";
+    font-weight: 700;
+    color: #0f3460;
+}
+
+/* --- Q&A Format --- */
+.qa-item {
+    margin: 0.4cm 0;
+    page-break-inside: avoid;
+}
+.qa-question {
+    font-weight: 700;
+    color: #0f3460;
+    margin-bottom: 4pt;
+}
+.qa-answer {
+    padding-left: 1em;
+    border-left: 3px solid #4caf50;
+    margin-left: 0.5em;
+}
+
+/* --- Feature Matrix --- */
+.feature-matrix td:first-child { font-weight: 600; }
+.feature-matrix .yes { color: #4caf50; font-weight: 700; }
+.feature-matrix .no { color: #e94560; font-weight: 700; }
+.feature-matrix .partial { color: #f57c00; font-weight: 700; }
+
+.page-break { page-break-before: always; }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIH 26155 — NEXUS Master Report</title>
+    <!-- Use relative path to styles directory when compiling PDF -->
+    <link rel="stylesheet" href="../styles/report.css">
+</head>
+<body>
+
+    <!-- Cover Page -->
+    <div class="cover-page">
+        <div class="logo-area">
+            <span class="shield">🛡️</span>
+        </div>
+        
+        <h1 class="main-title">AI-Driven Multi-Vendor<br>Network Security Compliance Auditor</h1>
+        <h2 class="sub-title">Master Technical Research &amp; Architecture Report</h2>
+        
+        <div class="meta-block">
+            <p><strong>SIH Problem Statement:</strong> 26155</p>
+            <p><strong>Organization:</strong> National Technical Research Organisation (NTRO)</p>
+            <p><strong>Theme:</strong> Blockchain &amp; Cybersecurity</p>
+            <p><strong>Project Codename:</strong> NEXUS</p>
+            <p><strong>Date:</strong> August 2026</p>
+        </div>
+        
+        <div class="bottom-bar">
+            Prepared exclusively for SIH 2026 Evaluation • Confidential
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc-page">
+        <h1>Table of Contents</h1>
+        <ul class="toc-list">
+            {% for entry_id, title, level in toc_entries %}
+            <li class="toc-h{{ level }}">
+                <a href="#{{ entry_id }}">{{ title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        {{ content }}
+    </div>
+
+</body>
+</html>

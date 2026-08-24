@@ -1,0 +1,324 @@
+{
+  "vendor": "fortinet",
+  "samples": [
+    {
+      "filename": "fortinet_compliant_01.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_compliant_02.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_telnet_enabled.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": true,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_weak_admin.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 0,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": true,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "FAIL",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "FAIL",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_snmp_public.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_no_syslog.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_no_ntp.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": false,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "FAIL",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_multi_violation.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": true,
+        "management.session_timeout": 0,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": true,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "FAIL",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "FAIL",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_many_violations.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 1,
+        "management.telnet.enabled": true,
+        "management.session_timeout": 0,
+        "authentication.aaa_enabled": false,
+        "logging.syslog.enabled": false,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": true,
+        "time.ntp.enabled": false,
+        "services.http_server_enabled": true,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "FAIL",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "FAIL",
+        "NET-AAA-001": "FAIL",
+        "NET-LOG-001": "FAIL",
+        "NET-NTP-001": "FAIL",
+        "NET-SNMP-001": "FAIL",
+        "NET-HTTP-001": "FAIL",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_noisy.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    },
+    {
+      "filename": "fortinet_format_variant.conf",
+      "expected_vendor_detection": "fortinet",
+      "expected_platform": "FortiOS",
+      "expected_normalized": {
+        "management.ssh.enabled": true,
+        "management.ssh.version": 2,
+        "management.telnet.enabled": false,
+        "management.session_timeout": 600,
+        "authentication.aaa_enabled": true,
+        "logging.syslog.enabled": true,
+        "logging.syslog.server": "10.1.1.100",
+        "snmp.default_community": false,
+        "time.ntp.enabled": true,
+        "services.http_server_enabled": false,
+        "management.login_banner": "Authorized Access Only"
+      },
+      "expected_compliance": {
+        "NET-SSH-001": "PASS",
+        "NET-SSH-002": "PASS",
+        "NET-SSH-003": "PASS",
+        "NET-AAA-001": "PASS",
+        "NET-LOG-001": "PASS",
+        "NET-NTP-001": "PASS",
+        "NET-SNMP-001": "PASS",
+        "NET-HTTP-001": "PASS",
+        "NET-BAN-001": "PASS"
+      }
+    }
+  ]
+}
