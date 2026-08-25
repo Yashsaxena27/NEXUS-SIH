@@ -44,7 +44,10 @@ def test_health_check():
     with TestClient(app) as client:
         response = client.get("/api/v1/health")
         assert response.status_code == 200
-        assert response.json() == {"status": "healthy", "version": "0.1.0"}
+        assert response.json()["status"] == "healthy"
+        assert response.json()["version"] == "0.1.0"
+        assert "database" in response.json()
+        assert "ai_available" in response.json()
 
 def test_scan_config_success():
     payload = {

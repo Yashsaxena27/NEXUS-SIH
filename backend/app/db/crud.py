@@ -1,3 +1,5 @@
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.app.schemas.api import ScanResultResponse
 from backend.app.db.models import ScanRecord, FindingRecord
@@ -29,6 +31,11 @@ async def save_scan_result(db: AsyncSession, scan_result: ScanResultResponse, no
             title=finding.control_title,
             status=finding.status.value,
             severity=finding.severity.value,
+            category=finding.category or "",
+            frameworks_json=finding.frameworks or [],
+            expected=str(finding.expected) if finding.expected is not None else None,
+            actual=str(finding.actual) if finding.actual is not None else None,
+            remediation_hint=finding.remediation_hint,
             evidence_json={
                 "evidence_field": finding.evidence_field,
                 "evidence_source": finding.evidence_source,
@@ -41,3 +48,19 @@ async def save_scan_result(db: AsyncSession, scan_result: ScanResultResponse, no
         
     await db.commit()
     return scan_record
+
+
+async def get_all_scans(db: AsyncSession) -> list[ScanRecord]:
+    """Get all scans ordered by created_at DESC."""
+    result = await db.execute(select(ScanRecord).order_by(ScanRecord.created_at.desc()))
+    return list(result.scalars().all())
+
+
+async def get_scan_with_findings(db: AsyncSession, scan_id: str):
+    """Get a single scan with its findings."""
+    result = await db.execute(
+        select(ScanRecord)
+        .options(selectinload(ScanRecord.findings))
+        .where(ScanRecord.id == scan_id)
+    )
+    return result.scalar_one_or_none()

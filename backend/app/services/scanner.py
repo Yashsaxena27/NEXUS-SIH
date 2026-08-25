@@ -33,7 +33,7 @@ class ScannerService:
         total = len(report.findings)
         passed = sum(1 for f in report.findings if f.status.value == "PASS")
         failed = sum(1 for f in report.findings if f.status.value == "FAIL")
-        unknown = sum(1 for f in report.findings if f.status.value == "UNKNOWN")
+        unknown = sum(1 for f in report.findings if f.status.value.startswith("UNKNOWN"))
         
         response = ScanResultResponse(
             scan_id=scan_id,

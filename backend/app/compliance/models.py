@@ -18,6 +18,8 @@ class ComplianceStatus(str, Enum):
     PASS = "PASS"
     FAIL = "FAIL"
     UNKNOWN = "UNKNOWN"
+    UNKNOWN_ABSENT = "UNKNOWN_ABSENT"
+    UNKNOWN_PARSE_ERROR = "UNKNOWN_PARSE_ERROR"
 
 
 class ControlSeverity(str, Enum):

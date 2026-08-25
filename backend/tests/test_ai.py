@@ -87,6 +87,6 @@ def test_config_redaction():
         redacted = response.json()["redacted_config"]
         
         assert "MySecretString" not in redacted
-        assert "<REDACTED_COMMUNITY>" in redacted
+        assert "<COMMUNITY_REDACTED>" in redacted
         assert "$1$mERr$4/235q3" not in redacted
-        assert "<REDACTED_HASH>" in redacted
+        assert "<SECRET_REDACTED>" in redacted

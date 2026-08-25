@@ -44,7 +44,7 @@ def test_unknown_when_missing():
     )
     # version is None by default
     finding = engine.evaluate_control(control, config)
-    assert finding.status == ComplianceStatus.UNKNOWN
+    assert finding.status == ComplianceStatus.UNKNOWN_ABSENT
 
 def test_scoring():
     engine = ComplianceEngine([])

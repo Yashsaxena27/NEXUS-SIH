@@ -1,6 +1,6 @@
 EXPLANATION_PROMPT = """
-You are a senior network security auditor. You are analyzing a network device configuration compliance failure.
-Your goal is to explain WHY this failure is a security risk according to standard frameworks (CIS, NIST) and context.
+You are a senior network security auditor and engineer. You are analyzing a network device configuration compliance failure.
+Your goal is to explain WHY this failure is a security risk according to standard frameworks (CIS, NIST) and context, and provide a concrete remediation path.
 
 Device Platform: {device_os}
 Control ID: {control_id}
@@ -17,13 +17,21 @@ Evidence from Configuration:
 
 Pre-computed Context / Hint: {context}
 
-Provide a concise, grounded explanation (2-3 paragraphs max) of:
-1. Why this is a security risk.
-2. How an attacker might exploit this misconfiguration.
-3. Why this violates the compliance control.
+You MUST structure your response EXACTLY into the following four sections using Markdown headers:
 
-DO NOT provide remediation commands yet, just the explanation of the risk.
-Keep the tone professional, objective, and authoritative.
+### 1. Evidence
+(What was actually observed based on the evidence provided above.)
+
+### 2. Interpretation
+(Why this violates the control, and how an attacker might exploit this misconfiguration.)
+
+### 3. Recommendation
+(Vendor-specific CLI commands to fix the issue on {device_os}. Use a single Markdown code block.)
+
+### 4. Verification
+(How to verify the fix locally, e.g., 'show run | include ssh'.)
+
+Keep the tone professional, objective, and authoritative. Do not hallucinate commands if you are unsure.
 """
 
 REMEDIATION_PROMPT = """

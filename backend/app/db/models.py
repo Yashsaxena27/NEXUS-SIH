@@ -13,6 +13,7 @@ class ScanRecord(Base):
     
     id = Column(String, primary_key=True, default=generate_uuid)
     created_at = Column(DateTime, default=datetime.utcnow)
+    scan_name = Column(String, nullable=True)
     
     vendor = Column(String, nullable=False)
     platform = Column(String, nullable=True)
@@ -42,8 +43,20 @@ class FindingRecord(Base):
     status = Column(String, nullable=False)  # PASS, FAIL, UNKNOWN
     severity = Column(String, nullable=False)
     
+    category = Column(String, nullable=True)
+    frameworks_json = Column(JSON, nullable=True)
+    expected = Column(String, nullable=True)
+    actual = Column(String, nullable=True)
+    remediation_hint = Column(String, nullable=True)
+    
     # Store evidence and context
     evidence_json = Column(JSON, nullable=True)
     explanation_context = Column(String, nullable=True)
+    
+    category = Column(String, nullable=True)
+    frameworks_json = Column(JSON, nullable=True)
+    expected = Column(String, nullable=True)
+    actual = Column(String, nullable=True)
+    remediation_hint = Column(String, nullable=True)
     
     scan = relationship("ScanRecord", back_populates="findings")

@@ -60,12 +60,24 @@ class FortinetAdapter(BaseVendorAdapter):
             
         snmp = SNMPConfig(community_string=snmp_comm, default_community=snmp_default)
         
-        syslog_enabled = bool(self._find_first_line(raw_config, r"set status enable") and self._find_first_line(raw_config, r"config log syslogd setting"))
-        if syslog_enabled:
-            syslog_line = self._find_first_line(raw_config, r"set status enable")
-            evidence.append(self._make_evidence("logging.syslog.enabled", True, f"line {syslog_line[0]}", syslog_line[1]))
+        from backend.app.normalization.parsers.block_parser import KeywordBlockParser
+        parser = KeywordBlockParser(raw_config)
+        
+        syslog_block = parser.get_block("log syslogd setting")
+        syslog_enabled = False
+        syslog_server = None
+        
+        if syslog_block:
+            enable_line = syslog_block.get_command("set status enable")
+            if enable_line:
+                syslog_enabled = True
+                evidence.append(self._make_evidence("logging.syslog.enabled", True, f"block {syslog_block.parent_line}", enable_line))
             
-        syslog_server, _ = add_evidence("logging.syslog.server", None, r"set server\s+(\S+)")
+            server_line = syslog_block.get_command("set server")
+            if server_line:
+                syslog_server = self._extract_value(server_line, r"set server\s+\"?([^\s\"]+)\"?")
+                evidence.append(self._make_evidence("logging.syslog.server", syslog_server, f"block {syslog_block.parent_line}", server_line))
+                
         logging = LoggingConfig(syslog=SyslogConfig(enabled=syslog_enabled, server=syslog_server))
         
         ntp_enabled = bool(self._find_first_line(raw_config, r"set ntpsync enable"))
@@ -77,7 +89,9 @@ class FortinetAdapter(BaseVendorAdapter):
         
         # FortiOS defaults to SSH enabled on mgmt
         ssh_enabled = True
+        ssh_version = 2
         evidence.append(self._make_evidence("management.ssh.enabled", True, None, None, method=InterpretationMethod.DEFAULT_ASSUMED))
+        evidence.append(self._make_evidence("management.ssh.version", 2, None, None, method=InterpretationMethod.DEFAULT_ASSUMED))
         
         telnet_line = self._find_first_line(raw_config, r"set admin-telnet enable")
         telnet_enabled = bool(telnet_line)
@@ -95,14 +109,14 @@ class FortinetAdapter(BaseVendorAdapter):
         authentication = AuthenticationConfig(aaa_enabled=aaa_enabled)
 
         # HTTP Server (Services)
-        http_service = bool(self._find_first_line(raw_config, r"set admin-http enable") or self._find_first_line(raw_config, r"set admin-port 80"))
+        http_service = bool(self._find_first_line(raw_config, r"set admin-http enable") or self._find_first_line(raw_config, r"set admin-port 80") or self._find_first_line(raw_config, r"set admin-sport 80"))
         if http_service:
-            http_svc_line = self._find_first_line(raw_config, r"set admin-http enable") or self._find_first_line(raw_config, r"set admin-port 80")
+            http_svc_line = self._find_first_line(raw_config, r"set admin-http enable") or self._find_first_line(raw_config, r"set admin-port 80") or self._find_first_line(raw_config, r"set admin-sport 80")
             evidence.append(self._make_evidence("services.http_server_enabled", True, f"line {http_svc_line[0]}", http_svc_line[1]))
         services = ServicesConfig(http_server_enabled=http_service)
 
         management = ManagementConfig(
-            ssh=SSHConfig(enabled=ssh_enabled),
+            ssh=SSHConfig(enabled=ssh_enabled, version=ssh_version),
             telnet=TelnetConfig(enabled=telnet_enabled),
             http_admin=HttpAdminConfig(enabled=http_admin),
             session_timeout=timeout_sec

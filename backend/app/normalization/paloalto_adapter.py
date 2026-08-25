@@ -40,20 +40,20 @@ class PaloAltoAdapter(BaseVendorAdapter):
         
         banner_val, _ = add_evidence("management.login_banner", None, r"set deviceconfig system login-banner\s+\"(.+)\"")
         
-        telnet_disabled = bool(self._find_first_line(raw_config, r"set deviceconfig system service disable-telnet yes"))
+        telnet_disabled = bool(self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+service\s+disable-telnet\s+yes"))
         if telnet_disabled:
-            telnet_line = self._find_first_line(raw_config, r"set deviceconfig system service disable-telnet yes")
+            telnet_line = self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+service\s+disable-telnet\s+yes")
             evidence.append(self._make_evidence("management.telnet.enabled", False, f"line {telnet_line[0]}", telnet_line[1]))
             # Imply SSH is primary
             evidence.append(self._make_evidence("management.ssh.enabled", True, f"line {telnet_line[0]}", telnet_line[1]))
         ssh_enabled = telnet_disabled
             
-        http_disabled = bool(self._find_first_line(raw_config, r"set deviceconfig system service disable-http yes"))
+        http_disabled = bool(self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+service\s+disable-http\s+yes"))
         if http_disabled:
-            http_line = self._find_first_line(raw_config, r"set deviceconfig system service disable-http yes")
+            http_line = self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+service\s+disable-http\s+yes")
             evidence.append(self._make_evidence("management.http_admin.enabled", False, f"line {http_line[0]}", http_line[1]))
             
-        timeout_val, _ = add_evidence("management.session_timeout", None, r"set deviceconfig system idle-timeout\s+(\d+)")
+        timeout_val, _ = add_evidence("management.session_timeout", None, r"set\s+deviceconfig\s+system\s+idle-timeout\s+(\d+)")
         timeout_sec = int(timeout_val) * 60 if timeout_val else None
         if timeout_val:
             evidence[-1].value = timeout_sec
@@ -66,14 +66,14 @@ class PaloAltoAdapter(BaseVendorAdapter):
             login_banner=banner_val
         )
         
-        syslog_line = self._find_first_line(raw_config, r"set shared log-settings syslog")
+        syslog_line = self._find_first_line(raw_config, r"set\s+shared\s+log-settings\s+syslog")
         syslog_enabled = bool(syslog_line)
         if syslog_line:
             evidence.append(self._make_evidence("logging.syslog.enabled", True, f"line {syslog_line[0]}", syslog_line[1]))
             
         logging = LoggingConfig(syslog=SyslogConfig(enabled=syslog_enabled))
         
-        ntp_line = self._find_first_line(raw_config, r"set deviceconfig system ntp-servers")
+        ntp_line = self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+ntp-servers")
         ntp_enabled = bool(ntp_line)
         if ntp_line:
             evidence.append(self._make_evidence("time.ntp.enabled", True, f"line {ntp_line[0]}", ntp_line[1]))

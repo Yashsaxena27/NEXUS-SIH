@@ -416,7 +416,7 @@ class TestFullPipeline:
         assert telnet.status.value == "FAIL"
 
         banner = self._find_finding(report, "NET-BAN-001")
-        assert banner.status.value in ("FAIL", "UNKNOWN")
+        assert banner.status.value in ("FAIL", "UNKNOWN", "UNKNOWN_ABSENT")
 
         syslog = self._find_finding(report, "NET-LOG-001")
         assert syslog.status.value == "FAIL"

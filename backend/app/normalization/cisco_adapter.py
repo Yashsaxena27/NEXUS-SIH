@@ -48,18 +48,25 @@ class CiscoAdapter(BaseVendorAdapter):
         version_val, _ = add_evidence("device.version", None, r"^version (\S+)")
         device = self._make_device_info(hostname=hostname_val, version=version_val)
         
-        # Management
+        # Management (VTY Block)
         ssh_enabled = False
         ssh_version = None
         telnet_enabled = False
-        ssh_line = self._find_first_line(raw_config, r"transport input .*ssh.*")
-        if ssh_line:
-            ssh_enabled = True
-            evidence.append(self._make_evidence("management.ssh.enabled", True, f"line {ssh_line[0]}", ssh_line[1]))
-        telnet_line = self._find_first_line(raw_config, r"transport input .*telnet.*")
-        if telnet_line:
-            telnet_enabled = True
-            evidence.append(self._make_evidence("management.telnet.enabled", True, f"line {telnet_line[0]}", telnet_line[1]))
+        
+        from backend.app.normalization.parsers.block_parser import IndentBlockParser
+        parser = IndentBlockParser(raw_config)
+        vty_block = parser.get_block("line vty")
+        
+        if vty_block:
+            # Check transport input inside VTY block
+            ssh_line = vty_block.get_command("transport input")
+            if ssh_line:
+                if "ssh" in ssh_line or "all" in ssh_line:
+                    ssh_enabled = True
+                    evidence.append(self._make_evidence("management.ssh.enabled", True, f"line {vty_block.parent_line}", ssh_line))
+                if "telnet" in ssh_line or "all" in ssh_line:
+                    telnet_enabled = True
+                    evidence.append(self._make_evidence("management.telnet.enabled", True, f"line {vty_block.parent_line}", ssh_line))
             
         ssh_ver_val, _ = add_evidence("management.ssh.version", None, r"^ip ssh version (\d+)")
         if ssh_ver_val:
@@ -74,10 +81,17 @@ class CiscoAdapter(BaseVendorAdapter):
             session_timeout = int(mins) * 60 + int(secs)
             evidence.append(self._make_evidence("management.session_timeout", session_timeout, f"line {timeout_match[0]}", timeout_match[1]))
             
-        banner_line = self._find_first_line(raw_config, r"^banner login")
-        banner_val = banner_line[1] if banner_line else None
-        if banner_line:
-            evidence.append(self._make_evidence("management.login_banner", banner_val, f"line {banner_line[0]}", banner_line[1]))
+        banner_val = None
+        banner_match = self._find_first_line(raw_config, r"^banner login")
+        if banner_match:
+            line_no, line_text = banner_match
+            import re
+            m = re.search(r"^banner login\s+(\S+)\s+(.+?)\s+\1$", line_text)
+            if m:
+                banner_val = m.group(2)
+            else:
+                banner_val = line_text.replace("banner login", "").strip()
+            evidence.append(self._make_evidence("management.login_banner", banner_val, f"line {line_no}", line_text))
         http_en_line = self._find_first_line(raw_config, r"^ip http server")
         http_dis_line = self._find_first_line(raw_config, r"^no ip http server")
         http_enabled = bool(http_en_line) and not bool(http_dis_line)

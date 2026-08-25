@@ -132,7 +132,7 @@ def evaluate_compliance(samples: list[dict], results: dict[str, dict]) -> dict:
             total += 1
             actual_status = actual_findings.get(control_id, "UNKNOWN")
 
-            if actual_status == "UNKNOWN":
+            if actual_status in ["UNKNOWN", "UNKNOWN_ABSENT", "UNKNOWN_PARSE_ERROR"]:
                 unknowns += 1
                 continue
 
@@ -201,18 +201,22 @@ def _resolve_dotpath(obj: dict, path: str) -> Any:
     return current
 
 
-def run_benchmark() -> dict:
-    """Run the full evaluation benchmark."""
-    gt_dir = PROJECT_ROOT / "dataset" / "ground_truth"
-    samples_dir = PROJECT_ROOT / "dataset" / "samples"
+def run_benchmark(dataset_name: str = "benchmark_a_synthetic") -> dict:
+    """Run the full evaluation benchmark on a specific dataset."""
+    dataset_dir = PROJECT_ROOT / "dataset" / dataset_name
+    gt_dir = dataset_dir / "ground_truth"
+    samples_dir = dataset_dir / "samples"
 
     if not gt_dir.exists():
-        print(f"ERROR: Ground truth directory not found: {gt_dir}")
+        print(f"  No ground truth for {dataset_name}. Skipping.")
         return {}
 
     # Load ground truth
     samples = load_ground_truth(gt_dir)
-    print(f"Loaded {len(samples)} ground truth samples")
+    print(f"Loaded {len(samples)} ground truth samples from {dataset_name}")
+
+    if not samples:
+        return {}
 
     # Import pipeline components
     try:
@@ -222,7 +226,6 @@ def run_benchmark() -> dict:
         from backend.app.compliance.loader import load_all_controls
     except ImportError as e:
         print(f"ERROR: Could not import pipeline components: {e}")
-        print("Make sure all modules are implemented.")
         return {}
 
     # Load compliance controls
@@ -273,14 +276,14 @@ def run_benchmark() -> dict:
             "normalized_config": normalized_dict,
             "findings": findings_dict,
         }
-        print(f"  OK: {filename} ({detected_vendor}, {len(findings_dict)} checks)")
 
     # Evaluate
     vendor_metrics = evaluate_vendor_detection(samples, results)
     norm_metrics = evaluate_normalization(samples, results)
     compliance_metrics = evaluate_compliance(samples, results)
 
-    report = {
+    return {
+        "dataset": dataset_name,
         "total_samples": len(samples),
         "processed": len(results),
         "vendor_detection": vendor_metrics,
@@ -288,34 +291,41 @@ def run_benchmark() -> dict:
         "compliance": compliance_metrics,
     }
 
-    # Print summary
+
+def run_all_benchmarks():
+    """Run all benchmarks and save results."""
+    datasets = [
+        "benchmark_a_synthetic",
+        "benchmark_b_unseen",
+        "benchmark_c_real_world",
+        "benchmark_d_edge"
+    ]
+    
+    all_reports = {}
+    
     print("\n" + "=" * 60)
-    print("NEXUS EVALUATION BENCHMARK RESULTS")
+    print("NEXUS EVALUATION BENCHMARK SUITE")
     print("=" * 60)
-    print(f"\nSamples: {report['total_samples']} | Processed: {report['processed']}")
-    print(f"\nVendor Detection:")
-    print(f"  Accuracy: {vendor_metrics['accuracy']:.1%} ({vendor_metrics['correct']}/{vendor_metrics['total']})")
-    print(f"\nNormalization:")
-    print(f"  Accuracy: {norm_metrics['accuracy']:.1%} ({norm_metrics['correct']}/{norm_metrics['total']})")
-    print(f"\nCompliance:")
-    print(f"  Accuracy:  {compliance_metrics['accuracy']:.1%}")
-    print(f"  Precision: {compliance_metrics['precision']:.1%}")
-    print(f"  Recall:    {compliance_metrics['recall']:.1%}")
-    print(f"  F1 Score:  {compliance_metrics['f1_score']:.1%}")
-    print(f"  FP Rate:   {compliance_metrics['false_positive_rate']:.1%}")
-    print(f"  FN Rate:   {compliance_metrics['false_negative_rate']:.1%}")
-    print(f"  Unknown:   {compliance_metrics['unknown_rate']:.1%}")
-    print(f"\n  TP={compliance_metrics['true_positives']} TN={compliance_metrics['true_negatives']} FP={compliance_metrics['false_positives']} FN={compliance_metrics['false_negatives']} UNK={compliance_metrics['unknowns']}")
+
+    for ds in datasets:
+        print(f"\n--- Running {ds} ---")
+        report = run_benchmark(ds)
+        if report:
+            all_reports[ds] = report
+            
+            nm = report["normalization"]
+            cm = report["compliance"]
+            
+            print(f"  Norm Accuracy: {nm['accuracy']:.1%} | Unknown Rate: {cm.get('unknown_rate', 0):.1%}")
+            print(f"  Comp Precision: {cm.get('precision', 0):.1%} | Comp Recall: {cm.get('recall', 0):.1%}")
 
     # Save results
     results_path = PROJECT_ROOT / "evaluation" / "results.json"
     results_path.parent.mkdir(parents=True, exist_ok=True)
     with open(results_path, "w") as f:
-        json.dump(report, f, indent=2)
-    print(f"\nResults saved to: {results_path}")
-
-    return report
+        json.dump(all_reports, f, indent=2)
+    print(f"\nAll results saved to: {results_path}")
 
 
 if __name__ == "__main__":
-    run_benchmark()
+    run_all_benchmarks()

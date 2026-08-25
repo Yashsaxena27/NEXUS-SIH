@@ -53,7 +53,7 @@ class ComplianceEngine:
             if req.operator == ControlOperator.NOT_EXISTS:
                 status = ComplianceStatus.PASS
             else:
-                status = ComplianceStatus.UNKNOWN
+                status = ComplianceStatus.UNKNOWN_ABSENT
         else:
             status = self._evaluate_operator(actual, req.operator, req.value, req.value_max)
             
