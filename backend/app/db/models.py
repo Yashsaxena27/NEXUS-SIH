@@ -30,6 +30,16 @@ class ScanRecord(Base):
     # Store the entire normalized IR as JSON for future reference
     normalized_config_json = Column(JSON, nullable=True)
     
+    # Store vulnerabilities
+    vulnerabilities_json = Column(JSON, nullable=True)
+    
+    # Framework alignments
+    framework_alignments_json = Column(JSON, nullable=True)
+    
+    # Tamper-Evident Audit Trail
+    previous_hash = Column(String, nullable=True)
+    current_hash = Column(String, nullable=True)
+    
     findings = relationship("FindingRecord", back_populates="scan", cascade="all, delete-orphan")
 
 class FindingRecord(Base):
@@ -45,6 +55,7 @@ class FindingRecord(Base):
     
     category = Column(String, nullable=True)
     frameworks_json = Column(JSON, nullable=True)
+    framework_mappings_json = Column(JSON, nullable=True)
     expected = Column(String, nullable=True)
     actual = Column(String, nullable=True)
     remediation_hint = Column(String, nullable=True)
@@ -52,11 +63,39 @@ class FindingRecord(Base):
     # Store evidence and context
     evidence_json = Column(JSON, nullable=True)
     explanation_context = Column(String, nullable=True)
-    
-    category = Column(String, nullable=True)
-    frameworks_json = Column(JSON, nullable=True)
-    expected = Column(String, nullable=True)
-    actual = Column(String, nullable=True)
-    remediation_hint = Column(String, nullable=True)
+    exact_remediation_json = Column(JSON, nullable=True)
     
     scan = relationship("ScanRecord", back_populates="findings")
+    
+class RAGDocument(Base):
+    __tablename__ = "rag_documents"
+    
+    id = Column(String, primary_key=True, default=generate_uuid)
+    source_id = Column(String, nullable=False)
+    title = Column(String, nullable=False)
+    authority = Column(String, nullable=False)
+    control = Column(String, nullable=True)
+    text = Column(String, nullable=False)
+    
+    # Simple JSON representation of the embedding array [0.12, -0.45, ...]
+    embedding_json = Column(JSON, nullable=False)
+
+class AdaptiveRule(Base):
+    __tablename__ = "adaptive_rules"
+    
+    id = Column(String, primary_key=True, default=generate_uuid)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    vendor = Column(String, nullable=False)
+    raw_pattern = Column(String, nullable=False)
+    mapped_control = Column(String, nullable=False)
+    mapped_value_json = Column(JSON, nullable=False)
+    
+    status = Column(String, default="APPROVED") # PENDING, APPROVED, REJECTED
+
+class AppSetting(Base):
+    __tablename__ = "app_settings"
+    
+    key = Column(String, primary_key=True)
+    value = Column(String, nullable=False)
+

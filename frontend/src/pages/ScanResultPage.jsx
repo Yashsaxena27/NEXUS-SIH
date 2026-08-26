@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CheckCircle, ArrowRight, ShieldAlert } from 'lucide-react';
 import { useScan } from '../context/ScanContext';
-import { getScanDetail } from '../services/api';
+import { getScanDetail, getCsvExportUrl } from '../services/api';
 import { SEVERITY_CONFIG, STATUS_CONFIG, VENDORS } from '../utils/constants';
 import { formatScore, getScoreColor, getRiskLevel } from '../utils/formatters';
+import AttackGraph from '../components/AttackGraph';
+import ScanChat from '../components/ScanChat';
 
 export default function ScanResultPage() {
   const navigate = useNavigate();
@@ -100,8 +102,73 @@ export default function ScanResultPage() {
         </div>
       )}
 
-      <div className="flex justify-center gap-3">
+      {scan.correlation_summary && (
+        <div className="glass-panel animate-fade-in-up" style={{ padding: '1.25rem', marginBottom: '1.5rem', borderLeft: '4px solid var(--warning-color)' }}>
+          <div className="stat-card-label" style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <ShieldAlert size={16} style={{ color: 'var(--warning-color)' }} /> Correlation Intelligence
+          </div>
+          <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            {scan.correlation_summary}
+          </div>
+        </div>
+      )}
+      
+      {/* Framework Alignments */}
+      {scan.framework_alignments && Object.keys(scan.framework_alignments).length > 0 && (
+      <div className="glass-panel animate-fade-in-up" style={{ padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <div className="stat-card-label" style={{ marginBottom: '1rem' }}>Framework Alignment Score</div>
+        <div className="grid grid-3" style={{ gap: '1rem' }}>
+          {Object.entries(scan.framework_alignments).map(([fw, score]) => (
+            <div key={fw}>
+               <div className="flex justify-between items-center" style={{ fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                 <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{fw}</span>
+                 <span style={{ fontWeight: 600, color: getScoreColor(score) }}>{score}%</span>
+               </div>
+               <div style={{ height: 6, background: 'var(--surface-border)', borderRadius: 3, overflow: 'hidden' }}>
+                 <div style={{ width: `${score}%`, height: '100%', background: getScoreColor(score), borderRadius: 3, transition: 'width 0.8s ease' }} />
+               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      )}
+
+      {/* Vulnerabilities */}
+      {scan.vulnerabilities && scan.vulnerabilities.length > 0 && (
+      <div className="glass-panel animate-fade-in-up" style={{ padding: '1.25rem', marginBottom: '1.5rem', border: '1px solid var(--error-color)' }}>
+        <div className="stat-card-label" style={{ marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <ShieldAlert size={16} style={{ color: 'var(--error-color)' }} /> Vulnerability Intelligence (CVE)
+        </div>
+        <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+          Detected vulnerabilities matching {VENDORS[scan.vendor]?.label || scan.vendor} version '{scan.vulnerabilities[0].affected_version}'.
+        </div>
+        <table className="data-table">
+          <thead>
+            <tr><th>CVE ID</th><th>Severity</th><th>CVSS</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            {scan.vulnerabilities.map(v => (
+              <tr key={v.cve_id}>
+                <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{v.cve_id}</td>
+                <td><span className="badge" style={{ background: SEVERITY_CONFIG[v.severity]?.bg, color: SEVERITY_CONFIG[v.severity]?.color, border: `1px solid ${SEVERITY_CONFIG[v.severity]?.border}` }}>{v.severity}</span></td>
+                <td>{v.cvss_score}</td>
+                <td style={{ fontSize: '0.8rem' }}>{v.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      )}
+
+      <AttackGraph scanId={scan.id} />
+      <div className="no-print">
+        <ScanChat scanId={scan.id} />
+      </div>
+
+      <div className="flex justify-center gap-3 no-print">
         <button className="btn btn-primary" onClick={() => navigate('/findings')}><ShieldAlert size={16} /> View All Findings</button>
+        <button className="btn btn-secondary" onClick={() => window.open(getCsvExportUrl(scan.id), '_blank')}>Export CSV</button>
+        <button className="btn btn-secondary" onClick={() => window.print()}>Print / Save PDF</button>
         <button className="btn btn-secondary" onClick={() => navigate('/scan/new')}>New Scan</button>
       </div>
     </div>

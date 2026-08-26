@@ -8,7 +8,7 @@ import { formatDate, formatScore, getRiskLevel, getScoreColor, countBy } from '.
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [scans, setScans] = useState(null);
-  const [latestFindings, setLatestFindings] = useState([]);
+  const [_latestFindings, setLatestFindings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -58,13 +58,15 @@ export default function DashboardPage() {
   const totalUnknown = scans.reduce((s, x) => s + x.unknown_controls, 0);
   const vendorCounts = countBy(scans, 'vendor');
 
+  const latestFindings = scans[0]?.findings || _latestFindings;
   const sevCounts = { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 };
-  latestFindings.filter(f => f.status === 'FAIL').forEach(f => {
+  _latestFindings.filter(f => f.status === 'FAIL').forEach(f => {
     if (sevCounts[f.severity] !== undefined) sevCounts[f.severity]++;
   });
   const maxSev = Math.max(...Object.values(sevCounts), 1);
+  const latestAlignments = scans[0]?.framework_alignments || {};
 
-  const topRisks = latestFindings.filter(f => f.status === 'FAIL').sort((a, b) => {
+  const topRisks = _latestFindings.filter(f => f.status === 'FAIL').sort((a, b) => {
     const order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
     return (order[a.severity] ?? 4) - (order[b.severity] ?? 4);
   }).slice(0, 5);
@@ -141,7 +143,7 @@ export default function DashboardPage() {
         <div className="glass-panel animate-fade-in-up stagger-5" style={{ padding: '1.25rem' }}>
           <div className="flex justify-between items-center" style={{ marginBottom: '0.75rem' }}>
             <div className="stat-card-label" style={{ margin: 0 }}>Top Security Risks</div>
-            {latestFindings.length > 0 && <button className="btn btn-ghost btn-sm" onClick={() => navigate('/findings')}>View All <ArrowRight size={14} /></button>}
+            {_latestFindings.length > 0 && <button className="btn btn-ghost btn-sm" onClick={() => navigate('/findings')}>View All <ArrowRight size={14} /></button>}
           </div>
           {topRisks.length === 0 && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', padding: '1rem 0' }}>No failed controls in latest scan</div>}
           {topRisks.map(f => (
@@ -156,6 +158,26 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      
+      {/* Framework Alignments */}
+      {Object.keys(latestAlignments).length > 0 && (
+      <div className="glass-panel animate-fade-in-up" style={{ padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <div className="stat-card-label" style={{ marginBottom: '1rem' }}>Latest Framework Alignment</div>
+        <div className="grid grid-3" style={{ gap: '1rem' }}>
+          {Object.entries(latestAlignments).map(([fw, score]) => (
+            <div key={fw}>
+               <div className="flex justify-between items-center" style={{ fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                 <span style={{ fontWeight: 500, color: 'var(--text-primary)' }}>{fw}</span>
+                 <span style={{ fontWeight: 600, color: getScoreColor(score) }}>{score}%</span>
+               </div>
+               <div style={{ height: 6, background: 'var(--surface-border)', borderRadius: 3, overflow: 'hidden' }}>
+                 <div style={{ width: `${score}%`, height: '100%', background: getScoreColor(score), borderRadius: 3, transition: 'width 0.8s ease' }} />
+               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      )}
 
       {/* Recent Scans */}
       <div className="glass-panel animate-fade-in-up" style={{ padding: '1.25rem' }}>

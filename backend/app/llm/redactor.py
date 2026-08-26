@@ -20,9 +20,13 @@ class ConfigRedactor:
         (re.compile(r'\b(?:[0-9A-Fa-f]{2}[:-]){5}(?:[0-9A-Fa-f]{2})\b'), r'<MAC_REDACTED>'),
         (re.compile(r'\b(?:[0-9A-Fa-f]{4}\.){2}[0-9A-Fa-f]{4}\b'), r'<MAC_REDACTED>'), # Cisco format
 
-        # Cisco Passwords & Hashes (e.g. enable secret 5 <hash>, username X password 7 <hash>)
-        (re.compile(r'(password\s+(?:\d+\s+)?)(\S+)', re.IGNORECASE), r'\1<PASSWORD_REDACTED>'),
+        # Cisco/Fortinet/Juniper Passwords & Hashes
+        (re.compile(r'(password\s+(?:ENC\s+|\d+\s+)?)(\S+)', re.IGNORECASE), r'\1<PASSWORD_REDACTED>'),
         (re.compile(r'(secret\s+(?:\d+\s+)?)(\S+)', re.IGNORECASE), r'\1<SECRET_REDACTED>'),
+        (re.compile(r'(root-authentication\s+encrypted-password\s+)(["\']?)([^"\'\s]+)(["\']?)', re.IGNORECASE), r'\1\2<PASSWORD_REDACTED>\4'),
+        
+        # SSH Keys (ssh-rsa, ssh-ed25519)
+        (re.compile(r'(ssh-(?:rsa|ed25519|dss)\s+)([A-Za-z0-9+/=]+)', re.IGNORECASE), r'\1<KEY_REDACTED>'),
         
         # SNMP Communities
         (re.compile(r'(snmp-server\s+community\s+)(\S+)', re.IGNORECASE), r'\1<COMMUNITY_REDACTED>'),
@@ -30,8 +34,9 @@ class ConfigRedactor:
         (re.compile(r'(set\s+name\s+["\']?)([^"\'\s]+)(["\']?)', re.IGNORECASE), r'\1<COMMUNITY_REDACTED>\3'),
 
         # Cryptographic Keys (e.g., PSK, crypto keys)
-        (re.compile(r'(crypto\s+key\s+\S+\s+)([a-zA-Z0-9\/\+\=\n]+)', re.IGNORECASE), r'\1<KEY_REDACTED>'),
+        (re.compile(r'(crypto\s+key\s+\S+\s+)([a-zA-Z0-9\/\+\=]{20,})', re.IGNORECASE), r'\1<KEY_REDACTED>'),
         (re.compile(r'(pre-shared-key\s+(?:ascii-text|hexadecimal)\s+)(\S+)', re.IGNORECASE), r'\1<PSK_REDACTED>'),
+        (re.compile(r'(set\s+psksecret\s+)(["\']?)([^"\'\s]+)(["\']?)', re.IGNORECASE), r'\1\2<PSK_REDACTED>\4'),
         
         # Generic Usernames (Optional: Could be aggressive, but requested by P0)
         # We look for explicit username declarations

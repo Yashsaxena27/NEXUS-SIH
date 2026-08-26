@@ -76,6 +76,8 @@ class DeviceInfo(BaseModel):
     device_type: str = Field("", description="Device type: router, switch, firewall")
     version: Optional[str] = Field(None, description="Firmware/OS version")
     hostname: Optional[str] = Field(None, description="Device hostname")
+    asset_criticality: str = Field("MEDIUM", description="Criticality of the asset (HIGH, MEDIUM, LOW)")
+    exposure_factor: float = Field(1.0, description="Exposure factor multiplier (e.g. 1.2 for public-facing, 0.8 for internal)")
 
 
 # ---------------------------------------------------------------------------

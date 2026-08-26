@@ -1,0 +1,17 @@
+system {
+    host-name JUNIPER-EDGE-1;
+    services { ssh { protocol-version v2; } telnet; }
+    # Messy whitespace
+        syslog {
+            host 10.0.0.1 { any informational; }
+        }
+    login {
+        message "Authorized";
+        class admin { idle-timeout 30; }
+    }
+}
+snmp {
+    community  public  {
+        authorization read-only;
+    }
+}

@@ -33,11 +33,14 @@ async def override_get_db():
 app.dependency_overrides[get_db] = override_get_db
 
 class MockLLMProvider(BaseLLMProvider):
-    async def generate_explanation(self, finding, config_context: str, device_os: str) -> str:
+    async def generate_explanation(self, finding, config_context: str, device_os: str, rag_knowledge: str = "", asset_criticality: str = "MEDIUM", exposure_factor: float = 1.0) -> str:
         return "This is a mock explanation."
 
     async def generate_remediation(self, finding, device_os: str) -> str:
         return "This is a mock remediation."
+
+    async def generate_chat_response(self, question: str, scan_context: str) -> str:
+        return "This is a mock chat response."
 
 def override_get_llm_provider():
     return MockLLMProvider()
@@ -90,3 +93,39 @@ def test_config_redaction():
         assert "<COMMUNITY_REDACTED>" in redacted
         assert "$1$mERr$4/235q3" not in redacted
         assert "<SECRET_REDACTED>" in redacted
+
+def test_ai_rag_fallback(monkeypatch):
+    from backend.app.api.endpoints import ai
+    
+    # Mock RAGStore to raise an exception
+    class BrokenRAGStore:
+        async def search(self, *args, **kwargs):
+            raise Exception("RAG Database Connection Failed")
+            
+    monkeypatch.setattr(ai, "RAGStore", BrokenRAGStore)
+    
+    finding = ComplianceFinding(
+        control_id="NET-SSH-001",
+        control_title="Telnet Disabled",
+        status=ComplianceStatus.FAIL,
+        severity=ControlSeverity.HIGH,
+        expected=False,
+        actual=True,
+        evidence_field="management.telnet.enabled",
+        evidence_source="line 10",
+        evidence_raw="transport input telnet",
+    )
+    
+    payload = {
+        "finding": finding.model_dump(mode='json'),
+        "device_platform": "IOS-XE",
+        "raw_config_evidence": "transport input telnet"
+    }
+    
+    with TestClient(app) as test_client:
+        response = test_client.post("/api/v1/ai/explain", json=payload)
+        # Should gracefully fallback and still return 200 with the LLM explanation
+        assert response.status_code == 200
+        data = response.json()
+        assert "explanation" in data
+        assert data["explanation"] == "This is a mock explanation."

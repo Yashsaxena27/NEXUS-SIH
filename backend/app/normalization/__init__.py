@@ -10,7 +10,7 @@ from .paloalto_adapter import PaloAltoAdapter
 def detect_vendor(raw_config: str) -> VendorDetectionResult:
     return VendorDetector.detect_vendor(raw_config)
 
-def normalize_config(raw_config: str, vendor_hint: Optional[str] = None) -> NormalizationResult:
+def normalize_config(raw_config: str, vendor_hint: Optional[str] = None, adaptive_rules: Optional[list] = None) -> NormalizationResult:
     if vendor_hint:
         vendor_name = vendor_hint.lower()
     else:
@@ -25,7 +25,7 @@ def normalize_config(raw_config: str, vendor_hint: Optional[str] = None) -> Norm
     }
     
     if vendor_name in adapters:
-        return adapters[vendor_name].normalize(raw_config)
+        return adapters[vendor_name].normalize(raw_config, adaptive_rules=adaptive_rules)
         
     # Fallback for unknown vendor
     return NormalizationResult(

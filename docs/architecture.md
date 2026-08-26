@@ -1,90 +1,46 @@
-# Architecture
+# NEXUS Architecture Guide
 
-## System Architecture
+## High-Level Design Principles
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Frontend (React)                        │
-│  Dashboard │ Devices │ Findings │ Training │ Reports │ Copilot  │
-└──────────────────────────────┬──────────────────────────────────┘
-                               │ REST API (FastAPI)
-┌──────────────────────────────┴──────────────────────────────────┐
-│                          API Layer                              │
-│  /configs/upload  /scans  /findings  /training  /reports        │
-└──────────────────────────────┬──────────────────────────────────┘
-                               │
-    ┌──────────────────────────┼──────────────────────────┐
-    │                          │                          │
-    ▼                          ▼                          ▼
-┌─────────┐          ┌──────────────┐          ┌──────────────┐
-│Ingestion│          │  Compliance  │          │   AI / RAG   │
-│         │          │   Engine     │          │              │
-│ Upload  │          │ Deterministic│          │ Explanation  │
-│ Detect  │          │ PASS/FAIL/UNK│          │ Remediation  │
-│ Parse   │          │ Risk Scoring │          │ Copilot      │
-└────┬────┘          └──────┬───────┘          └──────┬───────┘
-     │                      │                         │
-     ▼                      ▼                         ▼
-┌──────────────────────────────────────────────────────────────┐
-│              Vendor-Neutral Security IR (Pydantic)           │
-│                                                              │
-│  DeviceInfo │ ManagementConfig │ AuthConfig │ LoggingConfig  │
-│  SNMPConfig │ TimeConfig │ ServicesConfig │ AccessControl    │
-└──────────────────────────────────────────────────────────────┘
-     ▲                      ▲
-     │                      │
-┌────┴────────┐    ┌────────┴────────┐
-│   Vendor    │    │    Adaptive     │
-│  Adapters   │    │   Learning     │
-│             │    │                │
-│ Cisco       │    │ Unknown detect │
-│ Juniper     │    │ AI hypothesis  │
-│ Fortinet    │    │ Human confirm  │
-│ PaloAlto    │    │ Store mapping  │
-└─────────────┘    └────────────────┘
+NEXUS is built around a single, non-negotiable architectural rule:
+**"The deterministic engine is the source of truth. AI is only an explanation/assistance layer."**
 
-┌──────────────────────────────────────────────────────────────┐
-│                     PostgreSQL (pgvector-ready)               │
-│  devices │ scans │ findings │ training_mappings │ audit_logs  │
-└──────────────────────────────────────────────────────────────┘
-```
+This principle dictates the separation of concerns across the platform, ensuring compliance findings are 100% reproducible, verifiable, and free from AI hallucinations.
 
-## Key Design Decisions
+## System Components
 
-### 1. Deterministic Compliance, AI Explanation
-The compliance engine uses deterministic rules (YAML-defined controls) to produce
-PASS/FAIL/UNKNOWN verdicts. The LLM explains WHY, never decides IF.
+### 1. Data Ingestion & Vendor Detection
+*   **Input:** Raw network configuration files (text).
+*   **Detector:** A heuristic and keyword-based engine (`VendorDetector`) identifies the vendor (Cisco, Juniper, Fortinet, Palo Alto) or gracefully degrades to `UNKNOWN`.
 
-### 2. Vendor-Neutral IR
-All vendor configs map to a single NormalizedConfig schema. This decouples vendor
-parsing from compliance evaluation — new vendors only need an adapter.
+### 2. Normalization Engine
+*   **Process:** Transforms vendor-specific syntax into a standard Internal Representation (IR).
+*   **Fallback:** If a feature isn't recognized or the vendor is unknown, the system preserves the raw lines under an `UNKNOWN` category rather than dropping them, ensuring zero data loss during parsing.
 
-### 3. Three-Valued Logic
-Every compliance check has three outcomes: PASS, FAIL, UNKNOWN.
-UNKNOWN means insufficient evidence — no guessing.
+### 3. Deterministic Compliance Engine
+*   **Engine (`ComplianceEngine`):** Evaluates the normalized IR against hardcoded, verifiable rules (e.g., SSH version, password encryption).
+*   **Output:** Generates definitive pass/fail findings with a deterministic risk score.
 
-### 4. Evidence Chain
-Every normalized property carries provenance: source line, confidence score,
-extraction method, raw evidence. This enables auditable compliance.
+### 4. Vulnerability Intelligence
+*   **Intelligence:** Evaluates known CVEs for the parsed devices. 
+*   **Note:** Demo vulnerability intelligence is backed by a deterministic mock provider to ensure offline reliability and reproducibility during demonstrations.
 
-### 5. Provider-Agnostic AI
-The AI layer abstracts over LLM providers (Gemini/OpenAI/Claude).
-Switching providers requires zero code changes.
+### 5. AI & Intelligence Layer (Decoupled)
+*   **Kill Switch:** The entire AI layer sits behind a global kill switch (`ai_enabled` setting). If disabled, the system relies exclusively on deterministic outputs.
+*   **Provider Abstraction:** The `BaseLLMProvider` interface allows switching between `GeminiProvider`, `LocalLLMProvider` (Ollama), and `DisabledProvider`.
+*   **Redaction (`ConfigRedactor`):** All raw configurations are scrubbed of secrets (passwords, hashes, API keys) via Regex and Entropy checks *before* ever being passed to an LLM.
+*   **RAG Engine:** Uses a localized vector store to retrieve authoritative compliance controls (NIST, CIS) and ground AI explanations, drastically reducing hallucinations.
 
-### 6. Human-in-the-Loop Learning
-Unknown configurations are flagged for human review, not silently ignored
-or auto-classified. The system learns from human feedback without retraining.
+### 5. API & Frontend
+*   **Backend:** FastAPI provides robust, typed endpoints.
+*   **Frontend:** React/Vite dashboard provides visualization (Attack Graphs, CSV/PDF Export, Compliance posture).
 
-## Module Boundaries
+## Persistence Layer
+*   **Database:** SQLite using SQLAlchemy + async drivers.
+*   **Schema:** Stores Scan Records, Findings, Adaptive Rules (human-in-the-loop overrides), RAG Documents, and App Settings.
 
-| Module | Input | Output | Dependencies |
-|--------|-------|--------|-------------|
-| Ingestion | Raw file/text | Raw config string | None |
-| Vendor Detection | Raw config | VendorDetectionResult | None |
-| Normalization | Raw config + vendor | NormalizationResult | Security IR schema |
-| Compliance Engine | NormalizedConfig + Controls | ComplianceReport | Security IR, Controls YAML |
-| Risk Scoring | ComplianceFindings | Risk score | Compliance models |
-| AI Explanation | Finding + Evidence | Explanation text | LLM provider |
-| RAG | Query | Relevant documents | Vector DB |
-| Adaptive Learning | Unknown commands | Training mappings | LLM + human |
-| Reporting | ComplianceReport | PDF file | All above |
+## Workflow Execution
+1.  User uploads config -> API validates size/format.
+2.  `ScannerService` detects vendor -> Normalizes -> Evaluates compliance.
+3.  Findings are persisted to DB.
+4.  User queries AI (Chat or Explain) -> System redacts config -> Fetches RAG context -> LLM generates response -> Displayed in UI.

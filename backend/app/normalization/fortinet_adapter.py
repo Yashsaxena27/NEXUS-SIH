@@ -25,7 +25,7 @@ class FortinetAdapter(BaseVendorAdapter):
     def detect(self, raw_config: str) -> Optional[float]:
         return 1.0 if "config system global" in raw_config or "config firewall policy" in raw_config else 0.0
 
-    def normalize(self, raw_config: str) -> NormalizationResult:
+    def normalize(self, raw_config: str, adaptive_rules: Optional[list] = None) -> NormalizationResult:
         evidence = []
         
         def add_evidence(field, value, pattern, group=1):
@@ -132,4 +132,5 @@ class FortinetAdapter(BaseVendorAdapter):
             services=services
         )
         
+        self._apply_adaptive_rules(raw_config, normalized, evidence, adaptive_rules)
         return NormalizationResult(config=normalized, evidence=evidence, raw_config=raw_config)

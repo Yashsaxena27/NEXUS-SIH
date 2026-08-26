@@ -54,6 +54,24 @@ class ControlRequirement(BaseModel):
     value_max: Optional[Any] = Field(None, description="Upper bound for IN_RANGE operator")
 
 
+class ExactRemediation(BaseModel):
+    """Deterministic, vendor-specific remediation instructions."""
+    problem_description: str
+    remediation_explanation: str
+    vendor: str
+    vendor_cli: str
+    human_approval_required: bool = True
+    safe_guidance: str
+
+
+class FrameworkMapping(BaseModel):
+    framework: str = Field(..., description="e.g. CIS, CERT-In, RBI")
+    control_id: str = Field(..., description="Actual control ID or 'NEXUS INTERNAL MAPPING'")
+    mapping_type: str = Field("DIRECT", description="DIRECT or INTERPRETIVE")
+    source: str = Field(..., description="Authoritative source document/reference")
+
+
+
 class ComplianceControl(BaseModel):
     """
     A compliance control definition.
@@ -65,6 +83,8 @@ class ComplianceControl(BaseModel):
     description: Optional[str] = None
     severity: ControlSeverity
     category: str = Field("", description="Category, e.g. 'Secure Management'")
+    framework_mappings: list[FrameworkMapping] = Field(default_factory=list, description="Authoritative mappings")
+    # Legacy field for backward compatibility during transition if needed
     frameworks: list[str] = Field(default_factory=list, description="e.g. ['CIS', 'NIST AC-17']")
     requirement: ControlRequirement
     remediation_hint: Optional[str] = Field(None, description="Brief remediation guidance")
@@ -78,6 +98,7 @@ class ComplianceFinding(BaseModel):
     severity: ControlSeverity
     category: str = ""
     frameworks: list[str] = Field(default_factory=list)
+    framework_mappings: list[FrameworkMapping] = Field(default_factory=list)
     expected: Any = Field(None, description="What the control requires")
     actual: Any = Field(None, description="What was found in the config")
     evidence_field: str = Field("", description="Which IR field was checked")
@@ -88,6 +109,17 @@ class ComplianceFinding(BaseModel):
     explanation_context: Optional[str] = Field(
         None, description="Pre-built context string for AI explanation"
     )
+    exact_remediation: Optional[ExactRemediation] = None
+
+
+class VulnerabilityRecord(BaseModel):
+    cve_id: str
+    severity: str
+    cvss_score: float
+    description: str
+    affected_version: str
+    confidence: str = Field("CONFIRMED")
+    source: str = Field("NVD")
 
 
 class ComplianceReport(BaseModel):
@@ -102,3 +134,7 @@ class ComplianceReport(BaseModel):
     compliance_score: float = Field(0.0, description="0-100 compliance percentage")
     risk_score: float = Field(0.0, description="Weighted risk score")
     findings: list[ComplianceFinding] = Field(default_factory=list)
+    prioritized_risks: list[dict] = Field(default_factory=list, description="Findings grouped and ordered by risk")
+    vulnerabilities: list[VulnerabilityRecord] = Field(default_factory=list, description="Vulnerability intelligence")
+    framework_alignments: dict[str, float] = Field(default_factory=dict, description="Alignment score per framework")
+    correlation_summary: Optional[str] = Field(None, description="Summary of correlated vulnerabilities")

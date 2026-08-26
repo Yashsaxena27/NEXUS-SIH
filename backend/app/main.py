@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from backend.app.api.router import api_router
+from backend.app.api.endpoints import scans, health, ai, adaptive, audit, settings as app_settings
 from backend.app.core.config import settings
 from backend.app.db.models import Base
 from backend.app.db.session import engine
@@ -23,6 +24,25 @@ def create_app() -> FastAPI:
         openapi_url=f"{settings.API_V1_PREFIX}/openapi.json",
         lifespan=lifespan
     )
+    
+    from fastapi.responses import JSONResponse
+    from fastapi.exceptions import RequestValidationError
+    import traceback
+    
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request, exc: Exception):
+        # Prevent stack trace leakage in production
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "An internal server error occurred.", "type": "server_error"}
+        )
+        
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(request, exc: RequestValidationError):
+        return JSONResponse(
+            status_code=422,
+            content={"detail": "Input validation failed.", "errors": exc.errors()}
+        )
 
     # Set up CORS
     if settings.CORS_ORIGINS:
@@ -36,6 +56,9 @@ def create_app() -> FastAPI:
 
     # Include API router
     app.include_router(api_router, prefix=settings.API_V1_PREFIX)
+    app.include_router(adaptive.router, prefix=f"{settings.API_V1_PREFIX}/adaptive", tags=["Adaptive Learning"])
+    app.include_router(audit.router, prefix=f"{settings.API_V1_PREFIX}/audit", tags=["Audit"])
+    app.include_router(app_settings.router, prefix=f"{settings.API_V1_PREFIX}/settings", tags=["Settings"])
 
     return app
 

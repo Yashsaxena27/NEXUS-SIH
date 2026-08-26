@@ -28,7 +28,7 @@ class CiscoAdapter(BaseVendorAdapter):
         # This is a fallback implementation.
         return 1.0 if "version " in raw_config or "hostname " in raw_config else 0.0
 
-    def normalize(self, raw_config: str) -> NormalizationResult:
+    def normalize(self, raw_config: str, adaptive_rules: Optional[list] = None) -> NormalizationResult:
         evidence = []
         
         # Helper to extract and create evidence
@@ -44,8 +44,8 @@ class CiscoAdapter(BaseVendorAdapter):
             return None, None
 
         # Device info
-        hostname_val, _ = add_evidence("device.hostname", None, r"^hostname (\S+)")
-        version_val, _ = add_evidence("device.version", None, r"^version (\S+)")
+        hostname_val, _ = add_evidence("device.hostname", None, r"^hostname\s+(\S+)")
+        version_val, _ = add_evidence("device.version", None, r"^version\s+(\S+)")
         device = self._make_device_info(hostname=hostname_val, version=version_val)
         
         # Management (VTY Block)
@@ -68,16 +68,16 @@ class CiscoAdapter(BaseVendorAdapter):
                     telnet_enabled = True
                     evidence.append(self._make_evidence("management.telnet.enabled", True, f"line {vty_block.parent_line}", ssh_line))
             
-        ssh_ver_val, _ = add_evidence("management.ssh.version", None, r"^ip ssh version (\d+)")
+        ssh_ver_val, _ = add_evidence("management.ssh.version", None, r"^\s*ip\s+ssh\s+version\s+(\d+)")
         if ssh_ver_val:
             ssh_version = int(ssh_ver_val)
             # Update evidence to reflect int
             evidence[-1].value = ssh_version
             
         session_timeout = None
-        timeout_match = self._find_first_line(raw_config, r"exec-timeout (\d+) (\d+)")
+        timeout_match = self._find_first_line(raw_config, r"exec-timeout\s+(\d+)\s+(\d+)")
         if timeout_match:
-            mins, secs = self._extract_value(timeout_match[1], r"exec-timeout (\d+) (\d+)", 1), self._extract_value(timeout_match[1], r"exec-timeout (\d+) (\d+)", 2)
+            mins, secs = self._extract_value(timeout_match[1], r"exec-timeout\s+(\d+)\s+(\d+)", 1), self._extract_value(timeout_match[1], r"exec-timeout\s+(\d+)\s+(\d+)", 2)
             session_timeout = int(mins) * 60 + int(secs)
             evidence.append(self._make_evidence("management.session_timeout", session_timeout, f"line {timeout_match[0]}", timeout_match[1]))
             
@@ -174,6 +174,9 @@ class CiscoAdapter(BaseVendorAdapter):
             time=time_cfg,
             services=services
         )
+        
+        
+        self._apply_adaptive_rules(raw_config, normalized, evidence, adaptive_rules)
         
         return NormalizationResult(
             config=normalized,

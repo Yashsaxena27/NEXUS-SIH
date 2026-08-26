@@ -80,6 +80,9 @@ class VendorDetector:
             
         confidence = min(max_score / 10.0, 1.0)
         
+        if confidence < 0.3:
+            return VendorDetectionResult(vendor='unknown', platform='unknown', device_type='unknown', confidence=confidence)
+        
         platforms = {
             'cisco': ('IOS-XE', 'router'),
             'juniper': ('Junos', 'router'),

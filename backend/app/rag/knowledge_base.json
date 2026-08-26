@@ -1,0 +1,72 @@
+[
+    {
+        "source_id": "CIS-NET-001",
+        "title": "CIS Network Devices - Disable Telnet",
+        "authority": "CIS",
+        "control": "NET-SSH-001",
+        "text": "Telnet transmits all data, including credentials, in cleartext. It must be disabled on all network devices. Secure Shell (SSH) provides cryptographic protection for traffic and should be used instead of Telnet for all administrative connections."
+    },
+    {
+        "source_id": "CIS-NET-002",
+        "title": "CIS Network Devices - Use SSH Version 2",
+        "authority": "CIS",
+        "control": "NET-SSH-002",
+        "text": "SSH version 1 has known cryptographic vulnerabilities and should not be used. Administrators must configure network devices to solely use SSH version 2 for encrypted management sessions."
+    },
+    {
+        "source_id": "NIST-800-53-AU-12",
+        "title": "NIST SP 800-53 AU-12: Audit Record Generation",
+        "authority": "NIST",
+        "control": "NET-LOG-001",
+        "text": "The information system must generate audit records containing information that establishes what type of event occurred, when the event occurred, where the event occurred, the source of the event, and the outcome of the event. All network devices must send syslog to a centralized logging server for monitoring and incident response."
+    },
+    {
+        "source_id": "CIS-NET-004",
+        "title": "CIS Network Devices - Configure NTP",
+        "authority": "CIS",
+        "control": "NET-NTP-001",
+        "text": "Accurate timestamps are critical for correlating logs during security incident investigations. Network devices must be configured to synchronize their clocks with authorized Network Time Protocol (NTP) servers."
+    },
+    {
+        "source_id": "CIS-NET-005",
+        "title": "CIS Network Devices - SNMP Default Communities",
+        "authority": "CIS",
+        "control": "NET-SNMP-001",
+        "text": "Default SNMP community strings like 'public' or 'private' are well known and can be used by attackers to enumerate device configurations or make unauthorized changes. They must be removed and replaced with complex, secret strings, or preferably, SNMPv3 should be used."
+    },
+    {
+        "source_id": "CIS-NET-006",
+        "title": "CIS Network Devices - AAA Authentication",
+        "authority": "CIS",
+        "control": "NET-AAA-001",
+        "text": "Authentication, Authorization, and Accounting (AAA) provides a scalable framework for securing device access. Relying on local passwords alone is insufficient for enterprise networks; AAA must be enabled to integrate with centralized identity providers like TACACS+ or RADIUS."
+    },
+    {
+        "source_id": "NIST-800-53-AC-8",
+        "title": "NIST SP 800-53 AC-8: System Use Notification",
+        "authority": "NIST",
+        "control": "NET-BAN-001",
+        "text": "The information system must display a system use notification message or banner before granting access to the system. This establishes legal precedent by warning unauthorized users that access is restricted."
+    },
+    {
+        "source_id": "CIS-NET-008",
+        "title": "CIS Network Devices - Disable HTTP Management",
+        "authority": "CIS",
+        "control": "NET-HTTP-001",
+        "text": "Unencrypted HTTP management interfaces transmit credentials and configuration data in cleartext. These interfaces must be disabled. If web management is required, HTTPS must be used exclusively."
+    },
+    {
+        "source_id": "NIST-800-53-SC-28",
+        "title": "NIST SP 800-53 SC-28: Protection of Information at Rest",
+        "authority": "NIST",
+        "control": "NET-SEC-001",
+        "text": "The information system protects the confidentiality and integrity of information at rest. Cryptographic keys and passwords must not be stored in clear text within device configurations. Type 7 or Type 5 hashing must be replaced with robust algorithms like Type 8 (PBKDF2) or Type 9 (Scrypt) where possible."
+    },
+    {
+        "source_id": "CIS-NET-009",
+        "title": "CIS Network Devices - Disable CDP/LLDP on untrusted interfaces",
+        "authority": "CIS",
+        "control": "NET-SRV-001",
+        "text": "Discovery protocols like CDP and LLDP broadcast detailed device information (OS version, IP addresses, capabilities) to connected devices. They should be disabled globally or specifically on untrusted/external facing interfaces to prevent reconnaissance."
+    }
+]

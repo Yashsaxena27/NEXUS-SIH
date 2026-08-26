@@ -59,8 +59,8 @@ def test_scoring():
     score = calculate_compliance_score([finding])
     assert score == 90.0
     
-    risk = calculate_risk_score([finding], 5)
-    assert risk == 50.0
+    risk = calculate_risk_score([finding])
+    assert risk == 10.0
 
 def test_yaml_loader():
     controls = load_all_controls()

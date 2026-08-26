@@ -10,8 +10,8 @@
       "errors": []
     },
     "normalization": {
-      "accuracy": 0.8845,
-      "correct": 360,
+      "accuracy": 0.9042,
+      "correct": 368,
       "total": 407,
       "errors": [
         {
@@ -143,12 +143,12 @@
       "f1_score": 0.9915,
       "false_positive_rate": 0.0,
       "false_negative_rate": 0.0169,
-      "unknown_rate": 0.0925,
+      "unknown_rate": 0.0896,
       "true_positives": 58,
-      "true_negatives": 255,
+      "true_negatives": 256,
       "false_positives": 0,
       "false_negatives": 1,
-      "unknowns": 32,
+      "unknowns": 31,
       "total_checks": 346,
       "errors": [
         {

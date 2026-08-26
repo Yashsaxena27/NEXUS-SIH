@@ -1,173 +1,312 @@
 controls:
-  - id: NET-SSH-001
-    title: Disable Insecure Telnet Protocol
-    description: Telnet transmits credentials in plaintext. Administrative access must use SSH.
-    severity: CRITICAL
-    category: Secure Management
-    frameworks: ["CIS 1.1", "NIST AC-17"]
-    requirement:
-      field: management.telnet.enabled
-      operator: EQUALS
-      value: false
-    remediation_hint: Disable Telnet on all VTY lines and enable SSH v2 for remote management.
-
-  - id: NET-SSH-002
-    title: Enforce SSH Version 2
-    description: SSH version 1 has known cryptographic weaknesses.
-    severity: HIGH
-    category: Secure Management
-    frameworks: ["CIS 1.2", "NIST SC-8"]
-    requirement:
-      field: management.ssh.version
-      operator: EQUALS
-      value: 2
-    remediation_hint: Configure SSH version 2 and disable SSH version 1.
-
-  - id: NET-SSH-003
-    title: Configure Management Session Timeout
-    description: Idle management sessions must timeout to prevent unauthorized access.
-    severity: MEDIUM
-    category: Secure Management
-    frameworks: ["CIS 1.3", "DISA NET0050"]
-    requirement:
-      field: management.session_timeout
-      operator: IN_RANGE
-      value: 1
-      value_max: 600
-    remediation_hint: Set session timeout to 10 minutes (600 seconds) or less.
-    
-  - id: NET-SSH-004
-    title: SSH Enabled
-    severity: HIGH
-    requirement:
-      field: management.ssh.enabled
-      operator: EQUALS
-      value: true
-
-  - id: NET-AAA-001
-    title: AAA Enabled
-    severity: CRITICAL
-    requirement:
-      field: authentication.aaa_enabled
-      operator: EQUALS
-      value: true
-      
-  - id: NET-LOG-001
-    title: Syslog Enabled
-    severity: MEDIUM
-    requirement:
-      field: logging.syslog.enabled
-      operator: EQUALS
-      value: true
-
-  - id: NET-LOG-002
-    title: Syslog Server Configured
-    severity: MEDIUM
-    requirement:
-      field: logging.syslog.server
-      operator: EXISTS
-      value: true
-
-  - id: NET-NTP-001
-    title: NTP Configured
-    severity: LOW
-    requirement:
-      field: time.ntp.enabled
-      operator: EQUALS
-      value: true
-
-  - id: NET-NTP-002
-    title: NTP Server Configured
-    severity: LOW
-    requirement:
-      field: time.ntp.servers
-      operator: EXISTS
-      value: true
-
-  - id: NET-SNMP-001
-    title: No Default SNMP Community
-    severity: CRITICAL
-    requirement:
-      field: snmp.default_community
-      operator: EQUALS
-      value: false
-
-  - id: NET-SNMP-002
-    title: SNMP Version 3
-    severity: HIGH
-    requirement:
-      field: snmp.version
-      operator: EQUALS
-      value: "3"
-
-  - id: NET-HTTP-001
-    title: HTTP Server Disabled
-    severity: HIGH
-    requirement:
-      field: services.http_server_enabled
-      operator: EQUALS
-      value: false
-
-  - id: NET-BAN-001
-    title: Login Banner Configured
-    severity: LOW
-    requirement:
-      field: management.login_banner
-      operator: EXISTS
-      value: true
-
-  - id: NET-PWD-001
-    title: Password Min Length ≥ 8
-    severity: HIGH
-    requirement:
-      field: authentication.password_policy.min_length
-      operator: GREATER_EQUAL
-      value: 8
-
-  - id: NET-SVC-001
-    title: CDP Disabled
-    severity: MEDIUM
-    requirement:
-      field: services.cdp_enabled
-      operator: EQUALS
-      value: false
-
-  - id: NET-LOG-003
-    title: Local Logging Enabled
-    severity: LOW
-    requirement:
-      field: logging.local_logging_enabled
-      operator: EQUALS
-      value: true
-
-  - id: NET-ACL-001
-    title: ACLs Configured
-    severity: MEDIUM
-    requirement:
-      field: access_control.acl_enabled
-      operator: EQUALS
-      value: true
-
-  - id: NET-AUTH-001
-    title: Auth Method Not Local-Only
-    severity: MEDIUM
-    requirement:
-      field: authentication.method
-      operator: NOT_EQUALS
-      value: local
-
-  - id: NET-HTTPS-001
-    title: HTTPS-Only Admin
-    severity: HIGH
-    requirement:
-      field: management.http_admin.https_only
-      operator: EQUALS
-      value: true
-
-  - id: NET-MGMT-001
-    title: Management Authentication Method
-    severity: MEDIUM
-    requirement:
-      field: authentication.method
-      operator: EXISTS
-      value: true
+- id: NET-SSH-001
+  title: Disable Insecure Telnet Protocol
+  description: Telnet transmits credentials in plaintext. Administrative access must
+    use SSH.
+  severity: CRITICAL
+  category: Secure Management
+  frameworks:
+  - CIS 1.1
+  - NIST AC-17
+  requirement:
+    field: management.telnet.enabled
+    operator: EQUALS
+    value: false
+  remediation_hint: Disable Telnet on all VTY lines and enable SSH v2 for remote management.
+  framework_mappings:
+  - framework: CIS
+    control_id: CIS 1.1
+    mapping_type: DIRECT
+    source: CIS Benchmark
+  - framework: NIST
+    control_id: AC-17
+    mapping_type: DIRECT
+    source: NIST SP 800-53
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Network Security Guidelines
+  - framework: RBI
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: RBI Cyber Security Framework
+- id: NET-SSH-002
+  title: Enforce SSH Version 2
+  description: SSH version 1 has known cryptographic weaknesses.
+  severity: HIGH
+  category: Secure Management
+  frameworks:
+  - CIS 1.2
+  - NIST SC-8
+  requirement:
+    field: management.ssh.version
+    operator: EQUALS
+    value: 2
+  remediation_hint: Configure SSH version 2 and disable SSH version 1.
+  framework_mappings:
+  - framework: CIS
+    control_id: CIS 1.2
+    mapping_type: DIRECT
+    source: CIS Benchmark
+  - framework: NIST
+    control_id: SC-8
+    mapping_type: DIRECT
+    source: NIST SP 800-53
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Network Security Guidelines
+  - framework: RBI
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: RBI Cyber Security Framework
+- id: NET-SSH-003
+  title: Configure Management Session Timeout
+  description: Idle management sessions must timeout to prevent unauthorized access.
+  severity: MEDIUM
+  category: Secure Management
+  frameworks:
+  - CIS 1.3
+  - DISA NET0050
+  requirement:
+    field: management.session_timeout
+    operator: IN_RANGE
+    value: 1
+    value_max: 600
+  remediation_hint: Set session timeout to 10 minutes (600 seconds) or less.
+  framework_mappings:
+  - framework: CIS
+    control_id: CIS 1.3
+    mapping_type: DIRECT
+    source: CIS Benchmark
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Network Security Guidelines
+  - framework: RBI
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: RBI Cyber Security Framework
+- id: NET-SSH-004
+  title: SSH Enabled
+  severity: HIGH
+  requirement:
+    field: management.ssh.enabled
+    operator: EQUALS
+    value: true
+  remediation_hint: Enable SSH service for secure management.
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Network Security Guidelines
+  - framework: RBI
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: RBI Cyber Security Framework
+- id: NET-AAA-001
+  title: AAA Enabled
+  severity: CRITICAL
+  requirement:
+    field: authentication.aaa_enabled
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-LOG-001
+  title: Syslog Enabled
+  severity: MEDIUM
+  requirement:
+    field: logging.syslog.enabled
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Log Management Guidelines
+  - framework: NCIIPC
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: NCIIPC CI Protection Guidelines
+- id: NET-LOG-002
+  title: Syslog Server Configured
+  severity: MEDIUM
+  requirement:
+    field: logging.syslog.server
+    operator: EXISTS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Log Management Guidelines
+  - framework: NCIIPC
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: NCIIPC CI Protection Guidelines
+- id: NET-NTP-001
+  title: NTP Configured
+  severity: LOW
+  requirement:
+    field: time.ntp.enabled
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-NTP-002
+  title: NTP Server Configured
+  severity: LOW
+  requirement:
+    field: time.ntp.servers
+    operator: EXISTS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-SNMP-001
+  title: No Default SNMP Community
+  severity: CRITICAL
+  requirement:
+    field: snmp.default_community
+    operator: EQUALS
+    value: false
+  remediation_hint: Remove public and private SNMP communities. Use SNMPv3 instead.
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-SNMP-002
+  title: SNMP Version 3
+  severity: HIGH
+  requirement:
+    field: snmp.version
+    operator: EQUALS
+    value: '3'
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-HTTP-001
+  title: HTTP Server Disabled
+  severity: HIGH
+  requirement:
+    field: services.http_server_enabled
+    operator: EQUALS
+    value: false
+  remediation_hint: Disable the HTTP server using 'no ip http server'.
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-BAN-001
+  title: Login Banner Configured
+  severity: LOW
+  requirement:
+    field: management.login_banner
+    operator: EXISTS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-PWD-001
+  title: "Password Min Length \xE2\u2030\xA5 8"
+  severity: HIGH
+  requirement:
+    field: authentication.password_policy.min_length
+    operator: GREATER_EQUAL
+    value: 8
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-SVC-001
+  title: CDP Disabled
+  severity: MEDIUM
+  requirement:
+    field: services.cdp_enabled
+    operator: EQUALS
+    value: false
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-LOG-003
+  title: Local Logging Enabled
+  severity: LOW
+  requirement:
+    field: logging.local_logging_enabled
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In Log Management Guidelines
+  - framework: NCIIPC
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: NCIIPC CI Protection Guidelines
+- id: NET-ACL-001
+  title: ACLs Configured
+  severity: MEDIUM
+  requirement:
+    field: access_control.acl_enabled
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-AUTH-001
+  title: Auth Method Not Local-Only
+  severity: MEDIUM
+  requirement:
+    field: authentication.method
+    operator: NOT_EQUALS
+    value: local
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-HTTPS-001
+  title: HTTPS-Only Admin
+  severity: HIGH
+  requirement:
+    field: management.http_admin.https_only
+    operator: EQUALS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines
+- id: NET-MGMT-001
+  title: Management Authentication Method
+  severity: MEDIUM
+  requirement:
+    field: authentication.method
+    operator: EXISTS
+    value: true
+  framework_mappings:
+  - framework: CERT-In
+    control_id: Interpretive Alignment
+    mapping_type: INTERPRETIVE
+    source: CERT-In General Security Guidelines

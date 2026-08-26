@@ -40,7 +40,7 @@ class BaseVendorAdapter(ABC):
         ...
 
     @abstractmethod
-    def normalize(self, raw_config: str) -> NormalizationResult:
+    def normalize(self, raw_config: str, adaptive_rules: Optional[list] = None) -> NormalizationResult:
         """
         Parse and normalize a raw configuration into the vendor-neutral IR.
 
@@ -48,6 +48,34 @@ class BaseVendorAdapter(ABC):
             NormalizationResult containing the normalized config, evidence, and unknowns.
         """
         ...
+        
+    def _apply_adaptive_rules(self, raw_config: str, config: NormalizedConfig, evidence: list, adaptive_rules: Optional[list]):
+        if not adaptive_rules:
+            return
+            
+        for rule in adaptive_rules:
+            if rule.vendor == self.VENDOR_NAME or rule.vendor == "all":
+                # We do a simple substring match for the raw pattern
+                if rule.raw_pattern in raw_config:
+                    parts = rule.mapped_control.split('.')
+                    obj = config
+                    try:
+                        for part in parts[:-1]:
+                            if hasattr(obj, part):
+                                obj = getattr(obj, part)
+                                if obj is None:
+                                    break
+                        if obj is not None:
+                            setattr(obj, parts[-1], rule.mapped_value_json)
+                            evidence.append(self._make_evidence(
+                                field=rule.mapped_control,
+                                value=rule.mapped_value_json,
+                                source="adaptive_rule",
+                                raw_evidence=rule.raw_pattern,
+                                method=InterpretationMethod.HUMAN_CONFIRMED
+                            ))
+                    except Exception as e:
+                        print(f"Failed to apply adaptive rule: {e}")
 
     # -------------------------------------------------------------------
     # Helper methods available to all adapters

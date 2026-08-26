@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { History, ScanLine } from 'lucide-react';
+import { History, ScanLine, ShieldCheck, AlertTriangle, Loader } from 'lucide-react';
 import { listScans } from '../services/api';
 import { VENDORS } from '../utils/constants';
 import { formatDate, formatScore, getScoreColor, getRiskLevel } from '../utils/formatters';
@@ -10,6 +10,9 @@ export default function ScanHistoryPage() {
   const [scans, setScans] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [auditStatus, setAuditStatus] = useState(null); // null, 'loading', 'verified', 'tampered'
+  const [auditMessage, setAuditMessage] = useState("");
 
   useEffect(() => {
     listScans().then(setScans).catch(e => setError(e.message)).finally(() => setLoading(false));
@@ -29,9 +32,57 @@ export default function ScanHistoryPage() {
     );
   }
 
+  const verifyAudit = async () => {
+    setAuditStatus('loading');
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/audit/verify`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const data = await res.json();
+      if (data.status === "VERIFIED") {
+        setAuditStatus('verified');
+      } else {
+        setAuditStatus('tampered');
+      }
+      setAuditMessage(data.message);
+    } catch (err) {
+      setAuditStatus('error');
+      setAuditMessage(err.message);
+    }
+  };
+
   return (
     <div className="animate-fade-in">
-      <div className="page-header"><h2>Scan History</h2><p>{scans.length} scan{scans.length !== 1 ? 's' : ''} completed</p></div>
+      <div className="page-header flex justify-between items-center" style={{ marginBottom: '1.5rem' }}>
+        <div>
+          <h2>Scan History</h2>
+          <p>{scans.length} scan{scans.length !== 1 ? 's' : ''} completed</p>
+        </div>
+        <button 
+          className="btn" 
+          onClick={verifyAudit} 
+          disabled={auditStatus === 'loading'}
+          style={{ 
+            background: 'rgba(16, 185, 129, 0.1)', 
+            color: 'var(--success-color)', 
+            border: '1px solid rgba(16, 185, 129, 0.2)' 
+          }}
+        >
+          {auditStatus === 'loading' ? <Loader size={16} className="animate-spin" /> : <ShieldCheck size={16} />}
+          Verify Audit Trail
+        </button>
+      </div>
+
+      {auditStatus && auditStatus !== 'loading' && (
+        <div className={`glass-panel`} style={{ padding: '1rem', marginBottom: '1rem', borderColor: auditStatus === 'verified' ? 'var(--success-color)' : 'var(--error-color)' }}>
+          <div className="flex items-center gap-2" style={{ color: auditStatus === 'verified' ? 'var(--success-color)' : 'var(--error-color)', marginBottom: '0.25rem' }}>
+            {auditStatus === 'verified' ? <ShieldCheck size={18} /> : <AlertTriangle size={18} />}
+            <span style={{ fontWeight: 600 }}>{auditStatus === 'verified' ? 'Audit Chain Verified' : 'Integrity Violation Detected'}</span>
+          </div>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{auditMessage}</p>
+        </div>
+      )}
+
       <div className="glass-panel" style={{ padding: '0.5rem', overflow: 'auto' }}>
         <table className="data-table">
           <thead><tr><th>Date</th><th>Name</th><th>Vendor</th><th>Host</th><th>Score</th><th>Risk</th><th>Controls</th></tr></thead>

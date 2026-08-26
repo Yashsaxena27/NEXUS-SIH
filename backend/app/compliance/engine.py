@@ -1,9 +1,10 @@
 from typing import Any, Optional
 from backend.app.schemas.security_ir import NormalizedConfig, PropertyEvidence
 from backend.app.compliance.models import (
-    ComplianceControl, ComplianceFinding, ComplianceStatus, ControlOperator, ComplianceReport
+    ComplianceControl, ComplianceFinding, ComplianceStatus, ControlOperator, ComplianceReport, ExactRemediation
 )
-from backend.app.risk.scoring import calculate_compliance_score, calculate_risk_score
+from backend.app.risk.scoring import calculate_compliance_score, calculate_risk_score, calculate_prioritized_risks
+from backend.app.compliance.remediation import get_exact_remediation
 
 class ComplianceEngine:
     def __init__(self, controls: list[ComplianceControl]):
@@ -28,7 +29,39 @@ class ComplianceEngine:
                 unknown += 1
                 
         compliance_score = calculate_compliance_score(findings)
-        risk_score = calculate_risk_score(findings)
+        
+        # Calculate framework alignments
+        framework_alignments = {}
+        framework_totals = {}
+        framework_passed = {}
+        
+        for control in self.controls:
+            for mapping in control.framework_mappings:
+                fw = mapping.framework
+                if fw not in framework_totals:
+                    framework_totals[fw] = 0
+                    framework_passed[fw] = 0
+                framework_totals[fw] += 1
+                
+        for finding in findings:
+            if finding.status == ComplianceStatus.PASS:
+                for mapping in finding.framework_mappings:
+                    fw = mapping.framework
+                    framework_passed[fw] += 1
+                    
+        for fw, total in framework_totals.items():
+            if total > 0:
+                framework_alignments[fw] = round((framework_passed[fw] / total) * 100, 1)
+        
+        # We'll calculate risk score and prioritized risks later in the scanner once vulnerabilities are fetched.
+        # But we can calculate a base risk score here.
+        risk_score = calculate_risk_score(
+            findings, 
+            asset_criticality=config.device.asset_criticality,
+            exposure_factor=config.device.exposure_factor
+        )
+        
+        prioritized, correlation = calculate_prioritized_risks(findings)
         
         return ComplianceReport(
             device_vendor=config.device.vendor,
@@ -40,7 +73,11 @@ class ComplianceEngine:
             unknown=unknown,
             compliance_score=compliance_score,
             risk_score=risk_score,
-            findings=findings
+            findings=findings,
+            prioritized_risks=prioritized,
+            framework_alignments=framework_alignments,
+            vulnerabilities=[], # To be populated by scanner
+            correlation_summary=correlation
         )
     
     def evaluate_control(self, control: ComplianceControl, config: NormalizedConfig, evidence: list[PropertyEvidence] = None) -> ComplianceFinding:
@@ -70,6 +107,10 @@ class ComplianceEngine:
         if ev and ev.source:
             explanation_context += f"\nEvidence from {ev.source}: '{ev.raw_evidence}'"
             
+        exact_remediation = None
+        if status == ComplianceStatus.FAIL:
+            exact_remediation = get_exact_remediation(control.id, config.device.vendor)
+            
         return ComplianceFinding(
             control_id=control.id,
             control_title=control.title,
@@ -77,6 +118,7 @@ class ComplianceEngine:
             severity=control.severity,
             category=control.category,
             frameworks=control.frameworks,
+            framework_mappings=control.framework_mappings,
             expected=req.value,
             actual=actual,
             evidence_field=req.field,
@@ -84,7 +126,8 @@ class ComplianceEngine:
             evidence_raw=evidence_raw,
             confidence=confidence,
             remediation_hint=control.remediation_hint,
-            explanation_context=explanation_context
+            explanation_context=explanation_context,
+            exact_remediation=exact_remediation
         )
     
     def _resolve_field(self, config: NormalizedConfig, field_path: str) -> tuple[Any, bool]:

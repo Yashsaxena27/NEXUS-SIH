@@ -22,7 +22,7 @@ class JuniperAdapter(BaseVendorAdapter):
     def detect(self, raw_config: str) -> Optional[float]:
         return 1.0 if "system {" in raw_config or "interfaces {" in raw_config else 0.0
 
-    def normalize(self, raw_config: str) -> NormalizationResult:
+    def normalize(self, raw_config: str, adaptive_rules: Optional[list] = None) -> NormalizationResult:
         evidence = []
         
         # Simple extraction for Juniper based on patterns
@@ -53,7 +53,7 @@ class JuniperAdapter(BaseVendorAdapter):
             evidence.append(self._make_evidence("management.telnet.enabled", True, f"line {telnet_line[0]}", telnet_line[1]))
             
         timeout_val, _ = add_evidence("management.session_timeout", None, r"idle-timeout\s+(\d+);")
-        timeout_int = int(timeout_val) if timeout_val else None
+        timeout_int = int(timeout_val) * 60 if timeout_val else None
         if timeout_val:
             evidence[-1].value = timeout_int
             
@@ -106,4 +106,5 @@ class JuniperAdapter(BaseVendorAdapter):
             time=time_cfg
         )
         
+        self._apply_adaptive_rules(raw_config, normalized, evidence, adaptive_rules)
         return NormalizationResult(config=normalized, evidence=evidence, raw_config=raw_config)

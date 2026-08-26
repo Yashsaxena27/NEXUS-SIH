@@ -9,13 +9,54 @@ export default function SettingsPage() {
   const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [aiEnabled, setAiEnabled] = useState(true);
+  const [provider, setProvider] = useState('gemini');
+  const [localUrl, setLocalUrl] = useState('http://localhost:11434');
+  const [aiToggling, setAiToggling] = useState(false);
 
   useEffect(() => {
     checkHealth()
       .then(setHealth)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
+      
+    // Fetch settings
+    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/settings`, {
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ai_enabled !== undefined) setAiEnabled(data.ai_enabled === "true");
+        if (data.ai_provider !== undefined) setProvider(data.ai_provider);
+        if (data.local_ai_url !== undefined) setLocalUrl(data.local_ai_url);
+      })
+      .catch(console.error);
   }, []);
+
+  const saveAiSettings = async () => {
+    setAiToggling(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/settings/ai`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ 
+          enabled: provider !== 'disabled', 
+          provider: provider, 
+          local_ai_url: localUrl 
+        })
+      });
+      if (res.ok) {
+        setAiEnabled(provider !== 'disabled');
+      }
+    } catch (e) {
+      console.error("Failed to save AI settings", e);
+    } finally {
+      setAiToggling(false);
+    }
+  };
 
   const StatusRow = ({ icon: Icon, label, status, ok }) => (
     <div className="flex items-center gap-3" style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--surface-border)' }}>
@@ -47,6 +88,57 @@ export default function SettingsPage() {
         {!loading && !health && !error && (
           <StatusRow icon={Activity} label="NEXUS Engine" status="Offline" ok={false} />
         )}
+      </div>
+
+      {/* AI Intelligence Configuration */}
+      <div className="glass-panel" style={{ padding: '1.25rem', marginBottom: '1rem', borderColor: aiEnabled ? 'rgba(139, 92, 246, 0.4)' : 'var(--surface-border)' }}>
+        <h3 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: aiEnabled ? '#8b5cf6' : 'var(--text-secondary)', marginBottom: '1rem' }}>
+          <Bot size={18} /> Sovereign AI Intelligence Configuration
+        </h3>
+        
+        <div style={{ marginBottom: '1rem' }}>
+          <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>AI Provider / Mode</label>
+          <select 
+            value={provider} 
+            onChange={(e) => setProvider(e.target.value)}
+            className="input-field" 
+            style={{ width: '100%', marginBottom: '1rem' }}
+          >
+            <option value="gemini">Google Gemini (Cloud)</option>
+            <option value="local">Local Inference (Ollama/vLLM)</option>
+            <option value="disabled">Disabled (Deterministic Only)</option>
+          </select>
+          
+          {provider === 'local' && (
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Local Inference URL (OpenAI Compatible API)</label>
+              <input 
+                type="text" 
+                value={localUrl} 
+                onChange={(e) => setLocalUrl(e.target.value)}
+                className="input-field" 
+                style={{ width: '100%' }}
+                placeholder="http://localhost:11434"
+              />
+            </div>
+          )}
+          
+          <button 
+            onClick={saveAiSettings} 
+            disabled={aiToggling}
+            className="btn btn-primary w-full"
+            style={{ marginTop: '0.5rem' }}
+          >
+            {aiToggling ? 'Saving...' : 'Apply Configuration'}
+          </button>
+        </div>
+        
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+          {provider === 'disabled' 
+            ? "AI-generated explanations are disabled. Deterministic compliance and security analysis remain fully operational."
+            : "AI-generated explanations and contextual remediation guidance are active. The deterministic compliance engine remains the source of truth."
+          }
+        </p>
       </div>
 
       {/* Application Info */}

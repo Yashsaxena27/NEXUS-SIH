@@ -34,7 +34,9 @@ export default function AIExplanation({ explaining, explanation }) {
 
       <div style={{ marginBottom: '1.5rem' }}>
         <h4 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Interpretation</h4>
-        <div style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }} dangerouslySetInnerHTML={{__html: explanation.explanation.replace(/\n/g, '<br/>')}} />
+        <div style={{ color: 'var(--text-secondary)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+          {explanation.explanation}
+        </div>
       </div>
       
       <div>

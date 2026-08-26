@@ -1,0 +1,13 @@
+config system global
+set hostname  "FORTI-EDGE"
+set admintimeout  0
+set admin-sport  80
+end
+config log syslogd setting
+set status disable
+end
+config system snmp community
+edit 1
+set name "public"
+next
+end

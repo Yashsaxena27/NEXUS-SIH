@@ -19,7 +19,10 @@ def test_prompt_formatting_args():
         expected="2",
         actual="1",
         evidence="ip ssh version 1",
-        context="Must use SSHv2"
+        context="Must use SSHv2",
+        rag_knowledge="None",
+        asset_criticality="HIGH",
+        exposure_factor=1.5
     )
     assert "Cisco IOS" in formatted
     assert "CIS-1.1" in formatted

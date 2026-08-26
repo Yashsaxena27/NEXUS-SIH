@@ -1,3 +1,4 @@
+import hashlib
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,8 +20,25 @@ async def save_scan_result(db: AsyncSession, scan_result: ScanResultResponse, no
         passed_controls=scan_result.passed_controls,
         failed_controls=scan_result.failed_controls,
         unknown_controls=scan_result.unknown_controls,
-        normalized_config_json=normalized_config.model_dump() if normalized_config else None
+        normalized_config_json=normalized_config.model_dump() if normalized_config else None,
+        vulnerabilities_json=[v.model_dump() if hasattr(v, 'model_dump') else v for v in scan_result.vulnerabilities],
+        framework_alignments_json=scan_result.framework_alignments
     )
+    
+    # ---------------------------------------------------------
+    # Tamper-Evident Audit Trail
+    # 1. Fetch the most recent scan to get its current_hash
+    # ---------------------------------------------------------
+    last_scan = await db.execute(select(ScanRecord).order_by(ScanRecord.created_at.desc()).limit(1))
+    last_scan = last_scan.scalar_one_or_none()
+    
+    prev_hash = last_scan.current_hash if last_scan and last_scan.current_hash else "GENESIS"
+    scan_record.previous_hash = prev_hash
+    
+    # 2. Compute current_hash
+    # canonical payload = scan_id + compliance_score + risk_score + previous_hash
+    canonical_payload = f"{scan_record.id}:{scan_record.compliance_score}:{scan_record.risk_score}:{prev_hash}"
+    scan_record.current_hash = hashlib.sha256(canonical_payload.encode('utf-8')).hexdigest()
     
     db.add(scan_record)
     
@@ -33,6 +51,7 @@ async def save_scan_result(db: AsyncSession, scan_result: ScanResultResponse, no
             severity=finding.severity.value,
             category=finding.category or "",
             frameworks_json=finding.frameworks or [],
+            framework_mappings_json=[m.model_dump() if hasattr(m, 'model_dump') else m for m in finding.framework_mappings],
             expected=str(finding.expected) if finding.expected is not None else None,
             actual=str(finding.actual) if finding.actual is not None else None,
             remediation_hint=finding.remediation_hint,
@@ -42,7 +61,8 @@ async def save_scan_result(db: AsyncSession, scan_result: ScanResultResponse, no
                 "evidence_raw": finding.evidence_raw,
                 "confidence": finding.confidence
             },
-            explanation_context=finding.explanation_context
+            explanation_context=finding.explanation_context,
+            exact_remediation_json=finding.exact_remediation.model_dump() if finding.exact_remediation else None
         )
         db.add(finding_record)
         

@@ -22,7 +22,7 @@ class PaloAltoAdapter(BaseVendorAdapter):
     def detect(self, raw_config: str) -> Optional[float]:
         return 1.0 if "set deviceconfig" in raw_config or "set rulebase" in raw_config else 0.0
 
-    def normalize(self, raw_config: str) -> NormalizationResult:
+    def normalize(self, raw_config: str, adaptive_rules: Optional[list] = None) -> NormalizationResult:
         evidence = []
         
         def add_evidence(field, value, pattern, group=1):
@@ -35,10 +35,10 @@ class PaloAltoAdapter(BaseVendorAdapter):
                     return val, line_text
             return None, None
 
-        hostname_val, _ = add_evidence("device.hostname", None, r"set deviceconfig system hostname\s+(\S+)")
+        hostname_val, _ = add_evidence("device.hostname", None, r"set\s+deviceconfig\s+system\s+hostname\s+(\S+)")
         device = self._make_device_info(hostname=hostname_val)
         
-        banner_val, _ = add_evidence("management.login_banner", None, r"set deviceconfig system login-banner\s+\"(.+)\"")
+        banner_val, _ = add_evidence("management.login_banner", None, r"set\s+deviceconfig\s+system\s+login-banner\s+\"(.*)\"")
         
         telnet_disabled = bool(self._find_first_line(raw_config, r"set\s+deviceconfig\s+system\s+service\s+disable-telnet\s+yes"))
         if telnet_disabled:
@@ -90,4 +90,5 @@ class PaloAltoAdapter(BaseVendorAdapter):
             services=services,
         )
         
+        self._apply_adaptive_rules(raw_config, normalized, evidence, adaptive_rules)
         return NormalizationResult(config=normalized, evidence=evidence, raw_config=raw_config)

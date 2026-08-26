@@ -33,6 +33,7 @@ export default function ScanComparePage() {
   };
 
   const scoreDiff = detailA && detailB ? detailB.compliance_score - detailA.compliance_score : 0;
+  const riskDiff = detailA && detailB ? detailB.risk_score - detailA.risk_score : 0;
 
   // Compute finding diffs
   let fixed = [], newIssues = [], unchanged = [];
@@ -81,7 +82,7 @@ export default function ScanComparePage() {
 
       {detailA && detailB && (
         <div className="animate-fade-in">
-          <div className="grid grid-3" style={{ marginBottom: '1.5rem' }}>
+          <div className="grid grid-4" style={{ marginBottom: '1.5rem' }}>
             <div className="glass-panel stat-card text-center">
               <div className="stat-card-label">Score Change</div>
               <div className="stat-card-value" style={{ color: scoreDiff > 0 ? 'var(--success-color)' : scoreDiff < 0 ? 'var(--error-color)' : 'var(--text-secondary)' }}>
@@ -95,6 +96,18 @@ export default function ScanComparePage() {
               </div>
               {scoreDiff > 0 && <span className="badge badge-success" style={{ marginTop: 8 }}>Improved</span>}
               {scoreDiff < 0 && <span className="badge badge-error" style={{ marginTop: 8 }}>Regressed</span>}
+            </div>
+            <div className="glass-panel stat-card text-center">
+              <div className="stat-card-label">Risk Change</div>
+              <div className="stat-card-value" style={{ color: riskDiff < 0 ? 'var(--success-color)' : riskDiff > 0 ? 'var(--error-color)' : 'var(--text-secondary)' }}>
+                {riskDiff < 0 ? <ArrowDown size={20} style={{ display: 'inline' }} /> : riskDiff > 0 ? <ArrowUp size={20} style={{ display: 'inline' }} /> : <Minus size={20} style={{ display: 'inline' }} />}
+                {Math.abs(riskDiff).toFixed(1)}
+              </div>
+              <div className="stat-card-sub">
+                {detailA.risk_score} {' → '} {detailB.risk_score}
+              </div>
+              {riskDiff < 0 && <span className="badge badge-success" style={{ marginTop: 8 }}>Reduced</span>}
+              {riskDiff > 0 && <span className="badge badge-error" style={{ marginTop: 8 }}>Increased</span>}
             </div>
             <div className="glass-panel stat-card text-center">
               <div className="stat-card-label">Fixed Issues</div>

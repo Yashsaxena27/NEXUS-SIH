@@ -30,6 +30,7 @@ export default function FindingDetailPage() {
   const statusCfg = STATUS_CONFIG[finding.status] || STATUS_CONFIG.UNKNOWN;
   const sevCfg = SEVERITY_CONFIG[finding.severity] || SEVERITY_CONFIG.LOW;
   const frameworks = finding.frameworks || [];
+  const frameworkMappings = finding.framework_mappings || [];
 
   const requestAI = async () => {
     setAiLoading(true);
@@ -64,9 +65,25 @@ export default function FindingDetailPage() {
         <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
           {STATUS_DESCRIPTIONS[finding.status] || ''}
         </p>
-        {frameworks.length > 0 && (
+        {frameworks.length > 0 && frameworkMappings.length === 0 && (
           <div className="flex gap-1" style={{ marginTop: '0.75rem', flexWrap: 'wrap' }}>
             {frameworks.map(fw => <span key={fw} className="badge badge-info">{fw}</span>)}
+          </div>
+        )}
+        
+        {frameworkMappings.length > 0 && (
+          <div className="flex flex-col gap-2" style={{ marginTop: '0.75rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Framework Mappings</div>
+            {frameworkMappings.map((mapping, idx) => (
+              <div key={idx} className="flex items-center gap-2" style={{ fontSize: '0.8rem' }}>
+                <span className="badge badge-info">{mapping.framework}</span>
+                <span style={{ fontFamily: 'monospace' }}>{mapping.control_id}</span>
+                <span className="badge" style={{ background: mapping.mapping_type === 'DIRECT' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)', color: mapping.mapping_type === 'DIRECT' ? 'var(--success-color)' : 'var(--warning-color)' }}>
+                  {mapping.mapping_type}
+                </span>
+                <span style={{ color: 'var(--text-muted)' }}>({mapping.source})</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -109,11 +126,59 @@ export default function FindingDetailPage() {
         </div>
       )}
 
+      {/* Prompt Injection Warning */}
+      {finding.control_id === "SEC-INJ-001" && (
+        <div className="glass-panel" style={{ padding: '1.25rem', marginBottom: '1rem', borderColor: 'var(--error-color)' }}>
+          <div className="flex items-center gap-2" style={{ color: 'var(--error-color)', marginBottom: '0.5rem' }}>
+            <AlertTriangle size={18} />
+            <span style={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Prompt Injection Attempt Detected</span>
+          </div>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            Malicious configuration text attempted to influence the AI processing layer. The AI has <strong>not</strong> evaluated this config. Deterministic findings remain secure.
+          </p>
+        </div>
+      )}
+
       {/* Remediation Hint */}
-      {finding.remediation_hint && (
+      {finding.remediation_hint && !finding.exact_remediation && (
         <div className="glass-panel" style={{ padding: '1rem', marginBottom: '1rem', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
           <div className="stat-card-label" style={{ color: 'var(--success-color)' }}>Deterministic Remediation</div>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.375rem' }}>{finding.remediation_hint}</p>
+        </div>
+      )}
+
+      {/* Exact Remediation */}
+      {finding.exact_remediation && (
+        <div className="glass-panel" style={{ padding: '1.25rem', marginBottom: '1rem', borderColor: 'rgba(16, 185, 129, 0.4)' }}>
+          <div className="stat-card-label" style={{ color: 'var(--success-color)', marginBottom: '0.75rem' }}>Deterministic Remediation Intelligence</div>
+          
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Problem Description</div>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>{finding.exact_remediation.problem_description}</p>
+          </div>
+          
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Remediation Strategy</div>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>{finding.exact_remediation.remediation_explanation}</p>
+          </div>
+          
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Vendor-Specific CLI ({finding.exact_remediation.vendor.toUpperCase()})</div>
+            <pre style={{ fontSize: '0.8rem', background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '4px', marginTop: '0.25rem', color: 'var(--success-color)' }}>{finding.exact_remediation.vendor_cli}</pre>
+          </div>
+          
+          <div className="grid grid-2 gap-3" style={{ marginTop: '1rem', borderTop: '1px solid var(--surface-border)', paddingTop: '1rem' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Human Approval Required</div>
+              <span className="badge" style={{ marginTop: '0.25rem', background: finding.exact_remediation.human_approval_required ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', color: finding.exact_remediation.human_approval_required ? 'var(--error-color)' : 'var(--success-color)' }}>
+                {finding.exact_remediation.human_approval_required ? 'YES' : 'NO'}
+              </span>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Safe Guidance</div>
+              <p style={{ fontSize: '0.8rem', color: 'var(--warning-color)', marginTop: '0.25rem' }}>{finding.exact_remediation.safe_guidance}</p>
+            </div>
+          </div>
         </div>
       )}
 

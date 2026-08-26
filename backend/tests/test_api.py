@@ -99,3 +99,45 @@ def test_scan_config_invalid_schema():
     with TestClient(app) as client:
         response = client.post("/api/v1/scans/scan", json=payload)
         assert response.status_code == 422 # Validation Error
+
+def test_scan_payload_too_large():
+    # 5MB + 10 bytes
+    large_payload = "a" * (5 * 1024 * 1024 + 10)
+    payload = {
+        "raw_config": large_payload,
+        "vendor_hint": None
+    }
+    with TestClient(app) as client:
+        response = client.post("/api/v1/scans/scan", json=payload)
+        assert response.status_code == 413
+        assert "large" in response.json()["detail"].lower()
+
+def test_scan_excessively_long_line():
+    payload = {
+        "raw_config": "a" * 10005,
+        "vendor_hint": None
+    }
+    with TestClient(app) as client:
+        response = client.post("/api/v1/scans/scan", json=payload)
+        assert response.status_code == 400
+        assert "long lines" in response.json()["detail"].lower()
+
+def test_upload_empty_file():
+    with TestClient(app) as client:
+        response = client.post(
+            "/api/v1/scans/upload",
+            files={"file": ("empty.cfg", b"")}
+        )
+        assert response.status_code == 400
+        assert "empty" in response.json()["detail"].lower()
+
+def test_upload_too_large():
+    with TestClient(app) as client:
+        # FastAPI's UploadFile is lazy, but our endpoint reads it into memory and checks size
+        large_bytes = b"a" * (5 * 1024 * 1024 + 10)
+        response = client.post(
+            "/api/v1/scans/upload",
+            files={"file": ("large.cfg", large_bytes)}
+        )
+        assert response.status_code == 413
+        assert "large" in response.json()["detail"].lower()

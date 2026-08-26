@@ -1,0 +1,6 @@
+set  deviceconfig  system  hostname  PA-EDGE-1
+set deviceconfig system login-banner ""
+set deviceconfig system service disable-telnet no
+set deviceconfig system service disable-http no
+set deviceconfig system idle-timeout 0
+set shared log-settings syslog Syslog-Server server Syslog-Host server 10.0.0.1

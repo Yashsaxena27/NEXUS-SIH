@@ -74,6 +74,14 @@ export async function getScanDetail(scanId) {
   return request(`/scans/${scanId}`);
 }
 
+export async function getScanGraph(scanId) {
+  return request(`/scans/${scanId}/graph`);
+}
+
+export function getCsvExportUrl(scanId) {
+  return `${API_BASE_URL}/scans/${scanId}/export/csv`;
+}
+
 // === AI Operations ===
 
 export async function explainFinding(finding, devicePlatform, rawConfigEvidence) {
