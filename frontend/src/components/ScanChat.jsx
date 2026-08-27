@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Bot, User, Loader, ShieldAlert } from 'lucide-react';
-import { api } from '../services/api';
+import { sendChatMessage } from '../services/api';
 
 export default function ScanChat({ scanId }) {
   const [messages, setMessages] = useState([
@@ -20,8 +20,8 @@ export default function ScanChat({ scanId }) {
 
     try {
       // Direct fetch using the standard api instance
-      const res = await api.post('/ai/chat', { scan_id: scanId, question: userMsg.text });
-      setMessages(prev => [...prev, { role: 'assistant', text: res.data.answer }]);
+      const res = await sendChatMessage(scanId, userMsg.text);
+      setMessages(prev => [...prev, { role: 'assistant', text: res.answer }]);
     } catch (err) {
       setMessages(prev => [...prev, { role: 'assistant', text: "Error: " + (err.response?.data?.detail || err.message) }]);
     } finally {

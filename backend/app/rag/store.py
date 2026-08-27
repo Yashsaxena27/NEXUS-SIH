@@ -15,7 +15,7 @@ class RAGStore:
     """Lightweight SQLite-based Vector Store using Python for cosine similarity."""
     
     def __init__(self):
-        self.embedding_model = "models/text-embedding-004"
+        self.embedding_model = "models/gemini-embedding-001"
         if not genai or not settings.GEMINI_API_KEY:
             self._use_mock = True
         else:

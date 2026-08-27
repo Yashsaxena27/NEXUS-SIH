@@ -16,9 +16,16 @@ async function request(endpoint, options = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), options.timeout || 30000);
   
+  // Setup default headers including authentication
+  const headers = new Headers(options.headers || {});
+  if (!headers.has('Authorization')) {
+    headers.set('Authorization', 'Bearer demo-token-123'); // Demo token required by backend
+  }
+
   try {
     const response = await fetch(url, {
       ...options,
+      headers,
       signal: controller.signal,
     });
     
@@ -94,6 +101,15 @@ export async function explainFinding(finding, devicePlatform, rawConfigEvidence)
       raw_config_evidence: rawConfigEvidence || '',
     }),
     timeout: 60000, // AI calls can take longer
+  });
+}
+
+export async function sendChatMessage(scanId, question) {
+  return request('/ai/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ scan_id: scanId, question }),
+    timeout: 60000,
   });
 }
 
