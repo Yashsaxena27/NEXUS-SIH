@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { History, ScanLine, ShieldCheck, AlertTriangle, Loader } from 'lucide-react';
-import { listScans } from '../services/api';
+import { listScans, API_BASE_URL } from '../services/api';
 import { VENDORS } from '../utils/constants';
 import { formatDate, formatScore, getScoreColor, getRiskLevel } from '../utils/formatters';
 
@@ -35,7 +35,7 @@ export default function ScanHistoryPage() {
   const verifyAudit = async () => {
     setAuditStatus('loading');
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/audit/verify`, {
+      const res = await fetch(`${API_BASE_URL}/audit/verify`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();

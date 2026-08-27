@@ -36,6 +36,9 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
         "http://localhost:4173",
     ]
+    
+    # Production Frontend URL for CORS
+    FRONTEND_URL: Optional[str] = None
 
     # AI Provider (behind abstraction layer)
     AI_PROVIDER: str = "gemini"  # "gemini", "openai", "claude"

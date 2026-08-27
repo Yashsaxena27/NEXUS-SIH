@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Settings as SettingsIcon, Activity, Bot, Database, Globe, LogOut, User } from 'lucide-react';
+import { API_BASE_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { checkHealth } from '../services/api';
 import { formatDate } from '../utils/formatters';
@@ -21,7 +22,7 @@ export default function SettingsPage() {
       .finally(() => setLoading(false));
       
     // Fetch settings
-    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/settings`, {
+    fetch(`${API_BASE_URL}/settings`, {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
     })
       .then(res => res.json())
@@ -36,7 +37,7 @@ export default function SettingsPage() {
   const saveAiSettings = async () => {
     setAiToggling(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/settings/ai`, {
+      const res = await fetch(`${API_BASE_URL}/settings/ai`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +151,7 @@ export default function SettingsPage() {
         </div>
         <div className="flex justify-between" style={{ padding: '0.5rem 0', fontSize: '0.85rem', borderTop: '1px solid var(--surface-border)' }}>
           <span style={{ color: 'var(--text-secondary)' }}>API Endpoint</span>
-          <span style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>{import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}</span>
+          <span style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>{API_BASE_URL}</span>
         </div>
         <div className="flex justify-between" style={{ padding: '0.5rem 0', fontSize: '0.85rem', borderTop: '1px solid var(--surface-border)' }}>
           <span style={{ color: 'var(--text-secondary)' }}>Supported Vendors</span>
